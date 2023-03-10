@@ -17,16 +17,16 @@ public class RoomGenerator : MonoBehaviour {
 
     [ContextMenu ("Generate Rooms")]
     void Generate () {
-        RoomDataObject _inbetweenRoom = inbetweenRooms[Random.Range (0, inbetweenRooms.Length)];
-        SpawnRoom (_inbetweenRoom);
+        //RoomDataObject startRoom = inbetweenRooms[Random.Range (0, inbetweenRooms.Length)];
+        SpawnRoom (startRoom);
     }
 
     void SpawnRoom (RoomDataObject roomData) {
-        Room newRoom = Instantiate (roomPrefab);
-        newRoom.SetRoomData (roomData, out List<RoomDataObject> nextRooms);
-
         maxInbetweenRooms -= 1;
         if (maxInbetweenRooms > 0) {
+            Room newRoom = Instantiate (roomPrefab);
+            newRoom.SetRoomData (roomData, out List<RoomDataObject> nextRooms);
+
             foreach (var _nextRoom in nextRooms) {
                 SpawnRoom (_nextRoom);
                 //roomGameObject.transform.position = ;
@@ -36,8 +36,10 @@ public class RoomGenerator : MonoBehaviour {
         }
 
         if (maxInbetweenRooms == 0) {
+            Room newRoom = Instantiate (roomPrefab);
             roomData = endRooms[Random.Range (0, endRooms.Length)];
-            SpawnRoom (roomData);
+            newRoom.SetRoomData (roomData, out List<RoomDataObject> nextRooms);
+            //SpawnRoom (roomData);
             Debug.Log (message: $"Inbetween Rooms Left {maxInbetweenRooms}");
         }
     }
