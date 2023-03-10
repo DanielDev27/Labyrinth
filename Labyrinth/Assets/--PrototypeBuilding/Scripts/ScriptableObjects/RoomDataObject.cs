@@ -9,7 +9,6 @@ public class RoomDataObject : ScriptableObject {
 
     [Header ("Doorways")]
     [SerializeField] public bool doorN = false;
-
     [SerializeField] public bool doorE = false;
     [SerializeField] public bool doorS = false;
     [SerializeField] public bool doorW = false;

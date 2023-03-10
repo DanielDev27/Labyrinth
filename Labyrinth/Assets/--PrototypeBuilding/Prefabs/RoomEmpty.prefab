@@ -44,3 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2c4a90a2e56f9c48ad912576d6b8d4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomDataObject: {fileID: 0}
+  roomGameObject: {fileID: 0}

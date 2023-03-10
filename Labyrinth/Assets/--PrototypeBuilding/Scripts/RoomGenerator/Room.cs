@@ -4,9 +4,11 @@ using UnityEngine;
 public class Room : MonoBehaviour {
     [SerializeField] RoomDataObject roomDataObject;
     [SerializeField] GameObject roomGameObject;
+    [SerializeField] Vector3 roomPosition;
 
     public void SetRoomData (RoomDataObject roomDataObject, out List<RoomDataObject> nextRooms) {
         this.roomDataObject = roomDataObject;
+        roomPosition = this.transform.position;
         SetModel ();
         SpawnDoors (out nextRooms);
     }
@@ -15,6 +17,7 @@ public class Room : MonoBehaviour {
         roomGameObject = Instantiate (this.roomDataObject.RoomModel);
         roomGameObject.SetActive (true);
         roomGameObject.transform.parent = this.transform;
+        //roomPosition = new Vector3 ();
     }
 
     void SpawnDoors (out List<RoomDataObject> nextRooms) {
@@ -22,6 +25,7 @@ public class Room : MonoBehaviour {
         if (roomDataObject.doorN) {
             Debug.Log (message: $"Spawning Door [N]");
             nextRooms.Add (roomDataObject.GetRandomCompatibleRoom ());
+            
         }
 
         if (roomDataObject.doorE) {

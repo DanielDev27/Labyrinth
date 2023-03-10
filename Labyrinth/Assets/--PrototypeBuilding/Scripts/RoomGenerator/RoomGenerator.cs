@@ -12,12 +12,11 @@ public class RoomGenerator : MonoBehaviour {
 
     void Awake () {
         Instance = this;
+        //Debug.Log (maxInbetweenRooms);
     }
 
     [ContextMenu ("Generate Rooms")]
     void Generate () {
-        int inbLength = inbetweenRooms.Length;
-        Debug.Log (inbLength);
         RoomDataObject _inbetweenRoom = inbetweenRooms[Random.Range (0, inbetweenRooms.Length)];
         SpawnRoom (_inbetweenRoom);
     }
@@ -26,16 +25,20 @@ public class RoomGenerator : MonoBehaviour {
         Room newRoom = Instantiate (roomPrefab);
         newRoom.SetRoomData (roomData, out List<RoomDataObject> nextRooms);
 
-        maxInbetweenRooms--;
+        maxInbetweenRooms -= 1;
         if (maxInbetweenRooms > 0) {
             foreach (var _nextRoom in nextRooms) {
                 SpawnRoom (_nextRoom);
+                //roomGameObject.transform.position = ;
             }
+
+            Debug.Log (message: $"Inbetween Rooms Left {maxInbetweenRooms}");
         }
 
         if (maxInbetweenRooms == 0) {
             roomData = endRooms[Random.Range (0, endRooms.Length)];
             SpawnRoom (roomData);
+            Debug.Log (message: $"Inbetween Rooms Left {maxInbetweenRooms}");
         }
     }
 }
