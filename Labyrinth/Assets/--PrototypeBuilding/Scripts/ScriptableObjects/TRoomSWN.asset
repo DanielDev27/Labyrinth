@@ -10,23 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e891e9868a8c44245ba4738f11767e6e, type: 3}
-  m_Name: StartingRoom
+  m_Name: TRoomSWN
   m_EditorClassIdentifier: 
-  RoomModel: {fileID: 2586799180494161302, guid: 2bdf7abb0a18ab446b3e70a0dd701424,
+  RoomModel: {fileID: 7566723024423175326, guid: 38fdaf75ae11680479414c21db18fd2f,
     type: 3}
   spawnables: []
   compatableRooms:
   - {fileID: 11400000, guid: d54bca4a4eeee1747ae2ce195b0f3291, type: 2}
+  - {fileID: 11400000, guid: cdf19fa38a1433240a2cb7626cfc967a, type: 2}
   - {fileID: 11400000, guid: 87ae428665b500c46abe189ad7c9e3cb, type: 2}
   - {fileID: 11400000, guid: 4ac53caadbee00d43b440fa5d13a57d1, type: 2}
   - {fileID: 11400000, guid: 425632de06ff52f4da18706eb911debe, type: 2}
-  - {fileID: 11400000, guid: cc8fdca5528c54440a8759a06fe3cb9a, type: 2}
+  - {fileID: 11400000}
+  - {fileID: 11400000, guid: ff110504c16be3c4bb3399af7f74045d, type: 2}
   - {fileID: 11400000, guid: e39d68ca043be05498f2cd447d4f6428, type: 2}
+  - {fileID: 11400000, guid: 13b09e15e714f7d499d8ad76f6d1dc07, type: 2}
   - {fileID: 11400000, guid: 66f07d5a62c40bc468529e965cb5cc7e, type: 2}
+  - {fileID: 11400000, guid: 1b4475afe2895a249adfe000cac86f12, type: 2}
   doorN: 1
   doorE: 0
   doorS: 1
-  doorW: 0
+  doorW: 1
   references:
     version: 2
     RefIds: []
