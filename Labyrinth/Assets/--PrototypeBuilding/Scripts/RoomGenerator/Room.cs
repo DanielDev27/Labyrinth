@@ -6,18 +6,18 @@ public class Room : MonoBehaviour {
     [SerializeField] GameObject roomGameObject;
     [SerializeField] Vector3 roomPosition;
 
-    public void SetRoomData (RoomDataObject roomDataObject, out List<RoomDataObject> nextRooms) {
+    public void SetRoomData (RoomDataObject roomDataObject, Vector3 roomPositionInput, out List<RoomDataObject> nextRooms) {
         this.roomDataObject = roomDataObject;
-        roomPosition = this.transform.position;
-        SetModel ();
+        SetModel (roomPositionInput);
         SpawnDoors (out nextRooms);
     }
 
-    void SetModel () {
+    void SetModel (Vector3 roomPositionInput) {
         roomGameObject = Instantiate (this.roomDataObject.RoomModel);
         roomGameObject.SetActive (true);
         roomGameObject.transform.parent = this.transform;
-        //roomPosition = new Vector3 ();
+        roomGameObject.transform.position = roomPositionInput;
+        roomPosition = roomPositionInput;
     }
 
     void SpawnDoors (out List<RoomDataObject> nextRooms) {
@@ -25,7 +25,6 @@ public class Room : MonoBehaviour {
         if (roomDataObject.doorN) {
             Debug.Log (message: $"Spawning Door [N]");
             nextRooms.Add (roomDataObject.GetRandomCompatibleRoom ());
-            
         }
 
         if (roomDataObject.doorE) {
