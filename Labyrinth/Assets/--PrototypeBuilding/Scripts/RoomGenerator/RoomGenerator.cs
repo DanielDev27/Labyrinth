@@ -97,7 +97,7 @@ public class RoomGenerator : MonoBehaviour {
 
             maxInbetweenRooms -= 1;
             possibleDirections.Clear ();
-            yield return new WaitForSeconds (5);
+            yield return new WaitForSeconds (2);
             StartCoroutine (SpawnRoom (roomData, chosenDoor, moveDirection));
 
 
