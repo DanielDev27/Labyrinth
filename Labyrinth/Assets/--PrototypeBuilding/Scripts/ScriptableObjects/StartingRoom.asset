@@ -25,7 +25,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 66f07d5a62c40bc468529e965cb5cc7e, type: 2}
   doorN: 1
   doorE: 0
-  doorS: 1
+  doorS: 0
   doorW: 0
   references:
     version: 2

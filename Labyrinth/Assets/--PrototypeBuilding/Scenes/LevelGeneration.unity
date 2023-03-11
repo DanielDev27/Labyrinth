@@ -174,10 +174,10 @@ MonoBehaviour:
   startRoom: {fileID: 11400000, guid: 6f9a245c266d37646921d5895461176a, type: 2}
   nextRoom: {fileID: 0}
   endRooms:
-  - {fileID: 11400000, guid: e2efcd7b623ff8b4394176de2ebde315, type: 2}
-  - {fileID: 11400000, guid: 5daa6782f0b3a7a42b35d16a906ad51b, type: 2}
   - {fileID: 11400000, guid: ef01f323d0e83da49879e23ff4613f06, type: 2}
   - {fileID: 11400000, guid: ce4620e1e5a0d5941b11450470989d57, type: 2}
+  - {fileID: 11400000, guid: e2efcd7b623ff8b4394176de2ebde315, type: 2}
+  - {fileID: 11400000, guid: 5daa6782f0b3a7a42b35d16a906ad51b, type: 2}
   inbetweenRooms:
   - {fileID: 11400000, guid: d54bca4a4eeee1747ae2ce195b0f3291, type: 2}
   - {fileID: 11400000, guid: 87ae428665b500c46abe189ad7c9e3cb, type: 2}
@@ -190,8 +190,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 13b09e15e714f7d499d8ad76f6d1dc07, type: 2}
   - {fileID: 11400000, guid: 66f07d5a62c40bc468529e965cb5cc7e, type: 2}
   - {fileID: 11400000, guid: 1b4475afe2895a249adfe000cac86f12, type: 2}
-  maxInbetweenRooms: 5
+  maxInbetweenRooms: 10
+  maxBranches: 2
   roomPrefab: {fileID: 6015108773125783025}
+  spawnedCoordinates: []
 --- !u!1 &1754457570
 GameObject:
   m_ObjectHideFlags: 0
