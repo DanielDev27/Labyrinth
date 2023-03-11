@@ -30,7 +30,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1b4475afe2895a249adfe000cac86f12, type: 2}
   doorN: 0
   doorE: 0
-  doorS: 1
+  doorS: 0
   doorW: 0
   references:
     version: 2

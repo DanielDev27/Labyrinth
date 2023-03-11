@@ -31,7 +31,7 @@ MonoBehaviour:
   doorN: 0
   doorE: 0
   doorS: 0
-  doorW: 1
+  doorW: 0
   references:
     version: 2
     RefIds: []

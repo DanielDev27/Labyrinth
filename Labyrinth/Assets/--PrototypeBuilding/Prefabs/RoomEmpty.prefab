@@ -46,3 +46,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomDataObject: {fileID: 0}
   roomGameObject: {fileID: 0}
+  roomPosition: {x: 0, y: 0, z: 0}
+  roomGenerator: {fileID: 0}

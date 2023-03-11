@@ -23,7 +23,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b8d7bf8a121781d40a2aa38535460448, type: 2}
   - {fileID: 11400000, guid: 92b53b7d9958c5a4aae34fdea3d96f8d, type: 2}
   - {fileID: 11400000, guid: 13b09e15e714f7d499d8ad76f6d1dc07, type: 2}
-  doorN: 1
+  doorN: 0
   doorE: 0
   doorS: 1
   doorW: 0
