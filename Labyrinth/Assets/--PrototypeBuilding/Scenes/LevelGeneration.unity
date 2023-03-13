@@ -152,14 +152,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85e4d2fc144962e4eb15fd59ff69c800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentRoom: {fileID: 11400000, guid: 2bb364713cac8004f8ad8eb18fab8019, type: 2}
+  _exitDoors: 00010001
   possibleDirections: 
-  chosenExit: 0
-  moveDirection: 0
-  nextRoom: {fileID: 11400000, guid: d66f033d4ed631f468eb91c044ccff4a, type: 2}
+  chosenExit: 3
   nextRoomPosition: {x: 0, y: 0, z: 0}
+  compatibleRooms: []
+  nextRoom: {fileID: 11400000, guid: 1b4475afe2895a249adfe000cac86f12, type: 2}
+  compatibleRoomEntrance: 
   startRoom: {fileID: 11400000, guid: 6f9a245c266d37646921d5895461176a, type: 2}
-  endRooms: []
-  roomPrefab: {fileID: 6015108773125783025}
+  endRooms:
+  - {fileID: 11400000, guid: e2efcd7b623ff8b4394176de2ebde315, type: 2}
+  - {fileID: 11400000, guid: 5daa6782f0b3a7a42b35d16a906ad51b, type: 2}
+  - {fileID: 11400000, guid: ef01f323d0e83da49879e23ff4613f06, type: 2}
+  - {fileID: 11400000, guid: ce4620e1e5a0d5941b11450470989d57, type: 2}
+  roomPrefab: {fileID: 4055751379592342263, guid: ddac63fe8bbca7141977669d357e217a,
+    type: 3}
   maxInbetweenRooms: 5
   maxBranches: 1
   inbetweenRooms: []
@@ -1228,18 +1236,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6015108773125783023}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6015108773125783025 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4055751379592342263, guid: ddac63fe8bbca7141977669d357e217a,
-    type: 3}
-  m_PrefabInstance: {fileID: 6015108773125783023}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89bf8a43f74948247816e11e2c0429f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &6465808695287963676 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 758442251255310261, guid: dcff00cd09232de42948e3ba6440374f,

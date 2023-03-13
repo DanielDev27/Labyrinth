@@ -31,7 +31,11 @@ MonoBehaviour:
   doorN: 0
   doorE: 0
   doorS: 0
-  doorW: 0
+  doorW: 1
+  exitN: 0
+  exitE: 0
+  exitS: 0
+  exitW: 0
   references:
     version: 2
     RefIds: []
