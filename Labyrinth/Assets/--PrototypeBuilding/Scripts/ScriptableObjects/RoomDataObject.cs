@@ -16,4 +16,9 @@ public class RoomDataObject : ScriptableObject {
     public RoomDataObject GetRandomCompatibleRoom () {
         return compatableRooms[Random.Range (0, compatableRooms.Length)];
     }
+
+    public List<bool> GetExitDoors () {
+        List<bool> exitDoors = new List<bool>(){doorN, doorE, doorS, doorW};
+        return exitDoors;
+    }
 }
