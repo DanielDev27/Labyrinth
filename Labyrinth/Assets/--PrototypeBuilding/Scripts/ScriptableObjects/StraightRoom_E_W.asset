@@ -15,7 +15,7 @@ MonoBehaviour:
   RoomModel: {fileID: 8167577625830826165, guid: 0225e655491695841ab7e5b9e70fde70,
     type: 3}
   spawnables: []
-  compatableRooms:
+  compatibleRooms:
   - {fileID: 11400000}
   - {fileID: 11400000, guid: d66f033d4ed631f468eb91c044ccff4a, type: 2}
   - {fileID: 11400000, guid: 00b949781a6424c438ab22f2969ef408, type: 2}

@@ -15,7 +15,7 @@ MonoBehaviour:
   RoomModel: {fileID: 4946117319915753854, guid: afadd238d309e6045bff66816642b660,
     type: 3}
   spawnables: []
-  compatableRooms:
+  compatibleRooms:
   - {fileID: 11400000, guid: d54bca4a4eeee1747ae2ce195b0f3291, type: 2}
   - {fileID: 11400000, guid: 97e45571be433ae4da8e4bf2b82d5ee8, type: 2}
   - {fileID: 11400000, guid: 6021e19496aac1f4ab3956ea20ea2fb0, type: 2}
@@ -28,8 +28,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 96fb76ac5fbaec5439d17ba45ca9933c, type: 2}
   - {fileID: 11400000, guid: 0a94a32d40e164a4c9adfe59433f89fd, type: 2}
   - {fileID: 11400000, guid: 66f07d5a62c40bc468529e965cb5cc7e, type: 2}
-  - {fileID: 11400000, guid: 6b4c4c38e692b5345aa419a35e0bae31, type: 2}
   - {fileID: 11400000, guid: 1b4475afe2895a249adfe000cac86f12, type: 2}
+  - {fileID: 11400000, guid: 6b4c4c38e692b5345aa419a35e0bae31, type: 2}
   doorN: 0
   doorE: 0
   doorS: 0

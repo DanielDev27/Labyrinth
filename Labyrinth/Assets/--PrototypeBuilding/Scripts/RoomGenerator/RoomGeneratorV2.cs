@@ -21,9 +21,10 @@ public class RoomGeneratorV2 : MonoBehaviour {
     [SerializeField] List<ExitDirection> possibleDirections;
     [SerializeField] ExitDirection chosenExit;
     [SerializeField] Vector3 nextRoomPosition;
-    [SerializeField] List<RoomDataObject> compatibleRooms;
+    [SerializeField] List<RoomDataObject> currentCompatibleRooms;
     [SerializeField] RoomDataObject nextRoom;
     [SerializeField] List<ExitDirection> compatibleRoomEntrance = new List<ExitDirection> ();
+    [SerializeField] List<RoomDataObject> _compatibleRoom = new List<RoomDataObject> ();
 
     [Header ("Input Info")]
     [SerializeField] RoomDataObject startRoom;
@@ -74,7 +75,10 @@ public class RoomGeneratorV2 : MonoBehaviour {
             //Get comnpatible room based on exit door
             GetCompatibleRooms (currentRoom, chosenExit);
 
-            yield return new WaitForSeconds (1);
+            yield return new WaitForSeconds (5);
+            compatibleRoomEntrance.Clear ();
+            currentCompatibleRooms.Clear ();
+            _compatibleRoom.Clear ();
             maxInbetweenRooms--;
             StartCoroutine (SpawnRoom (nextRoom, nextRoomPosition));
         }
@@ -127,24 +131,44 @@ public class RoomGeneratorV2 : MonoBehaviour {
     }
 
     RoomDataObject GetCompatibleRooms (RoomDataObject currentRoom, ExitDirection chosenExit) {
-        compatibleRooms = new List<RoomDataObject> ();
+        currentCompatibleRooms = new List<RoomDataObject> ();
 
-        foreach (var compatibleRoom in currentRoom.compatableRooms) {
-            compatibleRooms.Add (compatibleRoom);
+        foreach (RoomDataObject compatibleRoom in currentRoom.compatibleRooms) {
+            currentCompatibleRooms.Add (compatibleRoom);
             for (int i = 0; i < compatibleRoom.GetEntrances ().Count; i++) {
                 if (compatibleRoom.GetEntrances ()[i]) {
                     //if compatible room has entrance at index i
                     compatibleRoomEntrance.Add ((ExitDirection) i);
                 }
             }
+
+            compatibleRoomEntrance.Add (ExitDirection.Break);
         }
 
-        compatibleRoomEntrance.Add (ExitDirection.Break);
+        /*int v = 0;
+        foreach (var _room in currentCompatibleRooms) {
+            if (chosenExit == ExitDirection.North && _room == ExitDirection.South) {
+                _compatibleRoom.Add (_room);
+                currentCompatibleRooms.Add (currentRoom.compatibleRooms[v]);
+            }
 
+            if (chosenExit == ExitDirection.East && _room == ExitDirection.West) {
+                _compatibleRoom.Add (_room);
+                currentCompatibleRooms.Add (currentRoom.compatibleRooms[v]);
+            }
 
-        //Debug.Log (compatibleRoomEntrance);
+            if (chosenExit == ExitDirection.South && _room == ExitDirection.North) {
+                _compatibleRoom.Add (_room);
+                currentCompatibleRooms.Add (currentRoom.compatibleRooms[v]);
+            }
 
-        nextRoom = compatibleRooms[Random.Range (0, compatibleRooms.Count)];
+            if (chosenExit == ExitDirection.West && _room == ExitDirection.East) {
+                _compatibleRoom.Add (_room);
+                currentCompatibleRooms.Add (currentRoom.compatibleRooms[v]);
+            }
+        }*/
+
+        nextRoom = currentCompatibleRooms[Random.Range (0, currentCompatibleRooms.Count)];
         return nextRoom;
     }
 }

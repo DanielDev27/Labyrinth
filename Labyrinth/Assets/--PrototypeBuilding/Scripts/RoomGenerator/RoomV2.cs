@@ -9,15 +9,21 @@ public class RoomV2 : MonoBehaviour {
     [SerializeField] GameObject roomGameObject;
 
     [Header ("Debug")]
-    [SerializeField] ExitDirection chosenEntrance;
+    [SerializeField] ExitDirection chosenExit;
+
+    [SerializeField] List<RoomDataObject> _combatableRooms;
 
     void Awake () {
         //InstanceRoom = this;
+        _combatableRooms = new List<RoomDataObject> ();
     }
 
     public void SetRoomDataObject (RoomDataObject roomDataObject) {
         this.roomDataObject = roomDataObject;
         SetRoomModel (roomDataObject);
+        for (int i = 0; i < this.roomDataObject.compatibleRooms.Length; i++) {
+            _combatableRooms.Add(this.roomDataObject.compatibleRooms[i]);
+        }
     }
 
     void SetRoomModel (RoomDataObject roomObject) {
@@ -26,7 +32,7 @@ public class RoomV2 : MonoBehaviour {
         roomGameObject.SetActive (true);
     }
 
-    public void SetExit (ExitDirection chosenExit) {
-        chosenEntrance = chosenExit;
+    public void SetExit (ExitDirection _chosenExit) {
+        chosenExit = _chosenExit;
     }
 }

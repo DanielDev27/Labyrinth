@@ -5,7 +5,7 @@ using UnityEngine;
 public class RoomDataObject : ScriptableObject {
     public GameObject RoomModel;
     [SerializeReference] public List<ISpawnable> spawnables = new List<ISpawnable> ();
-    public RoomDataObject[] compatableRooms;
+    public RoomDataObject[] compatibleRooms;
 
     [Header ("Entrance")]
     [SerializeField] public bool doorN = false;
@@ -20,7 +20,7 @@ public class RoomDataObject : ScriptableObject {
     [SerializeField] public bool exitW = false;
 
     public RoomDataObject GetRandomCompatibleRoom () {
-        return compatableRooms[Random.Range (0, compatableRooms.Length)];
+        return compatibleRooms[Random.Range (0, compatibleRooms.Length)];
     }
 
     public List<bool> GetEntrances () {

@@ -15,12 +15,12 @@ MonoBehaviour:
   RoomModel: {fileID: 2733964642861547160, guid: d2e86c3a9fce0e1469c3ad10e4125a51,
     type: 3}
   spawnables: []
-  compatableRooms:
-  - {fileID: 11400000}
+  compatibleRooms:
   - {fileID: 11400000, guid: d54bca4a4eeee1747ae2ce195b0f3291, type: 2}
   - {fileID: 11400000, guid: 97e45571be433ae4da8e4bf2b82d5ee8, type: 2}
   - {fileID: 11400000, guid: 6021e19496aac1f4ab3956ea20ea2fb0, type: 2}
   - {fileID: 11400000, guid: b821aaa2a81810649baa63a92fd45967, type: 2}
+  - {fileID: 11400000}
   - {fileID: 11400000, guid: 2bb364713cac8004f8ad8eb18fab8019, type: 2}
   - {fileID: 11400000, guid: c5719b92d14a1fa4eb77b67058e8fb8f, type: 2}
   - {fileID: 11400000, guid: ff110504c16be3c4bb3399af7f74045d, type: 2}
