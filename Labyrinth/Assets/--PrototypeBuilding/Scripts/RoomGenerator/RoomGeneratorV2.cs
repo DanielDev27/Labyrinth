@@ -13,6 +13,7 @@ public enum ExitDirection {
 public class RoomGeneratorV2 : MonoBehaviour {
     public static RoomGeneratorV2 InstanceV2;
     ExitDirection exitDirection;
+    [SerializeField] List<RoomV2> roomV2s = new List<RoomV2> ();
 
     [Header ("Debug Info")]
     [SerializeField] RoomDataObject currentRoom;
@@ -49,8 +50,10 @@ public class RoomGeneratorV2 : MonoBehaviour {
 
     [ContextMenu ("Clear Rooms")]
     void ClearRooms () {
-        if (roomParent.GetComponentInChildren<RoomV2> ()) {
-            Debug.Log ("Destroy rooms");
+        maxInbetweenRooms = roomV2s.Count - 2;
+        while (roomV2s.Count > 0) {
+            Destroy (roomV2s[0].gameObject);
+            roomV2s.Remove (roomV2s[0]);
         }
     }
 
@@ -60,6 +63,7 @@ public class RoomGeneratorV2 : MonoBehaviour {
             RoomV2 newRoom = null;
             currentRoom = roomData;
             newRoom = Instantiate (roomPrefab, roomParent.transform);
+            roomV2s.Add (newRoom);
             newRoom.transform.position = roomPosition;
             newRoom.SetRoomDataObject (currentRoom);
             _exitDoors = currentRoom.GetExitDoors (); //get exit doors
