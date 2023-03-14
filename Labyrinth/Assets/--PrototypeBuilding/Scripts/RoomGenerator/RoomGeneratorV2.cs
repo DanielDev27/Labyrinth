@@ -25,6 +25,7 @@ public class RoomGeneratorV2 : MonoBehaviour {
     [SerializeField] RoomDataObject nextRoom;
     [SerializeField] List<ExitDirection> compatibleRoomEntrance = new List<ExitDirection> ();
     [SerializeField] List<RoomDataObject> _compatibleRoom = new List<RoomDataObject> ();
+    [SerializeField] int v;
 
     [Header ("Input Info")]
     [SerializeField] RoomDataObject startRoom;
@@ -75,7 +76,7 @@ public class RoomGeneratorV2 : MonoBehaviour {
             //Get comnpatible room based on exit door
             GetCompatibleRooms (currentRoom, chosenExit);
 
-            yield return new WaitForSeconds (5);
+            yield return new WaitForSeconds (1);
             compatibleRoomEntrance.Clear ();
             currentCompatibleRooms.Clear ();
             _compatibleRoom.Clear ();
@@ -142,33 +143,35 @@ public class RoomGeneratorV2 : MonoBehaviour {
                 }
             }
 
-            compatibleRoomEntrance.Add (ExitDirection.Break);
+            //compatibleRoomEntrance.Add (ExitDirection.Break);
         }
 
-        /*int v = 0;
-        foreach (var _room in currentCompatibleRooms) {
+        v = 0;
+        foreach (var _room in compatibleRoomEntrance) {
             if (chosenExit == ExitDirection.North && _room == ExitDirection.South) {
-                _compatibleRoom.Add (_room);
-                currentCompatibleRooms.Add (currentRoom.compatibleRooms[v]);
+                //_compatibleRoom.Add (_room);
+                _compatibleRoom.Add (currentRoom.compatibleRooms[v]);
             }
 
             if (chosenExit == ExitDirection.East && _room == ExitDirection.West) {
-                _compatibleRoom.Add (_room);
-                currentCompatibleRooms.Add (currentRoom.compatibleRooms[v]);
+                //_compatibleRoom.Add (_room);
+                _compatibleRoom.Add (currentRoom.compatibleRooms[v]);
             }
 
             if (chosenExit == ExitDirection.South && _room == ExitDirection.North) {
-                _compatibleRoom.Add (_room);
-                currentCompatibleRooms.Add (currentRoom.compatibleRooms[v]);
+                //_compatibleRoom.Add (_room);
+                _compatibleRoom.Add (currentRoom.compatibleRooms[v]);
             }
 
             if (chosenExit == ExitDirection.West && _room == ExitDirection.East) {
-                _compatibleRoom.Add (_room);
-                currentCompatibleRooms.Add (currentRoom.compatibleRooms[v]);
+                //_compatibleRoom.Add (_room);
+                _compatibleRoom.Add (currentRoom.compatibleRooms[v]);
             }
-        }*/
 
-        nextRoom = currentCompatibleRooms[Random.Range (0, currentCompatibleRooms.Count)];
+            v++;
+        }
+
+        nextRoom = _compatibleRoom[Random.Range (0, _compatibleRoom.Count)];
         return nextRoom;
     }
 }
