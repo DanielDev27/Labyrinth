@@ -64,41 +64,33 @@ public class RoomGeneratorV2 : MonoBehaviour {
             newRoom.SetRoomDataObject (currentRoom);
             _exitDoors = currentRoom.GetExitDoors (); //get exit doors
             int i = 0;
-            if (maxInbetweenRooms > 0) {
-                //choose exit door from possible exit doors
-                foreach (var exit in _exitDoors) {
-                    if (exit) {
-                        int exitIndex = (int) exitDirection;
-                        exitDirection = (ExitDirection) i;
-                        possibleDirections.Add (exitDirection);
-                    }
-
-                    i++;
+            foreach (var exit in _exitDoors) {
+                if (exit) {
+                    int exitIndex = (int) exitDirection;
+                    exitDirection = (ExitDirection) i;
+                    possibleDirections.Add (exitDirection);
                 }
 
+                i++;
+            }
+
+            if (maxInbetweenRooms >= 0) {
                 chosenExit = possibleDirections[Random.Range (0, possibleDirections.Count)]; //choose exit door
+            }
+
+            if (maxInbetweenRooms > 0) {
+                //choose exit door from possible exit doors
                 newRoom.SetExit (chosenExit);
 
                 //get the direction of the exit door
                 NextRoomPosition (newRoom, chosenExit);
 
-                //Get comnpatible room based on exit door
+                //Get compatible room based on exit door
                 GetCompatibleRooms (currentRoom, chosenExit);
             }
 
             if (maxInbetweenRooms == 0) {
                 Debug.Log ("Create an end room");
-                foreach (var exit in _exitDoors) {
-                    if (exit) {
-                        int exitIndex = (int) exitDirection;
-                        exitDirection = (ExitDirection) i;
-                        possibleDirections.Add (exitDirection);
-                    }
-
-                    i++;
-                }
-
-                chosenExit = possibleDirections[Random.Range (0, possibleDirections.Count)]; //choose exit door
 
                 //get the direction of the exit door
                 NextRoomPosition (newRoom, chosenExit);
@@ -126,7 +118,9 @@ public class RoomGeneratorV2 : MonoBehaviour {
             currentCompatibleRooms.Clear ();
             _compatibleRoom.Clear ();
             maxInbetweenRooms--;
-            StartCoroutine (SpawnRoom (nextRoom, nextRoomPosition));
+            if (maxInbetweenRooms >= -1) {
+                StartCoroutine (SpawnRoom (nextRoom, nextRoomPosition));
+            }
         }
     }
 
@@ -161,8 +155,6 @@ public class RoomGeneratorV2 : MonoBehaviour {
                     compatibleRoomEntrance.Add ((ExitDirection) i);
                 }
             }
-
-            //compatibleRoomEntrance.Add (ExitDirection.Break);
         }
 
         v = 0;
