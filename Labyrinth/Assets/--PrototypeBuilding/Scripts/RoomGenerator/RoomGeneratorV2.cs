@@ -32,6 +32,7 @@ public class RoomGeneratorV2 : MonoBehaviour {
 
     [SerializeField] RoomDataObject[] endRooms;
     [SerializeField] RoomV2 roomPrefab;
+    [SerializeField] GameObject roomParent;
     [SerializeField] int maxInbetweenRooms;
     [SerializeField] int maxBranches = 1;
     [SerializeField] RoomDataObject[] inbetweenRooms;
@@ -46,35 +47,79 @@ public class RoomGeneratorV2 : MonoBehaviour {
         StartCoroutine (SpawnRoom (startRoom, new Vector3 (0, 0, 0)));
     }
 
+    [ContextMenu ("Clear Rooms")]
+    void ClearRooms () {
+        if (roomParent.GetComponentInChildren<RoomV2> ()) {
+            Debug.Log ("Destroy rooms");
+        }
+    }
+
     IEnumerator SpawnRoom (RoomDataObject roomData, Vector3 roomPosition) {
-        possibleDirections.Clear ();
-        RoomV2 newRoom = null;
-        currentRoom = roomData;
-        newRoom = Instantiate (roomPrefab);
-        newRoom.transform.position = roomPosition;
-        newRoom.SetRoomDataObject (currentRoom);
-        _exitDoors = currentRoom.GetExitDoors (); //get exit doors
-        int i = 0;
-        if (maxInbetweenRooms > 0) {
-            //choose exit door from possible exit doors
-            foreach (var exit in _exitDoors) {
-                if (exit) {
-                    int exitIndex = (int) exitDirection;
-                    exitDirection = (ExitDirection) i;
-                    possibleDirections.Add (exitDirection);
+        if (maxInbetweenRooms >= -1) {
+            possibleDirections.Clear ();
+            RoomV2 newRoom = null;
+            currentRoom = roomData;
+            newRoom = Instantiate (roomPrefab, roomParent.transform);
+            newRoom.transform.position = roomPosition;
+            newRoom.SetRoomDataObject (currentRoom);
+            _exitDoors = currentRoom.GetExitDoors (); //get exit doors
+            int i = 0;
+            if (maxInbetweenRooms > 0) {
+                //choose exit door from possible exit doors
+                foreach (var exit in _exitDoors) {
+                    if (exit) {
+                        int exitIndex = (int) exitDirection;
+                        exitDirection = (ExitDirection) i;
+                        possibleDirections.Add (exitDirection);
+                    }
+
+                    i++;
                 }
 
-                i++;
+                chosenExit = possibleDirections[Random.Range (0, possibleDirections.Count)]; //choose exit door
+                newRoom.SetExit (chosenExit);
+
+                //get the direction of the exit door
+                NextRoomPosition (newRoom, chosenExit);
+
+                //Get comnpatible room based on exit door
+                GetCompatibleRooms (currentRoom, chosenExit);
             }
 
-            chosenExit = possibleDirections[Random.Range (0, possibleDirections.Count)]; //choose exit door
-            newRoom.SetExit (chosenExit);
+            if (maxInbetweenRooms == 0) {
+                Debug.Log ("Create an end room");
+                foreach (var exit in _exitDoors) {
+                    if (exit) {
+                        int exitIndex = (int) exitDirection;
+                        exitDirection = (ExitDirection) i;
+                        possibleDirections.Add (exitDirection);
+                    }
 
-            //get the direction of the exit door
-            NextRoomPosition (newRoom, chosenExit);
+                    i++;
+                }
 
-            //Get comnpatible room based on exit door
-            GetCompatibleRooms (currentRoom, chosenExit);
+                chosenExit = possibleDirections[Random.Range (0, possibleDirections.Count)]; //choose exit door
+
+                //get the direction of the exit door
+                NextRoomPosition (newRoom, chosenExit);
+
+                //Get comnpatible room based on exit door
+                if (chosenExit == ExitDirection.North) {
+                    nextRoom = endRooms[2];
+                }
+
+                if (chosenExit == ExitDirection.East) {
+                    nextRoom = nextRoom = endRooms[3];
+                }
+
+                if (chosenExit == ExitDirection.South) {
+                    nextRoom = endRooms[0];
+                }
+
+                if (chosenExit == ExitDirection.West) {
+                    nextRoom = endRooms[1];
+                }
+            }
 
             yield return new WaitForSeconds (1);
             compatibleRoomEntrance.Clear ();
@@ -82,32 +127,6 @@ public class RoomGeneratorV2 : MonoBehaviour {
             _compatibleRoom.Clear ();
             maxInbetweenRooms--;
             StartCoroutine (SpawnRoom (nextRoom, nextRoomPosition));
-        }
-
-        if (maxInbetweenRooms == 0) {
-            Debug.Log ("Create an end room");
-            /*foreach (var exit in _exitDoors) {
-                if (exit) {
-                    int exitIndex = (int) exitDirection;
-                    exitDirection = (ExitDirection) i;
-                    possibleDirections.Add (exitDirection);
-                }
-
-                i++;
-            }
-
-            chosenExit = possibleDirections[Random.Range (0, possibleDirections.Count)]; //choose exit door
-
-            //get the direction of the exit door
-            NextRoomPosition (newRoom, chosenExit);
-
-            //Get comnpatible room based on exit door
-            GetCompatibleRooms (currentRoom, chosenExit);
-
-            yield return new WaitForSeconds (2);
-            maxInbetweenRooms--;
-            StartCoroutine (SpawnRoom (nextRoom, nextRoomPosition));
-        */
         }
     }
 
