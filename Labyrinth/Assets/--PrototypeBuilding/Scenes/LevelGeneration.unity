@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85e4d2fc144962e4eb15fd59ff69c800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomV2s: []
   currentRoom: {fileID: 11400000, guid: 2bb364713cac8004f8ad8eb18fab8019, type: 2}
   _exitDoors: 00010001
   possibleDirections: 
@@ -171,7 +172,7 @@ MonoBehaviour:
   roomPrefab: {fileID: 4055751379592342263, guid: ddac63fe8bbca7141977669d357e217a,
     type: 3}
   roomParent: {fileID: 1747546636}
-  maxInbetweenRooms: 5
+  maxInbetweenRooms: 10
   maxBranches: 1
   inbetweenRooms: []
   spawnedCoordinates: []
