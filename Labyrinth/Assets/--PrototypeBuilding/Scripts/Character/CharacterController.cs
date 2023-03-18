@@ -13,6 +13,7 @@ public class CharacterController : MonoBehaviour {
     float yRotation;
     [SerializeField] Rigidbody playerRigidbody;
     [SerializeField] Transform cameraHolder;
+    [SerializeField] Animator animator;
 
     [Header ("Settings")]
     [SerializeField] float speedMultiplier = 5;
@@ -21,6 +22,11 @@ public class CharacterController : MonoBehaviour {
     [SerializeField] float verticalSensitivity = -1;
     [SerializeField] float clampMinValue = -90;
     [SerializeField] float clampMaxValue = 90;
+
+    [Header ("Debug")]
+    [SerializeField] bool isMoving;
+
+    [SerializeField] bool isRunning;
 
 
     //void Awake () { }
@@ -35,13 +41,24 @@ public class CharacterController : MonoBehaviour {
 
     public void OnMoveInput (InputAction.CallbackContext incomingValue) {
         moveInput = incomingValue.ReadValue<Vector2> ();
+        if (incomingValue.performed) {
+            isMoving = true;
+            animator.SetBool ("isMoving", true);
+        } else if (incomingValue.canceled) {
+            isMoving = false;
+            animator.SetBool ("isMoving", false);
+        }
     }
 
     void OnPlayerMove () {
         moveDirection = moveInput.x * transform.right + moveInput.y * transform.forward;
-
-        Vector3 moveCombined = playerRigidbody.position + new Vector3 (moveDirection.x, 0, moveDirection.z) * (speedMultiplier * Time.fixedDeltaTime);
-        playerRigidbody.MovePosition (moveCombined);
+        if (isRunning) {
+            animator.SetFloat ("forward", moveDirection.z * 2, 0.2f, Time.deltaTime);
+            animator.SetFloat ("right", moveDirection.x * 2, 0.2f, Time.deltaTime);
+        } else {
+            animator.SetFloat ("forward", moveDirection.z, 0.2f, Time.deltaTime);
+            animator.SetFloat ("right", moveDirection.x, 0.2f, Time.deltaTime);
+        }
     }
 
     public void OnLookInput (InputAction.CallbackContext incomingValue) {
@@ -54,5 +71,11 @@ public class CharacterController : MonoBehaviour {
         xRotation = Mathf.Clamp (xRotation, clampMinValue, clampMaxValue);
         transform.rotation = Quaternion.Euler (0, yRotation, 0);
         cameraHolder.rotation = Quaternion.Euler (xRotation, yRotation, 0);
+    }
+
+    public void OnRun (InputAction.CallbackContext incomingValue) {
+        if (incomingValue.performed) {
+            isRunning = true;
+        } else if (incomingValue.canceled) { isRunning = false; }
     }
 }

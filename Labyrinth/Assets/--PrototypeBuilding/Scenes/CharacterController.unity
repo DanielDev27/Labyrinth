@@ -730,11 +730,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRigidbody: {fileID: 1287851914}
   cameraHolder: {fileID: 811295851}
+  animator: {fileID: 1287851915}
   speedMultiplier: 5
   horizontalSensitivity: 1
   verticalSensitivity: -1
   clampMinValue: -30
   clampMaxValue: 60
+  isMoving: 0
+  isRunning: 0
 --- !u!114 &1287851913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -842,7 +845,19 @@ MonoBehaviour:
     m_ActionId: 35344fcc-85c3-42a4-96a2-e0a891bb5032
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1287851912}
+        m_TargetAssemblyTypeName: CharacterController, Assembly-CSharp
+        m_MethodName: OnRun
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 7cf868ba-b810-4d68-839c-ccead606f323
     m_ActionName: Player/Sprint[/Keyboard/leftShift]
   - m_PersistentCalls:
