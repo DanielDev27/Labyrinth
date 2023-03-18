@@ -27,12 +27,14 @@ public class CharacterController : MonoBehaviour {
     [SerializeField] bool isMoving;
 
     [SerializeField] bool isRunning;
+    [SerializeField] bool isDodging;
 
 
     //void Awake () { }
 
     void FixedUpdate () {
         OnPlayerMove ();
+        CursorSettings (false, CursorLockMode.Locked);
     }
 
     void LateUpdate () {
@@ -52,12 +54,13 @@ public class CharacterController : MonoBehaviour {
 
     void OnPlayerMove () {
         moveDirection = moveInput.x * transform.right + moveInput.y * transform.forward;
+        Vector3 moveCombined = new Vector3 (moveInput.x, 0, moveInput.y);
         if (isRunning) {
-            animator.SetFloat ("forward", moveDirection.z * 2, 0.2f, Time.deltaTime);
-            animator.SetFloat ("right", moveDirection.x * 2, 0.2f, Time.deltaTime);
+            animator.SetFloat ("forward", moveCombined.z * 2, 0.2f, Time.deltaTime);
+            animator.SetFloat ("right", moveCombined.x * 2, 0.2f, Time.deltaTime);
         } else {
-            animator.SetFloat ("forward", moveDirection.z, 0.2f, Time.deltaTime);
-            animator.SetFloat ("right", moveDirection.x, 0.2f, Time.deltaTime);
+            animator.SetFloat ("forward", moveCombined.z, 0.2f, Time.deltaTime);
+            animator.SetFloat ("right", moveCombined.x, 0.2f, Time.deltaTime);
         }
     }
 
@@ -77,5 +80,40 @@ public class CharacterController : MonoBehaviour {
         if (incomingValue.performed) {
             isRunning = true;
         } else if (incomingValue.canceled) { isRunning = false; }
+    }
+
+    void CursorSettings (bool cursorVisibility, CursorLockMode cursorLockMode) {
+        Cursor.visible = cursorVisibility;
+        Cursor.lockState = cursorLockMode;
+    }
+
+    public void OnAttack (InputAction.CallbackContext incomingValue) {
+        if (incomingValue.performed) {
+            Debug.Log ("Attack");
+        }
+
+        if (incomingValue.canceled) {
+            Debug.Log ("Attack Canceled");
+        }
+    }
+
+    public void OnBlock (InputAction.CallbackContext incomingValue) {
+        if (incomingValue.performed) {
+            Debug.Log ("Block");
+        }
+
+        if (incomingValue.canceled) {
+            Debug.Log ("Block Canceled");
+        }
+    }
+
+    public void OnDodge (InputAction.CallbackContext incomingValue) {
+        if (incomingValue.performed) {
+            isDodging = true;
+        }
+
+        if (incomingValue.canceled) {
+            isDodging = false;
+        }
     }
 }
