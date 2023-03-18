@@ -123,6 +123,24 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &260510456 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -7764487651825262745, guid: 74bed3ac86031d242b1a5ab5d132f567,
+    type: 3}
+  m_PrefabInstance: {fileID: 925303498}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &260510459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260510456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cf93dea3af7127499e21d2917667305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +219,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.1891075, y: 0.000000008447957, z: -0.0000000016269277, w: 0.9819564}
+  m_LocalRotation: {x: 0.1891075, y: -0.000000008447959, z: 0.000000001626928, w: 0.9819564}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -567,6 +585,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &859992028 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1051571768989249988, guid: 74bed3ac86031d242b1a5ab5d132f567,
+    type: 3}
+  m_PrefabInstance: {fileID: 925303498}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &859992031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859992028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da6ac3215744fae438736c5a95c71176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &925303498
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -629,10 +665,50 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7764487651825262745, guid: 74bed3ac86031d242b1a5ab5d132f567,
+        type: 3}
+      propertyPath: m_Name
+      value: Paladin_J_Nordstrom_Shield
+      objectReference: {fileID: 0}
+    - target: {fileID: -7764487651825262745, guid: 74bed3ac86031d242b1a5ab5d132f567,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3685692520585564748, guid: 74bed3ac86031d242b1a5ab5d132f567,
+        type: 3}
+      propertyPath: m_Name
+      value: Paladin_J_Nordstrom_Helmet
+      objectReference: {fileID: 0}
+    - target: {fileID: -3685692520585564748, guid: 74bed3ac86031d242b1a5ab5d132f567,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1283408554089789195, guid: 74bed3ac86031d242b1a5ab5d132f567,
+        type: 3}
+      propertyPath: m_Name
+      value: Paladin_J_Nordstrom_Armor
+      objectReference: {fileID: 0}
+    - target: {fileID: -1283408554089789195, guid: 74bed3ac86031d242b1a5ab5d132f567,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 74bed3ac86031d242b1a5ab5d132f567,
         type: 3}
       propertyPath: m_Name
       value: Paladin WProp J Nordstrom
+      objectReference: {fileID: 0}
+    - target: {fileID: 1051571768989249988, guid: 74bed3ac86031d242b1a5ab5d132f567,
+        type: 3}
+      propertyPath: m_Name
+      value: Paladin_J_Nordstrom_Sword
+      objectReference: {fileID: 0}
+    - target: {fileID: 1051571768989249988, guid: 74bed3ac86031d242b1a5ab5d132f567,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5866666021909216657, guid: 74bed3ac86031d242b1a5ab5d132f567, type: 3}
@@ -1113,7 +1189,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1959933999}
-  m_LocalRotation: {x: 0.1891075, y: 0.000000008447957, z: -0.0000000016269277, w: 0.9819564}
+  m_LocalRotation: {x: 0.1891075, y: -0.000000008447959, z: 0.000000001626928, w: 0.9819564}
   m_LocalPosition: {x: 0, y: 2.01, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
