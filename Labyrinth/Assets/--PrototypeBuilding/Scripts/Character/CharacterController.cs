@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 public class CharacterController : MonoBehaviour {
     Vector2 moveInput;
@@ -22,15 +23,19 @@ public class CharacterController : MonoBehaviour {
     [SerializeField] float verticalSensitivity = -1;
     [SerializeField] float clampMinValue = -90;
     [SerializeField] float clampMaxValue = 90;
+    [SerializeField] float boredTrigger = 5;
 
     [Header ("Debug")]
     [SerializeField] bool isMoving;
 
     [SerializeField] bool isRunning;
     [SerializeField] bool isDodging;
+    [SerializeField] float boredCount = 0;
 
 
-    //void Awake () { }
+    void Start () {
+        StartCoroutine (IdleBored ());
+    }
 
     void FixedUpdate () {
         OnPlayerMove ();
@@ -39,6 +44,18 @@ public class CharacterController : MonoBehaviour {
 
     void LateUpdate () {
         OnPlayerLook ();
+    }
+
+    IEnumerator IdleBored () {
+        if (boredCount >= boredTrigger) {
+            animator.SetInteger ("IdleAnimation", Random.Range (1, 3));
+            yield return new WaitForSeconds (animator.GetCurrentAnimatorStateInfo (0).length);
+            boredCount = 0;
+        } else if (boredCount < boredTrigger) { animator.SetInteger ("IdleAnimation", 0); }
+
+        yield return new WaitForSeconds (1);
+        boredCount += 1;
+        StartCoroutine (IdleBored ());
     }
 
     public void OnMoveInput (InputAction.CallbackContext incomingValue) {
@@ -50,11 +67,15 @@ public class CharacterController : MonoBehaviour {
             isMoving = false;
             animator.SetBool ("isMoving", false);
         }
+
     }
 
     void OnPlayerMove () {
         moveDirection = moveInput.x * transform.right + moveInput.y * transform.forward;
         Vector3 moveCombined = new Vector3 (moveInput.x, 0, moveInput.y);
+        if (moveCombined != Vector3.zero) {
+            boredCount = 0;
+        }
         if (isRunning) {
             animator.SetFloat ("forward", moveCombined.z * 2, 0.2f, Time.deltaTime);
             animator.SetFloat ("right", moveCombined.x * 2, 0.2f, Time.deltaTime);
@@ -66,6 +87,7 @@ public class CharacterController : MonoBehaviour {
 
     public void OnLookInput (InputAction.CallbackContext incomingValue) {
         lookInput = incomingValue.ReadValue<Vector2> ().normalized;
+        boredCount = 0;
     }
 
     void OnPlayerLook () {
@@ -90,6 +112,7 @@ public class CharacterController : MonoBehaviour {
     public void OnAttack (InputAction.CallbackContext incomingValue) {
         if (incomingValue.performed) {
             //Debug.Log ("Attack");
+            boredCount = 0;
             animator.SetBool ("isAttack", true);
         }
 
@@ -102,6 +125,7 @@ public class CharacterController : MonoBehaviour {
     public void OnBlock (InputAction.CallbackContext incomingValue) {
         if (incomingValue.performed) {
             //Debug.Log ("Block");
+            boredCount = 0;
             animator.SetBool ("isBlock", true);
         }
 
@@ -114,6 +138,7 @@ public class CharacterController : MonoBehaviour {
     public void OnDodge (InputAction.CallbackContext incomingValue) {
         if (incomingValue.performed) {
             isDodging = true;
+            boredCount = 0;
             animator.SetBool ("isDodging", true);
         }
 
