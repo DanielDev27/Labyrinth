@@ -114,10 +114,12 @@ public class CharacterController : MonoBehaviour {
     public void OnDodge (InputAction.CallbackContext incomingValue) {
         if (incomingValue.performed) {
             isDodging = true;
+            animator.SetBool ("isDodging", true);
         }
 
         if (incomingValue.canceled) {
             isDodging = false;
+            animator.SetBool ("isDodging", false);
         }
     }
 }
