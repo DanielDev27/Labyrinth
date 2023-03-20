@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 public class CharacterController : MonoBehaviour {
+    public static CharacterController Instance;
     Vector2 moveInput;
     Vector3 moveDirection;
     Vector2 lookInput;
@@ -32,6 +33,9 @@ public class CharacterController : MonoBehaviour {
     [SerializeField] bool isDodging;
     [SerializeField] float boredCount = 0;
 
+    void Awake () {
+        Instance = this;
+    }
 
     void Start () {
         StartCoroutine (IdleBored ());
@@ -67,7 +71,6 @@ public class CharacterController : MonoBehaviour {
             isMoving = false;
             animator.SetBool ("isMoving", false);
         }
-
     }
 
     void OnPlayerMove () {
@@ -76,6 +79,7 @@ public class CharacterController : MonoBehaviour {
         if (moveCombined != Vector3.zero) {
             boredCount = 0;
         }
+
         if (isRunning) {
             animator.SetFloat ("forward", moveCombined.z * 2, 0.2f, Time.deltaTime);
             animator.SetFloat ("right", moveCombined.x * 2, 0.2f, Time.deltaTime);
