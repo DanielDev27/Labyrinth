@@ -89,21 +89,25 @@ public class CharacterController : MonoBehaviour {
 
     public void OnAttack (InputAction.CallbackContext incomingValue) {
         if (incomingValue.performed) {
-            Debug.Log ("Attack");
+            //Debug.Log ("Attack");
+            animator.SetBool ("isAttack", true);
         }
 
         if (incomingValue.canceled) {
-            Debug.Log ("Attack Canceled");
+            //Debug.Log ("Attack Canceled");
+            animator.SetBool ("isAttack", false);
         }
     }
 
     public void OnBlock (InputAction.CallbackContext incomingValue) {
         if (incomingValue.performed) {
-            Debug.Log ("Block");
+            //Debug.Log ("Block");
+            animator.SetBool ("isBlock", true);
         }
 
         if (incomingValue.canceled) {
-            Debug.Log ("Block Canceled");
+            //Debug.Log ("Block Canceled");
+            animator.SetBool ("isBlock", false);
         }
     }
 
