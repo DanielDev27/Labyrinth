@@ -19,6 +19,7 @@ public class AIBehaviour : MonoBehaviour {
     public AiStates currentAiState;
     [SerializeField] GameObject playerReference;
     [SerializeField] bool isSprinting;
+    [SerializeField] bool canSeePlayer;
 
     [Header ("Settings")]
     [SerializeField] NavMeshAgent agent;
@@ -43,11 +44,12 @@ public class AIBehaviour : MonoBehaviour {
                     break;
                 case AiStates.Chasing:
                     //Debug.Log ("Chasing");
+                    agentAnimator.SetBool ("isMoving", true);
                     OnChasing ();
                     break;
                 case AiStates.Attacking:
                     //Debug.Log ("Attacking");
-                    OnAttack ();
+                    StartCoroutine (OnAttack ());
                     break;
             }
 
@@ -85,35 +87,46 @@ public class AIBehaviour : MonoBehaviour {
             Vector3 directionToTarget = (playerReference.transform.position - transform.position).normalized;
             if (Vector3.Angle (transform.forward, directionToTarget) <= fovAngle / 2) {
                 float distanceToPlayer = Vector3.Distance (transform.position, playerReference.transform.position);
-                if (!Physics.Raycast (eyeLine.position, directionToTarget, distanceToPlayer, obstructionLayer)) {
+                if (!Physics.Raycast (eyeLine.position, directionToTarget, distanceToPlayer, obstructionLayer) && !canSeePlayer) {
+                    canSeePlayer = true;
                     currentAiState = AiStates.Chasing;
-                } else {
-                    currentAiState = AiStates.Idle;
                 }
             } else {
+                canSeePlayer = false;
                 currentAiState = AiStates.Idle;
             }
         }
     }
 
     void OnChasing () {
-        agent.SetDestination (playerReference.transform.position);
-        isSprinting = true;
-        if (Vector3.Distance (transform.position, playerReference.transform.position) <= 1.0f) {
-            agent.isStopped = true;
-            isSprinting = false;
-            currentAiState = AiStates.Attacking;
-        }
+        agent.isStopped = false;
+        if (playerReference != null) {
+            agent.SetDestination (playerReference.transform.position);
+            isSprinting = true;
+            if (Vector3.Distance (transform.position, playerReference.transform.position) <= 2.5f) {
+                isSprinting = false;
+            }
+
+            if (Vector3.Distance (transform.position, playerReference.transform.position) <= 1.5f) {
+                agent.isStopped = true;
+                agentAnimator.SetBool ("isMoving", false);
+                isSprinting = false;
+                currentAiState = AiStates.Attacking;
+            }
+        } else { currentAiState = AiStates.Idle; }
     }
 
-    void OnAttack () {
+    IEnumerator OnAttack () {
         Debug.Log ("Attack");
+        agentAnimator.SetBool ("isAttacking", true);
+        yield return new WaitForSeconds (1);
+        agentAnimator.SetBool ("isAttacking", false);
         currentAiState = AiStates.Idle;
     }
 
     void OnAnimatorUpdate () {
         if (isSprinting) {
-            agentAnimator.SetFloat ("speed", agent.velocity.sqrMagnitude);
+            agentAnimator.SetFloat ("speed", Mathf.Clamp (agent.velocity.sqrMagnitude, 1, 2));
         } else {
             agentAnimator.SetFloat ("speed", Mathf.Clamp (agent.velocity.sqrMagnitude, 0, 1));
         }
