@@ -24,7 +24,7 @@ public class CharacterController : MonoBehaviour {
     [SerializeField] float verticalSensitivity = -1;
     [SerializeField] float clampMinValue = -90;
     [SerializeField] float clampMaxValue = 90;
-    [SerializeField] float boredTrigger = 5;
+    [SerializeField] float boredTrigger = 10;
 
     [Header ("Debug")]
     [SerializeField] bool isMoving;
@@ -51,15 +51,37 @@ public class CharacterController : MonoBehaviour {
     }
 
     IEnumerator IdleBored () {
-        if (boredCount >= boredTrigger) {
-            animator.SetInteger ("IdleAnimation", Random.Range (1, 3));
-            yield return new WaitForSeconds (animator.GetCurrentAnimatorStateInfo (0).length);
+        if (isMoving) {
+            animator.SetInteger ("IdleAnimation", 0);
             boredCount = 0;
-        } else if (boredCount < boredTrigger) { animator.SetInteger ("IdleAnimation", 0); }
+        } else {
+            if (boredCount >= boredTrigger) {
+                animator.SetInteger ("IdleAnimation", Random.Range (1, 3));
+                int boredAni = animator.GetInteger ("IdleAnimation");
+                //Debug.Log ((animator.GetCurrentAnimatorStateInfo (0).length + 0.1f));
+                if (boredAni == 1) {
+                    yield return new WaitForSeconds (3.6f);
+                }
 
-        yield return new WaitForSeconds (1);
-        boredCount += 1;
-        StartCoroutine (IdleBored ());
+                if (boredAni == 2) {
+                    yield return new WaitForSeconds (7.5f);
+                }
+
+                if (boredAni == 3) {
+                    yield return new WaitForSeconds (8.6f);
+                }
+
+                animator.SetInteger ("IdleAnimation", 0);
+                boredCount = 0;
+            }
+
+            if (boredCount < boredTrigger && animator.GetInteger ("IdleAnimation") == 0) {
+                yield return new WaitForSeconds (1);
+                boredCount += 1;
+
+                StartCoroutine (IdleBored ());
+            }
+        }
     }
 
     public void OnMoveInput (InputAction.CallbackContext incomingValue) {
@@ -67,9 +89,11 @@ public class CharacterController : MonoBehaviour {
         if (incomingValue.performed) {
             isMoving = true;
             animator.SetBool ("isMoving", true);
+            StartCoroutine (IdleBored ());
         } else if (incomingValue.canceled) {
             isMoving = false;
             animator.SetBool ("isMoving", false);
+            StartCoroutine (IdleBored ());
         }
     }
 

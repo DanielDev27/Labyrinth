@@ -6,22 +6,29 @@ using UnityEngine.AI;
 
 public class AIBehaviour : MonoBehaviour {
     public static AIBehaviour _instance;
-    NavMeshAgent agent;
 
     public enum AiStates {
         Idle,
-        Search,
         Chasing,
         Attacking
     }
 
-    //[SerializeField] GameObject aiAvatar;
-
+    [Header ("Debug")]
     [SerializeField] bool coroutineInProgress;
+
     public AiStates currentAiState;
+    [SerializeField] GameObject playerReference;
+    [SerializeField] bool isSprinting;
+
+    [Header ("Settings")]
+    [SerializeField] NavMeshAgent agent;
+
     [SerializeField] Collider searchZone;
-    [SerializeField] List<CharacterController> charInRange = new List<CharacterController> ();
-    [SerializeField] bool haveTarget;
+    [SerializeField] float fovAngle = 120;
+    [SerializeField] Transform eyeLine;
+    [SerializeField] LayerMask obstructionLayer;
+    [SerializeField] Animator agentAnimator;
+
 
     void Awake () {
         _instance = this;
@@ -34,55 +41,81 @@ public class AIBehaviour : MonoBehaviour {
                     //Debug.Log ("Idle");
                     StartCoroutine (OnIdle ());
                     break;
-                case AiStates.Search:
-                    //Debug.Log ("Searching");
-                    StartCoroutine (OnSearch ());
-                    break;
                 case AiStates.Chasing:
                     //Debug.Log ("Chasing");
                     OnChasing ();
                     break;
                 case AiStates.Attacking:
                     //Debug.Log ("Attacking");
+                    OnAttack ();
                     break;
             }
+
+        FieldOfViewCheck ();
+        OnAnimatorUpdate ();
     }
 
     IEnumerator OnIdle () {
         coroutineInProgress = true;
-        Debug.Log ("Is Idle");
+        //Debug.Log ("Is Idle");
         yield return new WaitForSeconds (1);
-        currentAiState = AiStates.Search;
+        if (playerReference) {
+            currentAiState = AiStates.Chasing;
+        }
+
         coroutineInProgress = false;
     }
 
-    IEnumerator OnSearch () {
-        coroutineInProgress = true;
-        if (charInRange.Count > 0) {
-            Debug.Log ("Is Searching");
-            yield return new WaitForSeconds (1);
-            currentAiState = AiStates.Chasing;
-            coroutineInProgress = false;
-        } else if (charInRange.Count == 0) {
-            yield return new WaitForSeconds (1);
-            currentAiState = AiStates.Idle;
-            coroutineInProgress = false;
-        }
-    }
-
-    private void OnTriggerEnter (Collider other) {
+    void OnTriggerEnter (Collider other) {
         if (other.TryGetComponent (out CharacterController _characterController)) //add a target on a collider enter
         {
-            charInRange.Add (_characterController);
+            playerReference = other.gameObject;
         }
     }
 
-    private void OnTriggerExit (Collider other) {
+    void OnTriggerExit (Collider other) {
         if (other.TryGetComponent (out CharacterController _characterController)) //remove a target on a collider exit
         {
-            charInRange.Remove (_characterController);
+            playerReference = null;
         }
     }
 
-    void OnChasing () { }
+    void FieldOfViewCheck () {
+        if (playerReference != null) {
+            Vector3 directionToTarget = (playerReference.transform.position - transform.position).normalized;
+            if (Vector3.Angle (transform.forward, directionToTarget) <= fovAngle / 2) {
+                float distanceToPlayer = Vector3.Distance (transform.position, playerReference.transform.position);
+                if (!Physics.Raycast (eyeLine.position, directionToTarget, distanceToPlayer, obstructionLayer)) {
+                    currentAiState = AiStates.Chasing;
+                } else {
+                    currentAiState = AiStates.Idle;
+                }
+            } else {
+                currentAiState = AiStates.Idle;
+            }
+        }
+    }
+
+    void OnChasing () {
+        agent.SetDestination (playerReference.transform.position);
+        isSprinting = true;
+        if (Vector3.Distance (transform.position, playerReference.transform.position) <= 1.0f) {
+            agent.isStopped = true;
+            isSprinting = false;
+            currentAiState = AiStates.Attacking;
+        }
+    }
+
+    void OnAttack () {
+        Debug.Log ("Attack");
+        currentAiState = AiStates.Idle;
+    }
+
+    void OnAnimatorUpdate () {
+        if (isSprinting) {
+            agentAnimator.SetFloat ("speed", agent.velocity.sqrMagnitude);
+        } else {
+            agentAnimator.SetFloat ("speed", Mathf.Clamp (agent.velocity.sqrMagnitude, 0, 1));
+        }
+    }
 }
