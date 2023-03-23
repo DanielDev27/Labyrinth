@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using EasyButtons;
 using UnityEngine;
 
 public enum ExitDirection {
@@ -7,7 +8,6 @@ public enum ExitDirection {
     East,
     South,
     West,
-    Break
 }
 
 public class RoomGeneratorV2 : MonoBehaviour {
@@ -43,12 +43,15 @@ public class RoomGeneratorV2 : MonoBehaviour {
         InstanceV2 = this;
     }
 
-    [ContextMenu ("Generate Rooms")]
+    [Button ("Generate Rooms")]
     void Generate () {
+        if (roomV2s.Count > 0) {
+            ClearRooms ();
+        }
+
         StartCoroutine (SpawnRoom (startRoom, new Vector3 (0, 0, 0)));
     }
 
-    [ContextMenu ("Clear Rooms")]
     void ClearRooms () {
         maxInbetweenRooms = roomV2s.Count - 2;
         while (roomV2s.Count > 0) {
@@ -117,7 +120,7 @@ public class RoomGeneratorV2 : MonoBehaviour {
                 }
             }
 
-            yield return new WaitForSeconds (1);
+            yield return new WaitForSeconds (0.1f);
             compatibleRoomEntrance.Clear ();
             currentCompatibleRooms.Clear ();
             _compatibleRoom.Clear ();
