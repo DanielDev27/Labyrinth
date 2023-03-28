@@ -8127,6 +8127,7 @@ GameObject:
   - component: {fileID: 1287851911}
   - component: {fileID: 1287851914}
   - component: {fileID: 1287851916}
+  - component: {fileID: 1287851918}
   - component: {fileID: 1287851913}
   - component: {fileID: 1287851915}
   - component: {fileID: 1287851912}
@@ -8434,6 +8435,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 0
   dead: 0
+--- !u!136 &1287851918
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287851910}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!1 &1305393245
 GameObject:
   m_ObjectHideFlags: 0
@@ -14602,21 +14617,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 794026105}
     m_Modifications:
-    - target: {fileID: 2625643105870725353, guid: b15fcf116c74894478999af76e74045c,
-        type: 3}
-      propertyPath: m_Radius
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2625643105870725353, guid: b15fcf116c74894478999af76e74045c,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6555814590550537753, guid: b15fcf116c74894478999af76e74045c,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6555814590550537756, guid: b15fcf116c74894478999af76e74045c,
         type: 3}
       propertyPath: m_RootOrder

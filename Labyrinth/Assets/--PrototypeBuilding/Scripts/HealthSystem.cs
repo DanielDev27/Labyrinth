@@ -15,7 +15,7 @@ public class HealthSystem : MonoBehaviour {
 
     public void UpdateHealth (int health) { currentHealth = health; }
 
-    public void EnemyDie () { }
+    public void EnemyDie () { this.gameObject.SetActive (false); }
 
-    public void PlayerDie () { }
+    public void PlayerDie () { this.gameObject.SetActive (false); }
 }
