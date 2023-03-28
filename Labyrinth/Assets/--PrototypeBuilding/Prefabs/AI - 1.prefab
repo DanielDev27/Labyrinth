@@ -1,5 +1,57 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &136320890
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 136320891}
+  - component: {fileID: 136320892}
+  m_Layer: 0
+  m_Name: WeaponTip
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &136320891
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136320890}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.98, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7282885530388756341}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &136320892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136320890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cac6f60a71b843479faa498c8167d70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 5
+  weaponLength: 1.66
+  canDamage: 0
+  hasDealtDamage: []
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  weapon: {fileID: 0}
 --- !u!1 &6555814589296613337
 GameObject:
   m_ObjectHideFlags: 0
@@ -47,7 +99,7 @@ GameObject:
   - component: {fileID: 6555814590550537755}
   - component: {fileID: 6555814590550537758}
   - component: {fileID: 4997268746331407054}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: AI - 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +170,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 1
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -168,11 +220,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSystem: {fileID: 4997268746331407054}
+  weapon: {fileID: 136320892}
   coroutineInProgress: 0
   currentAiState: 0
   playerReference: {fileID: 0}
   isSprinting: 0
   canSeePlayer: 0
+  isAttacking: 0
   health: 0
   charCont: {fileID: 0}
   agent: {fileID: 6555814590550537759}
@@ -209,7 +263,6 @@ GameObject:
   - component: {fileID: 7282885530388756341}
   - component: {fileID: 3957898233447419084}
   - component: {fileID: 4660943936569422959}
-  - component: {fileID: 1563158907685776168}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
@@ -224,14 +277,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6884711562352624780}
-  m_LocalRotation: {x: 0.07822496, y: 0.085801475, z: 0.40868005, w: 0.90526223}
-  m_LocalPosition: {x: -0.549, y: 0.596, z: 0.189}
-  m_LocalScale: {x: 0.05, y: 1, z: 0.02}
+  m_LocalRotation: {x: -0.028905697, y: 0.040018614, z: 0.41553798, w: 0.90823525}
+  m_LocalPosition: {x: -0.556, y: 0.584, z: -0.03}
+  m_LocalScale: {x: 0.05, y: 1, z: 0.05}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 136320891}
   m_Father: {fileID: 6635688597587552701}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 4.1, y: 12.7, z: 49.05}
+  m_LocalEulerAnglesHint: {x: -4.92, y: 2.8, z: 49.05}
 --- !u!33 &3957898233447419084
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -282,20 +336,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &1563158907685776168
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6884711562352624780}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1001 &5017888859925190261
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -363,7 +403,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Nightshade J Friedrich@Great Sword Idle
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 6515712193588681746, guid: c2f427a3405f6514790d44d11a52f9a8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.110345356
+      objectReference: {fileID: 0}
+    - target: {fileID: 6515712193588681746, guid: c2f427a3405f6514790d44d11a52f9a8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.018722748
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5866666021909216657, guid: c2f427a3405f6514790d44d11a52f9a8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c2f427a3405f6514790d44d11a52f9a8, type: 3}
 --- !u!4 &1460631788270609181 stripped
 Transform:

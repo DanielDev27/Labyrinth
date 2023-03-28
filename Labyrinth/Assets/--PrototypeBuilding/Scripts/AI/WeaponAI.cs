@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour {
+public class WeaponAI : MonoBehaviour {
     public int damage = 5;
     [SerializeField] float weaponLength;
     public bool canDamage;
@@ -27,7 +25,7 @@ public class Weapon : MonoBehaviour {
         if (canDamage) {
             RaycastHit hit;
             Debug.DrawRay (transform.position, -transform.up, Color.red);
-            if (Physics.Raycast (transform.position, -transform.up, out hit, weaponLength, layerMask)) {
+            if (Physics.Raycast (transform.position, -transform.forward, out hit, weaponLength, layerMask)) {
                 if (!hasDealtDamage.Contains (hit.transform.gameObject)) {
                     Debug.Log ("Damage");
                     hasDealtDamage.Add (hit.transform.gameObject);
@@ -44,6 +42,7 @@ public class Weapon : MonoBehaviour {
     }
 
     public void StartDamage () {
+        hasDealtDamage.Clear ();
         canDamage = true;
     }
 
@@ -53,6 +52,6 @@ public class Weapon : MonoBehaviour {
 
     void OnDrawGizmos () {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine (transform.position, transform.position - transform.forward * weaponLength);
+        Gizmos.DrawLine (transform.position, transform.position - transform.up * weaponLength);
     }
 }

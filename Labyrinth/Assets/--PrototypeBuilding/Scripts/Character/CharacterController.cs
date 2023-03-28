@@ -28,6 +28,7 @@ public class CharacterController : MonoBehaviour {
     [SerializeField] float clampMaxValue = 90;
     [SerializeField] float boredTrigger = 10;
     [SerializeField] int maxHealth = 20;
+    [SerializeField] Weapon weapon;
 
     [Header ("Debug")]
     [SerializeField] bool isMoving;
@@ -38,6 +39,9 @@ public class CharacterController : MonoBehaviour {
     [SerializeField] bool pause = false;
     [SerializeField] int health;
     public bool isAttack;
+    [SerializeField] AIBehaviour ai;
+    [SerializeField] Collider viewable;
+    [SerializeField] Collider damageable;
 
     void Awake () {
         Instance = this;
@@ -56,6 +60,8 @@ public class CharacterController : MonoBehaviour {
 
     void LateUpdate () {
         OnPlayerLook ();
+        health = healthSystem.GetHealth ();
+        healthSystem.UpdateHealth (health);
         if (health <= 0) {
             healthSystem.PlayerDie ();
         }
@@ -149,17 +155,21 @@ public class CharacterController : MonoBehaviour {
     }
 
     public void OnAttack (InputAction.CallbackContext incomingValue) {
-        if (incomingValue.performed) {
-            isAttack = true;
-            boredCount = 0;
-            animator.SetBool ("isAttack", true);
+        if (incomingValue.performed && !isAttack) {
+            StartCoroutine (AttackState ());
         }
+    }
 
-        if (incomingValue.canceled) {
-            animator.SetBool ("isAttack", false);
-            //new WaitForSeconds (1 * Time.deltaTime);
-            isAttack = false;
-        }
+    IEnumerator AttackState () {
+        isAttack = true;
+        weapon.StartDamage ();
+        boredCount = 0;
+        animator.SetBool ("isAttack", true);
+        yield return new WaitForSeconds (1);
+        animator.SetBool ("isAttack", false);
+        //new WaitForSeconds (1 * Time.deltaTime);
+        isAttack = false;
+        weapon.EndDamage ();
     }
 
     public void OnBlock (InputAction.CallbackContext incomingValue) {
@@ -200,6 +210,17 @@ public class CharacterController : MonoBehaviour {
             pauseCanvas.enabled = pause;
             CursorSettings (false, CursorLockMode.Locked);
             Time.timeScale = 1;
+        }
+    }
+
+    void OnTriggerStay (Collider viewable) {
+        viewable.TryGetComponent (out AIBehaviour _aiBehaviour);
+        ai = _aiBehaviour;
+    }
+
+    void OnTriggerEnter (Collider damageable) {
+        if (damageable.TryGetComponent (out WeaponAI _weaponAI) && ai.isAttacking) {
+            healthSystem.TakeDamage (5);
         }
     }
 }
