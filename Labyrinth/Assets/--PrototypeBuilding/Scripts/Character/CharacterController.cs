@@ -17,6 +17,7 @@ public class CharacterController : MonoBehaviour {
     [SerializeField] Transform cameraHolder;
     [SerializeField] Animator animator;
     [SerializeField] Canvas pauseCanvas;
+    [SerializeField] HealthSystem healthSystem;
 
     [Header ("Settings")]
     [SerializeField] float speedMultiplier = 5;
@@ -26,6 +27,7 @@ public class CharacterController : MonoBehaviour {
     [SerializeField] float clampMinValue = -90;
     [SerializeField] float clampMaxValue = 90;
     [SerializeField] float boredTrigger = 10;
+    [SerializeField] int maxHealth = 20;
 
     [Header ("Debug")]
     [SerializeField] bool isMoving;
@@ -34,9 +36,12 @@ public class CharacterController : MonoBehaviour {
     [SerializeField] bool isDodging;
     [SerializeField] float boredCount = 0;
     [SerializeField] bool pause = false;
+    [SerializeField] int health;
 
     void Awake () {
         Instance = this;
+        health = maxHealth;
+        healthSystem.UpdateHealth (health);
     }
 
     void Start () {
@@ -50,6 +55,9 @@ public class CharacterController : MonoBehaviour {
 
     void LateUpdate () {
         OnPlayerLook ();
+        if (health <= 0) {
+            healthSystem.PlayerDie ();
+        }
     }
 
     IEnumerator IdleBored () {

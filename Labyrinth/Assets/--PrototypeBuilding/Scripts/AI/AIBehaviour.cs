@@ -6,12 +6,7 @@ using UnityEngine.AI;
 
 public class AIBehaviour : MonoBehaviour {
     public static AIBehaviour _instance;
-
-    public enum AiStates {
-        Idle,
-        Chasing,
-        Attacking
-    }
+    [SerializeField] HealthSystem healthSystem;
 
     [Header ("Debug")]
     [SerializeField] bool coroutineInProgress;
@@ -20,6 +15,7 @@ public class AIBehaviour : MonoBehaviour {
     [SerializeField] GameObject playerReference;
     [SerializeField] bool isSprinting;
     [SerializeField] bool canSeePlayer;
+    [SerializeField] int health;
 
     [Header ("Settings")]
     [SerializeField] NavMeshAgent agent;
@@ -29,10 +25,12 @@ public class AIBehaviour : MonoBehaviour {
     [SerializeField] Transform eyeLine;
     [SerializeField] LayerMask obstructionLayer;
     [SerializeField] Animator agentAnimator;
-
+    [SerializeField] int maxHealth = 10;
 
     void Awake () {
         _instance = this;
+        health = maxHealth;
+        healthSystem.UpdateHealth (health);
     }
 
     void Update () {
@@ -55,6 +53,9 @@ public class AIBehaviour : MonoBehaviour {
 
         FieldOfViewCheck ();
         OnAnimatorUpdate ();
+        if (health <= 0) {
+            healthSystem.EnemyDie ();
+        }
     }
 
     IEnumerator OnIdle () {
@@ -101,9 +102,10 @@ public class AIBehaviour : MonoBehaviour {
     void OnChasing () {
         agent.isStopped = false;
         if (playerReference != null) {
+            transform.LookAt (playerReference.transform.position);
             agent.SetDestination (playerReference.transform.position);
             isSprinting = true;
-            if (Vector3.Distance (transform.position, playerReference.transform.position) <= 2.5f) {
+            if (Vector3.Distance (transform.position, playerReference.transform.position) <= 5f) {
                 isSprinting = false;
             }
 
@@ -117,7 +119,8 @@ public class AIBehaviour : MonoBehaviour {
     }
 
     IEnumerator OnAttack () {
-        Debug.Log ("Attack");
+        //Debug.Log ("Attack");
+        transform.LookAt (playerReference.transform.position);
         agentAnimator.SetBool ("isAttacking", true);
         yield return new WaitForSeconds (1);
         agentAnimator.SetBool ("isAttacking", false);
@@ -130,5 +133,11 @@ public class AIBehaviour : MonoBehaviour {
         } else {
             agentAnimator.SetFloat ("speed", Mathf.Clamp (agent.velocity.sqrMagnitude, 0, 1));
         }
+    }
+
+    public enum AiStates {
+        Idle,
+        Chasing,
+        Attacking
     }
 }
