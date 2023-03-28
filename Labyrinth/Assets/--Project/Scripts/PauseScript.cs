@@ -28,6 +28,10 @@ public class PauseScript : MonoBehaviour {
         controlsMenu.enabled = false;
     }
 
+    public void Reload () {
+        SceneManager.LoadScene (1);
+    }
+
     public void Quit () {
         Application.Quit ();
     }

@@ -37,7 +37,7 @@ public class CharacterController : MonoBehaviour {
     [SerializeField] bool isDodging;
     [SerializeField] float boredCount = 0;
     [SerializeField] bool pause = false;
-    [SerializeField] int health;
+    public int health;
     public bool isAttack;
     [SerializeField] AIBehaviour ai;
     [SerializeField] Collider viewable;
@@ -149,10 +149,6 @@ public class CharacterController : MonoBehaviour {
         } else if (incomingValue.canceled) { isRunning = false; }
     }
 
-    void CursorSettings (bool cursorVisibility, CursorLockMode cursorLockMode) {
-        Cursor.visible = cursorVisibility;
-        Cursor.lockState = cursorLockMode;
-    }
 
     public void OnAttack (InputAction.CallbackContext incomingValue) {
         if (incomingValue.performed && !isAttack) {
@@ -222,5 +218,10 @@ public class CharacterController : MonoBehaviour {
         if (damageable.TryGetComponent (out WeaponAI _weaponAI) && ai.isAttacking) {
             healthSystem.TakeDamage (5);
         }
+    }
+
+    void CursorSettings (bool cursorVisibility, CursorLockMode cursorLockMode) {
+        Cursor.visible = cursorVisibility;
+        Cursor.lockState = cursorLockMode;
     }
 }

@@ -25,7 +25,7 @@ public class WeaponAI : MonoBehaviour {
         if (canDamage) {
             RaycastHit hit;
             Debug.DrawRay (transform.position, -transform.up, Color.red);
-            if (Physics.Raycast (transform.position, -transform.forward, out hit, weaponLength, layerMask)) {
+            if (Physics.Raycast (transform.position, -transform.up, out hit, weaponLength, layerMask)) {
                 if (!hasDealtDamage.Contains (hit.transform.gameObject)) {
                     Debug.Log ("Damage");
                     hasDealtDamage.Add (hit.transform.gameObject);
