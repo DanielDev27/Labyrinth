@@ -16,6 +16,7 @@ public class CharacterController : MonoBehaviour {
     [SerializeField] Rigidbody playerRigidbody;
     [SerializeField] Transform cameraHolder;
     [SerializeField] Animator animator;
+    [SerializeField] Canvas pauseCanvas;
 
     [Header ("Settings")]
     [SerializeField] float speedMultiplier = 5;
@@ -32,6 +33,7 @@ public class CharacterController : MonoBehaviour {
     [SerializeField] bool isRunning;
     [SerializeField] bool isDodging;
     [SerializeField] float boredCount = 0;
+    [SerializeField] bool pause = false;
 
     void Awake () {
         Instance = this;
@@ -173,6 +175,21 @@ public class CharacterController : MonoBehaviour {
         if (incomingValue.canceled) {
             isDodging = false;
             animator.SetBool ("isDodging", false);
+        }
+    }
+
+    public void OnPause (InputAction.CallbackContext incomingValue) {
+        pause = !pause;
+        if (pause) {
+            pauseCanvas.enabled = pause;
+            CursorSettings (true, CursorLockMode.Confined);
+            Time.timeScale = 0;
+        }
+
+        if (!pause) {
+            pauseCanvas.enabled = pause;
+            CursorSettings (false, CursorLockMode.Locked);
+            Time.timeScale = 1;
         }
     }
 }
