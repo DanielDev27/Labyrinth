@@ -37,6 +37,7 @@ public class CharacterController : MonoBehaviour {
     [SerializeField] float boredCount = 0;
     [SerializeField] bool pause = false;
     [SerializeField] int health;
+    public bool isAttack;
 
     void Awake () {
         Instance = this;
@@ -149,14 +150,15 @@ public class CharacterController : MonoBehaviour {
 
     public void OnAttack (InputAction.CallbackContext incomingValue) {
         if (incomingValue.performed) {
-            //Debug.Log ("Attack");
+            isAttack = true;
             boredCount = 0;
             animator.SetBool ("isAttack", true);
         }
 
         if (incomingValue.canceled) {
-            //Debug.Log ("Attack Canceled");
             animator.SetBool ("isAttack", false);
+            //new WaitForSeconds (1 * Time.deltaTime);
+            isAttack = false;
         }
     }
 

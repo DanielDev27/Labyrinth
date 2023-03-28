@@ -9,9 +9,9 @@ public class HealthSystem : MonoBehaviour {
     void Start () { instance = this; }
 
     // Update is called once per frame
-    void Update () { }
+    public int GetHealth () { return currentHealth; }
 
-    public void TakeDamage () { }
+    public void TakeDamage (int damage) { currentHealth -= damage; }
 
     public void UpdateHealth (int health) { currentHealth = health; }
 

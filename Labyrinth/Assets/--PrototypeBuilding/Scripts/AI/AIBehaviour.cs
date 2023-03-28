@@ -16,6 +16,7 @@ public class AIBehaviour : MonoBehaviour {
     [SerializeField] bool isSprinting;
     [SerializeField] bool canSeePlayer;
     [SerializeField] int health;
+    [SerializeField] CharacterController charCont;
 
     [Header ("Settings")]
     [SerializeField] NavMeshAgent agent;
@@ -34,6 +35,7 @@ public class AIBehaviour : MonoBehaviour {
     }
 
     void Update () {
+        FieldOfViewCheck ();
         if (!coroutineInProgress)
             switch (currentAiState) {
                 case AiStates.Idle:
@@ -51,8 +53,8 @@ public class AIBehaviour : MonoBehaviour {
                     break;
             }
 
-        FieldOfViewCheck ();
         OnAnimatorUpdate ();
+        health = healthSystem.GetHealth ();
         if (health <= 0) {
             healthSystem.EnemyDie ();
         }
@@ -61,9 +63,12 @@ public class AIBehaviour : MonoBehaviour {
     IEnumerator OnIdle () {
         coroutineInProgress = true;
         //Debug.Log ("Is Idle");
-        yield return new WaitForSeconds (1);
-        if (playerReference) {
+        if (playerReference != null) {
             currentAiState = AiStates.Chasing;
+            coroutineInProgress = false;
+        } else {
+            yield return new WaitForSeconds (1);
+            currentAiState = AiStates.Idle;
         }
 
         coroutineInProgress = false;
@@ -72,6 +77,20 @@ public class AIBehaviour : MonoBehaviour {
     void OnTriggerEnter (Collider other) {
         if (other.TryGetComponent (out CharacterController _characterController)) //add a target on a collider enter
         {
+            charCont = _characterController;
+            playerReference = other.gameObject;
+        }
+
+        if (other.TryGetComponent (out Weapon _weapon) && charCont.isAttack) {
+            Debug.Log ("Player is attacking");
+            healthSystem.TakeDamage (_weapon.damage);
+        }
+    }
+
+    void OnTriggerStay (Collider other) {
+        if (other.TryGetComponent (out CharacterController _characterController)) //add a target on a collider enter
+        {
+            charCont = _characterController;
             playerReference = other.gameObject;
         }
     }
@@ -80,6 +99,7 @@ public class AIBehaviour : MonoBehaviour {
         if (other.TryGetComponent (out CharacterController _characterController)) //remove a target on a collider exit
         {
             playerReference = null;
+            charCont = null;
         }
     }
 
@@ -120,7 +140,7 @@ public class AIBehaviour : MonoBehaviour {
 
     IEnumerator OnAttack () {
         //Debug.Log ("Attack");
-        transform.LookAt (playerReference.transform.position);
+        //transform.LookAt (playerReference.transform.position);
         agentAnimator.SetBool ("isAttacking", true);
         yield return new WaitForSeconds (1);
         agentAnimator.SetBool ("isAttacking", false);
