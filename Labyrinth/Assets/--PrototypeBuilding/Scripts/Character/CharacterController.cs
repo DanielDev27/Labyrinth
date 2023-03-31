@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class CharacterController : MonoBehaviour {
@@ -29,24 +31,27 @@ public class CharacterController : MonoBehaviour {
     [SerializeField] float boredTrigger = 10;
     [SerializeField] int maxHealth = 20;
     [SerializeField] Weapon weapon;
+    [SerializeField] CinemachineFreeLook cinemachineFreeLook;
 
     [Header ("Debug")]
-    [SerializeField] bool isMoving;
+    [SerializeField] bool usingGamepad;
 
+    [SerializeField] bool isMoving;
     [SerializeField] bool isRunning;
     [SerializeField] bool isDodging;
     [SerializeField] float boredCount = 0;
     [SerializeField] bool pause = false;
-    public int health;
-    public bool isAttack;
+    public int Health;
+    public bool IsAttack;
     [SerializeField] AIBehaviour ai;
     [SerializeField] Collider viewable;
     [SerializeField] Collider damageable;
+    public bool IsBlock;
 
     void Awake () {
         Instance = this;
-        health = maxHealth;
-        healthSystem.UpdateHealth (health);
+        Health = maxHealth;
+        healthSystem.UpdateHealth (Health);
     }
 
     void Start () {
@@ -54,16 +59,25 @@ public class CharacterController : MonoBehaviour {
     }
 
     void FixedUpdate () {
+        //InputDeviceCheck ();
         OnPlayerMove ();
         CursorSettings (false, CursorLockMode.Locked);
     }
 
     void LateUpdate () {
         OnPlayerLook ();
-        health = healthSystem.GetHealth ();
-        healthSystem.UpdateHealth (health);
-        if (health <= 0) {
+        Health = healthSystem.GetHealth ();
+        healthSystem.UpdateHealth (Health);
+        if (Health <= 0) {
             healthSystem.PlayerDie ();
+        }
+    }
+
+    void InputDeviceCheck () {
+        if (usingGamepad) {
+            Debug.Log ("Switched to Gamepad");
+        } else {
+            Debug.Log ("Switched to mouse/keyboard");
         }
     }
 
@@ -76,16 +90,16 @@ public class CharacterController : MonoBehaviour {
                 animator.SetInteger ("IdleAnimation", Random.Range (1, 3));
                 int boredAni = animator.GetInteger ("IdleAnimation");
                 //Debug.Log ((animator.GetCurrentAnimatorStateInfo (0).length + 0.1f));
-                if (boredAni == 1) {
-                    yield return new WaitForSeconds (3.6f);
-                }
-
-                if (boredAni == 2) {
-                    yield return new WaitForSeconds (7.5f);
-                }
-
-                if (boredAni == 3) {
-                    yield return new WaitForSeconds (8.6f);
+                switch (boredAni) {
+                    case 1:
+                        yield return new WaitForSeconds (3.6f);
+                        break;
+                    case 2:
+                        yield return new WaitForSeconds (7.5f);
+                        break;
+                    case 3:
+                        yield return new WaitForSeconds (8.6f);
+                        break;
                 }
 
                 animator.SetInteger ("IdleAnimation", 0);
@@ -136,11 +150,11 @@ public class CharacterController : MonoBehaviour {
     }
 
     void OnPlayerLook () {
-        xRotation += lookInput.y * verticalSensitivity;
+        xRotation += 0; //lookInput.y * verticalSensitivity;
         yRotation += lookInput.x * horizontalSensitivity;
         xRotation = Mathf.Clamp (xRotation, clampMinValue, clampMaxValue);
         transform.rotation = Quaternion.Euler (0, yRotation, 0);
-        cameraHolder.rotation = Quaternion.Euler (xRotation, yRotation, 0);
+        cameraHolder.rotation = Quaternion.Euler (xRotation, yRotation, 0).normalized;
     }
 
     public void OnRun (InputAction.CallbackContext incomingValue) {
@@ -151,31 +165,33 @@ public class CharacterController : MonoBehaviour {
 
 
     public void OnAttack (InputAction.CallbackContext incomingValue) {
-        if (incomingValue.performed && !isAttack) {
+        if (incomingValue.performed && !IsAttack) {
             StartCoroutine (AttackState ());
         }
     }
 
     IEnumerator AttackState () {
-        isAttack = true;
+        IsAttack = true;
         weapon.StartDamage ();
         boredCount = 0;
         animator.SetBool ("isAttack", true);
         yield return new WaitForSeconds (1);
         animator.SetBool ("isAttack", false);
         //new WaitForSeconds (1 * Time.deltaTime);
-        isAttack = false;
+        IsAttack = false;
         weapon.EndDamage ();
     }
 
     public void OnBlock (InputAction.CallbackContext incomingValue) {
         if (incomingValue.performed) {
+            IsBlock = true;
             //Debug.Log ("Block");
             boredCount = 0;
             animator.SetBool ("isBlock", true);
         }
 
         if (incomingValue.canceled) {
+            IsBlock = false;
             //Debug.Log ("Block Canceled");
             animator.SetBool ("isBlock", false);
         }

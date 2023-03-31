@@ -24,15 +24,20 @@ public class WeaponAI : MonoBehaviour {
     IEnumerator DamageFunction () {
         if (canDamage) {
             RaycastHit hit;
-            Debug.DrawRay (transform.position, -transform.up, Color.red);
+            //Debug.DrawRay (transform.position, -transform.up, Color.red);
             if (Physics.Raycast (transform.position, -transform.up, out hit, weaponLength, layerMask)) {
                 if (!hasDealtDamage.Contains (hit.transform.gameObject)) {
-                    Debug.Log ("Damage");
+                    //Debug.Log ("Damage");
                     hasDealtDamage.Add (hit.transform.gameObject);
                     yield return new WaitForSeconds (0.75f);
                     foreach (GameObject target in hasDealtDamage) {
+                        target.TryGetComponent<CharacterController> (out CharacterController _characterController);
                         target.TryGetComponent<HealthSystem> (out HealthSystem _healthSystem);
-                        _healthSystem.TakeDamage (damage);
+                        if (_characterController.IsBlock) {
+                            _healthSystem.TakeDamage (0);
+                        } else {
+                            _healthSystem.TakeDamage (damage);
+                        }
                     }
 
                     hasDealtDamage.Clear ();

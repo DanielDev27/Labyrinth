@@ -314,6 +314,17 @@
                 },
                 {
                     "name": "",
+                    "id": "d6c49770-9529-4eae-8c20-ddeaf3009643",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "cba65cd7-d235-4c6e-b305-1d93da6ada65",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
@@ -327,6 +338,17 @@
                     "name": "",
                     "id": "53a7381e-9442-47ab-bea2-43415928d603",
                     "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bbc5bb5b-dc3a-4b13-b315-3a725a6f03fd",
+                    "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -847,6 +869,54 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedDeviceOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "InputDetection",
+            "id": "5667286a-2a9c-4880-9380-744daed15ad9",
+            "actions": [
+                {
+                    "name": "Gamepad",
+                    "type": "Value",
+                    "id": "579582be-2d67-4c13-b8d2-7bd3a5b05fa2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "MnK",
+                    "type": "Value",
+                    "id": "d0134bdc-7967-4abf-99f5-3028daa21459",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f8fd7e45-2458-4a72-8d90-81d81875311f",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Gamepad",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4a366e1d-0a3b-45d2-8bd6-83a86e859db3",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MnK",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

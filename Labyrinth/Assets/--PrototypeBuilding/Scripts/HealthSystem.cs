@@ -1,12 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthSystem : MonoBehaviour {
-    public static HealthSystem instance;
+    public static HealthSystem Instance;
     [SerializeField] int currentHealth;
+    [SerializeField] int maxHealth;
     [SerializeField] bool dead;
-    void Start () { instance = this; }
+    [SerializeField] Slider healthBar;
+
+    void Start () {
+        Instance = this;
+        GetHealth ();
+        maxHealth = currentHealth;
+        healthBar.value = 100 * currentHealth / maxHealth;
+    }
+
+    void Update () {
+        GetHealth ();
+        healthBar.value = 100 * currentHealth / maxHealth;
+    }
 
     // Update is called once per frame
     public int GetHealth () { return currentHealth; }

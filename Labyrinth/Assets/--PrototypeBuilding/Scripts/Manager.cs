@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Manager : MonoBehaviour {
     [SerializeField] Camera camera1;
@@ -20,7 +21,7 @@ public class Manager : MonoBehaviour {
     }
 
     void Update () {
-        if (characterController.health <= 0) {
+        if (characterController.Health <= 0) {
             camera2.gameObject.SetActive (true);
             endFail.enabled = true;
             CursorSettings (true, CursorLockMode.Confined);

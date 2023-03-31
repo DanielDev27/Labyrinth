@@ -72,11 +72,11 @@ public class AIBehaviour : MonoBehaviour {
     IEnumerator OnIdle () {
         coroutineInProgress = true;
         //Debug.Log ("Is Idle");
+        yield return new WaitForSeconds (1);
         if (playerReference != null) {
             currentAiState = AiStates.Chasing;
             coroutineInProgress = false;
         } else {
-            yield return new WaitForSeconds (1);
             currentAiState = AiStates.Idle;
         }
 
