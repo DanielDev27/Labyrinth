@@ -303,6 +303,17 @@
                 },
                 {
                     "name": "",
+                    "id": "3f88c149-4b76-4b5d-ae18-92342ba3c909",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "dda813ef-a78d-47c4-9ff9-e68eeaa38832",
                     "path": "<Keyboard>/leftShift",
                     "interactions": "",
@@ -327,6 +338,17 @@
                     "name": "",
                     "id": "cba65cd7-d235-4c6e-b305-1d93da6ada65",
                     "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shield",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7bea2939-7a0c-46dc-8982-93d9f2ae71a6",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

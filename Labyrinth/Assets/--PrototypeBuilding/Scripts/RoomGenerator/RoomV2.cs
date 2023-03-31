@@ -4,35 +4,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RoomV2 : MonoBehaviour {
-    //public static RoomV2 InstanceRoom;
-    [SerializeField] RoomDataObject roomDataObject;
+    [Header ("Debug")]
     [SerializeField] GameObject roomGameObject;
 
-    [Header ("Debug")]
     [SerializeField] ExitDirection chosenExit;
-
-    [SerializeField] List<RoomDataObject> _combatableRooms;
-
-    void Awake () {
-        //InstanceRoom = this;
-        _combatableRooms = new List<RoomDataObject> ();
-    }
+    [SerializeField] List<RoomDataObject> combatibleRooms = new List<RoomDataObject> ();
 
     public void SetRoomDataObject (RoomDataObject roomDataObject) {
-        this.roomDataObject = roomDataObject;
-        SetRoomModel (roomDataObject);
-        for (int i = 0; i < this.roomDataObject.compatibleRooms.Length; i++) {
-            _combatableRooms.Add(this.roomDataObject.compatibleRooms[i]);
-        }
+        SetRoomModel (roomDataObject); //prefab model of the room comes from the incoming room DataObject
+        for (int i = 0; i < roomDataObject.compatibleRooms.Length; i++) {
+            combatibleRooms.Add (roomDataObject.compatibleRooms[i]);
+        } //make a list of compatible rooms from the room DataObject
     }
 
     void SetRoomModel (RoomDataObject roomObject) {
+        //set the prefab model from the room DataObject
         roomGameObject = Instantiate (roomObject.RoomModel, this.transform);
         roomGameObject.transform.localPosition = Vector3.zero;
         roomGameObject.SetActive (true);
     }
 
     public void SetExit (ExitDirection _chosenExit) {
+        //debug function to see selected exit
         chosenExit = _chosenExit;
     }
 }
