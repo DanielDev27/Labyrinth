@@ -14,8 +14,8 @@ public class Manager : MonoBehaviour {
 
     void Awake () {
         Time.timeScale = 1;
-        camera1.gameObject.SetActive (true);
-        camera2.gameObject.SetActive (false);
+        //camera1.gameObject.SetActive (true);
+        //camera2.gameObject.SetActive (false);
         endFail.enabled = false;
         endWin.enabled = false;
     }
