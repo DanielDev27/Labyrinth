@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -81,7 +79,7 @@ public class RoomGenerator : MonoBehaviour {
                 if (!spawnedCoordinates.Contains (currentCoordinate)) {
                     spawnedCoordinates.Add (currentCoordinate);
 
-                    newRoom = Instantiate (roomPrefab, newRoom.transform.position, quaternion.identity); //Next Room
+                    newRoom = Instantiate (roomPrefab, newRoom.transform.position, Quaternion.identity); //Next Room
                     newRoom.SetRoomData (currentRoom); //Spawn random doors and return next rooms
                     newRoom.transform.position = GetRoomPosition (newRoom, nextRoomDataObject.Value);
                 } else {
@@ -118,7 +116,7 @@ public class RoomGenerator : MonoBehaviour {
             // newRoom.SetRoomData (roomData, chosenDoor, moveDirection, out List<RoomDataObject> nextRooms);
             
             KeyValuePair<RoomDataObject, DoorDirection> nextRoomDataObject = nextRooms[Random.Range (0, nextRooms.Count)];
-            newRoom = Instantiate (roomPrefab, newRoom.transform.position, quaternion.identity); //Next Room
+            newRoom = Instantiate (roomPrefab, newRoom.transform.position, Quaternion.identity); //Next Room
             newRoom.SetRoomData (endRooms[(int) nextRoomDataObject.Value]); //Spawn random doors and return next rooms
             newRoom.transform.position = GetRoomPosition (newRoom, nextRoomDataObject.Value);
         }
