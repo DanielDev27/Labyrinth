@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e891e9868a8c44245ba4738f11767e6e, type: 3}
+  m_Name: TRoom_E_NW
+  m_EditorClassIdentifier: 
+  nameRoom: TRoom_E_NW
+  RoomModel: {fileID: 4946117319915753854, guid: 317d9cdbcc6b66647ad3926bff28ddce,
+    type: 3}
+  CompatibleRooms:
+  - {fileID: 11400000, guid: d66f033d4ed631f468eb91c044ccff4a, type: 2}
+  - {fileID: 11400000, guid: d54bca4a4eeee1747ae2ce195b0f3291, type: 2}
+  - {fileID: 11400000, guid: cdf19fa38a1433240a2cb7626cfc967a, type: 2}
+  - {fileID: 11400000, guid: 6021e19496aac1f4ab3956ea20ea2fb0, type: 2}
+  - {fileID: 11400000, guid: 00b949781a6424c438ab22f2969ef408, type: 2}
+  - {fileID: 11400000}
+  - {fileID: 11400000, guid: 4ac53caadbee00d43b440fa5d13a57d1, type: 2}
+  - {fileID: 11400000, guid: ea1cac0203b7ee1498774c0350037595, type: 2}
+  - {fileID: 11400000, guid: 2bb364713cac8004f8ad8eb18fab8019, type: 2}
+  - {fileID: 11400000, guid: c5719b92d14a1fa4eb77b67058e8fb8f, type: 2}
+  - {fileID: 11400000, guid: 4ac8cda0975ad394fba2f14665d740b8, type: 2}
+  - {fileID: 11400000, guid: e39d68ca043be05498f2cd447d4f6428, type: 2}
+  - {fileID: 11400000, guid: 0a94a32d40e164a4c9adfe59433f89fd, type: 2}
+  - {fileID: 11400000, guid: 66f07d5a62c40bc468529e965cb5cc7e, type: 2}
+  DoorN: 0
+  DoorE: 1
+  DoorS: 0
+  DoorW: 0
+  ExitN: 1
+  ExitE: 0
+  ExitS: 0
+  ExitW: 1

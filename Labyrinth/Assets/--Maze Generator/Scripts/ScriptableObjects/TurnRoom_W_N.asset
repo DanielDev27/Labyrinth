@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e891e9868a8c44245ba4738f11767e6e, type: 3}
+  m_Name: TurnRoom_W_N
+  m_EditorClassIdentifier: 
+  nameRoom: TurnRoom_W_N
+  RoomModel: {fileID: 3041596141563392929, guid: 65dca8c2947d4c845b2e6c6898eb82ed,
+    type: 3}
+  CompatibleRooms:
+  - {fileID: 11400000, guid: 66f07d5a62c40bc468529e965cb5cc7e, type: 2}
+  - {fileID: 11400000, guid: 0a94a32d40e164a4c9adfe59433f89fd, type: 2}
+  - {fileID: 11400000, guid: c5719b92d14a1fa4eb77b67058e8fb8f, type: 2}
+  - {fileID: 11400000, guid: 2bb364713cac8004f8ad8eb18fab8019, type: 2}
+  - {fileID: 11400000, guid: ea1cac0203b7ee1498774c0350037595, type: 2}
+  - {fileID: 11400000, guid: 6021e19496aac1f4ab3956ea20ea2fb0, type: 2}
+  - {fileID: 11400000, guid: d54bca4a4eeee1747ae2ce195b0f3291, type: 2}
+  DoorN: 0
+  DoorE: 0
+  DoorS: 0
+  DoorW: 1
+  ExitN: 1
+  ExitE: 0
+  ExitS: 0
+  ExitW: 0
