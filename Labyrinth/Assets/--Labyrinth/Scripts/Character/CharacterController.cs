@@ -1,13 +1,11 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class CharacterController : MonoBehaviour {
+public class CharacterController : MonoBehaviour
+{
     public static CharacterController Instance;
     Vector2 moveInput;
     Vector3 moveDirection;
@@ -20,9 +18,10 @@ public class CharacterController : MonoBehaviour {
     [SerializeField] Canvas pauseCanvas;
     [SerializeField] HealthSystem healthSystem;
 
-    [Header ("Settings")]
-    [SerializeField] float speedMultiplier = 5;
-
+    [Header("Settings")]
+    [SerializeField] float speedMultiplier;
+    [SerializeField] private float runSpeed;
+    [SerializeField] private float walkSpeed;
     [SerializeField] float horizontalSensitivity = 1;
     [SerializeField] float verticalSensitivity = -1;
     [SerializeField] float clampMinValue = -90;
@@ -32,7 +31,7 @@ public class CharacterController : MonoBehaviour {
     [SerializeField] Weapon weapon;
     [SerializeField] CinemachineFreeLook cinemachineFreeLook;
 
-    [Header ("Debug")]
+    [Header("Debug")]
     [SerializeField] bool usingGamepad;
 
     [SerializeField] bool isMoving;
@@ -47,195 +46,247 @@ public class CharacterController : MonoBehaviour {
     [SerializeField] Collider damageable;
     public bool IsBlock;
 
-    void Awake () {
+    void Awake()
+    {
         Instance = this;
         Health = maxHealth;
-        healthSystem.UpdateHealth (Health);
+        healthSystem.UpdateHealth(Health);
     }
 
-    void Start () {
-        StartCoroutine (IdleBored ());
+    void Start()
+    {
+        StartCoroutine(IdleBored());
     }
 
-    void FixedUpdate () {
+    void FixedUpdate()
+    {
         //InputDeviceCheck ();
-        OnPlayerMove ();
-        CursorSettings (false, CursorLockMode.Locked);
+        OnPlayerMove();
+        OnPlayerLook();
+        CursorSettings(false, CursorLockMode.Locked);
     }
 
-    void LateUpdate () {
-        OnPlayerLook ();
-        Health = healthSystem.GetHealth ();
-        healthSystem.UpdateHealth (Health);
-        if (Health <= 0) {
-            healthSystem.PlayerDie ();
+    void LateUpdate()
+    {
+        Health = healthSystem.GetHealth();
+        healthSystem.UpdateHealth(Health);
+        if (Health <= 0)
+        {
+            healthSystem.PlayerDie();
         }
     }
 
-    void InputDeviceCheck () {
-        if (usingGamepad) {
-            Debug.Log ("Switched to Gamepad");
-        } else {
-            Debug.Log ("Switched to mouse/keyboard");
+    void InputDeviceCheck()
+    {
+        if (usingGamepad)
+        {
+            Debug.Log("Switched to Gamepad");
+        }
+        else
+        {
+            Debug.Log("Switched to mouse/keyboard");
         }
     }
 
-    IEnumerator IdleBored () {
-        if (isMoving) {
-            animator.SetInteger ("IdleAnimation", 0);
+    IEnumerator IdleBored()
+    {
+        if (isMoving)
+        {
+            animator.SetInteger("IdleAnimation", 0);
             boredCount = 0;
-        } else {
-            if (boredCount >= boredTrigger) {
-                animator.SetInteger ("IdleAnimation", Random.Range (1, 3));
-                int boredAni = animator.GetInteger ("IdleAnimation");
+        }
+        else
+        {
+            if (boredCount >= boredTrigger)
+            {
+                animator.SetInteger("IdleAnimation", Random.Range(1, 3));
+                int boredAni = animator.GetInteger("IdleAnimation");
                 //Debug.Log ((animator.GetCurrentAnimatorStateInfo (0).length + 0.1f));
-                switch (boredAni) {
+                switch (boredAni)
+                {
                     case 1:
-                        yield return new WaitForSeconds (3.6f);
+                        yield return new WaitForSeconds(3.6f);
                         break;
                     case 2:
-                        yield return new WaitForSeconds (7.5f);
+                        yield return new WaitForSeconds(7.5f);
                         break;
                     case 3:
-                        yield return new WaitForSeconds (8.6f);
+                        yield return new WaitForSeconds(8.6f);
                         break;
                 }
 
-                animator.SetInteger ("IdleAnimation", 0);
+                animator.SetInteger("IdleAnimation", 0);
                 boredCount = 0;
             }
 
-            if (boredCount < boredTrigger && animator.GetInteger ("IdleAnimation") == 0) {
-                yield return new WaitForSeconds (1);
+            if (boredCount < boredTrigger && animator.GetInteger("IdleAnimation") == 0)
+            {
+                yield return new WaitForSeconds(1);
                 boredCount += 1;
 
-                StartCoroutine (IdleBored ());
+                StartCoroutine(IdleBored());
             }
         }
     }
 
-    public void OnMoveInput (InputAction.CallbackContext incomingValue) {
-        moveInput = incomingValue.ReadValue<Vector2> ();
-        if (incomingValue.performed) {
+    public void OnMoveInput(InputAction.CallbackContext incomingValue)
+    {
+        moveInput = incomingValue.ReadValue<Vector2>();
+        if (incomingValue.performed)
+        {
             isMoving = true;
-            animator.SetBool ("isMoving", true);
-            StartCoroutine (IdleBored ());
-        } else if (incomingValue.canceled) {
+            animator.SetBool("isMoving", true);
+            StartCoroutine(IdleBored());
+        }
+        else if (incomingValue.canceled)
+        {
             isMoving = false;
-            animator.SetBool ("isMoving", false);
-            StartCoroutine (IdleBored ());
+            animator.SetBool("isMoving", false);
+            StartCoroutine(IdleBored());
         }
     }
 
-    void OnPlayerMove () {
+    void OnPlayerMove()
+    {
         moveDirection = moveInput.x * transform.right + moveInput.y * transform.forward;
-        Vector3 moveCombined = new Vector3 (moveInput.x, 0, moveInput.y);
-        if (moveCombined != Vector3.zero) {
+        Vector3 moveCombined = new Vector3(moveInput.x, 0, moveInput.y);
+        if (moveCombined != Vector3.zero)
+        {
             boredCount = 0;
+            playerRigidbody.velocity = new Vector3(moveDirection.x * speedMultiplier, 0, moveDirection.z * speedMultiplier);
+            if (isRunning)
+            {
+                speedMultiplier = runSpeed;
+                animator.SetFloat("forward", moveCombined.z * 2, 0.2f, Time.deltaTime);
+                animator.SetFloat("right", moveCombined.x * 2, 0.2f, Time.deltaTime);
+            }
+            else
+            {
+                speedMultiplier = walkSpeed;
+                animator.SetFloat("forward", moveCombined.z, 0.2f, Time.deltaTime);
+                animator.SetFloat("right", moveCombined.x, 0.2f, Time.deltaTime);
+            }
+        }
+        else
+        {
+            playerRigidbody.velocity = Vector3.zero;
         }
 
-        if (isRunning) {
-            animator.SetFloat ("forward", moveCombined.z * 2, 0.2f, Time.deltaTime);
-            animator.SetFloat ("right", moveCombined.x * 2, 0.2f, Time.deltaTime);
-        } else {
-            animator.SetFloat ("forward", moveCombined.z, 0.2f, Time.deltaTime);
-            animator.SetFloat ("right", moveCombined.x, 0.2f, Time.deltaTime);
-        }
     }
 
-    public void OnLookInput (InputAction.CallbackContext incomingValue) {
-        lookInput = incomingValue.ReadValue<Vector2> ().normalized;
+    public void OnLookInput(InputAction.CallbackContext incomingValue)
+    {
+        lookInput = incomingValue.ReadValue<Vector2>().normalized;
         boredCount = 0;
     }
 
-    void OnPlayerLook () {
-        xRotation += 0; //lookInput.y * verticalSensitivity;
+    void OnPlayerLook()
+    {
+        //xRotation += 0; //lookInput.y * verticalSensitivity;
         yRotation += lookInput.x * horizontalSensitivity;
-        xRotation = Mathf.Clamp (xRotation, clampMinValue, clampMaxValue);
-        transform.rotation = Quaternion.Euler (0, yRotation, 0);
-        cameraHolder.rotation = Quaternion.Euler (xRotation, yRotation, 0).normalized;
+        //xRotation = Mathf.Clamp(xRotation, clampMinValue, clampMaxValue);
+        this.transform.rotation = Quaternion.Euler(0, yRotation, 0).normalized;
+        //cameraHolder.rotation = Quaternion.Euler(xRotation, yRotation, 0).normalized;
     }
 
-    public void OnRun (InputAction.CallbackContext incomingValue) {
-        if (incomingValue.performed) {
+    public void OnRun(InputAction.CallbackContext incomingValue)
+    {
+        if (incomingValue.performed)
+        {
             isRunning = true;
-        } else if (incomingValue.canceled) { isRunning = false; }
+        }
+        else if (incomingValue.canceled) { isRunning = false; }
     }
 
-
-    public void OnAttack (InputAction.CallbackContext incomingValue) {
-        if (incomingValue.performed && !IsAttack) {
-            StartCoroutine (AttackState ());
+    public void OnAttack(InputAction.CallbackContext incomingValue)
+    {
+        if (incomingValue.performed && !IsAttack)
+        {
+            StartCoroutine(AttackState());
         }
     }
 
-    IEnumerator AttackState () {
+    IEnumerator AttackState()
+    {
         IsAttack = true;
-        weapon.StartDamage ();
+        weapon.StartDamage();
         boredCount = 0;
-        animator.SetBool ("isAttack", true);
-        yield return new WaitForSeconds (1);
-        animator.SetBool ("isAttack", false);
+        animator.SetBool("isAttack", true);
+        yield return new WaitForSeconds(1);
+        animator.SetBool("isAttack", false);
         //new WaitForSeconds (1 * Time.deltaTime);
         IsAttack = false;
-        weapon.EndDamage ();
+        weapon.EndDamage();
     }
 
-    public void OnBlock (InputAction.CallbackContext incomingValue) {
-        if (incomingValue.performed) {
+    public void OnBlock(InputAction.CallbackContext incomingValue)
+    {
+        if (incomingValue.performed)
+        {
             IsBlock = true;
             //Debug.Log ("Block");
             boredCount = 0;
-            animator.SetBool ("isBlock", true);
+            animator.SetBool("isBlock", true);
         }
 
-        if (incomingValue.canceled) {
+        if (incomingValue.canceled)
+        {
             IsBlock = false;
             //Debug.Log ("Block Canceled");
-            animator.SetBool ("isBlock", false);
+            animator.SetBool("isBlock", false);
         }
     }
 
-    public void OnDodge (InputAction.CallbackContext incomingValue) {
-        if (incomingValue.performed) {
+    public void OnDodge(InputAction.CallbackContext incomingValue)
+    {
+        if (incomingValue.performed)
+        {
             isDodging = true;
             boredCount = 0;
-            animator.SetBool ("isDodging", true);
+            animator.SetBool("isDodging", true);
         }
 
-        if (incomingValue.canceled) {
+        if (incomingValue.canceled)
+        {
             isDodging = false;
-            animator.SetBool ("isDodging", false);
+            animator.SetBool("isDodging", false);
         }
     }
 
-    public void OnPause (InputAction.CallbackContext incomingValue) {
+    public void OnPause(InputAction.CallbackContext incomingValue)
+    {
         pause = !pause;
-        if (pause) {
+        if (pause)
+        {
             pauseCanvas.enabled = pause;
-            CursorSettings (true, CursorLockMode.Confined);
+            CursorSettings(true, CursorLockMode.Confined);
             Time.timeScale = 0;
         }
 
-        if (!pause) {
+        if (!pause)
+        {
             pauseCanvas.enabled = pause;
-            CursorSettings (false, CursorLockMode.Locked);
+            CursorSettings(false, CursorLockMode.Locked);
             Time.timeScale = 1;
         }
     }
 
-    void OnTriggerStay (Collider viewable) {
-        viewable.TryGetComponent (out AIBehaviour _aiBehaviour);
+    void OnTriggerStay(Collider viewable)
+    {
+        viewable.TryGetComponent(out AIBehaviour _aiBehaviour);
         ai = _aiBehaviour;
     }
 
-    void OnTriggerEnter (Collider damageable) {
-        if (damageable.TryGetComponent (out WeaponAI _weaponAI) && ai.isAttacking) {
-            healthSystem.TakeDamage (5);
+    void OnTriggerEnter(Collider damageable)
+    {
+        if (damageable.TryGetComponent(out WeaponAI _weaponAI) && ai.isAttacking)
+        {
+            healthSystem.TakeDamage(5);
         }
     }
 
-    void CursorSettings (bool cursorVisibility, CursorLockMode cursorLockMode) {
+    void CursorSettings(bool cursorVisibility, CursorLockMode cursorLockMode)
+    {
         Cursor.visible = cursorVisibility;
         Cursor.lockState = cursorLockMode;
     }
