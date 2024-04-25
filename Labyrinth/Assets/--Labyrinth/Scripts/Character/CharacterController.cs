@@ -10,22 +10,21 @@ public class CharacterController : MonoBehaviour
     Vector2 moveInput;
     Vector3 moveDirection;
     Vector2 lookInput;
-    float xRotation;
     float yRotation;
     [SerializeField] Rigidbody playerRigidbody;
     [SerializeField] Transform cameraHolder;
     [SerializeField] Animator animator;
     [SerializeField] Canvas pauseCanvas;
     [SerializeField] HealthSystem healthSystem;
+    [SerializeField] PlayerInput playerInput;
 
     [Header("Settings")]
     [SerializeField] float speedMultiplier;
     [SerializeField] private float runSpeed;
     [SerializeField] private float walkSpeed;
-    [SerializeField] float horizontalSensitivity = 1;
-    [SerializeField] float verticalSensitivity = -1;
-    [SerializeField] float clampMinValue = -90;
-    [SerializeField] float clampMaxValue = 90;
+    [SerializeField] float horizontalSensitivity;
+    [SerializeField] float mouseSensitivity;
+    [SerializeField] float controllerSensitivity;
     [SerializeField] float boredTrigger = 10;
     [SerializeField] int maxHealth = 20;
     [SerializeField] Weapon weapon;
@@ -33,7 +32,6 @@ public class CharacterController : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] bool usingGamepad;
-
     [SerializeField] bool isMoving;
     [SerializeField] bool isRunning;
     [SerializeField] bool isDodging;
@@ -60,7 +58,7 @@ public class CharacterController : MonoBehaviour
 
     void FixedUpdate()
     {
-        //InputDeviceCheck ();
+        InputDeviceCheck();
         OnPlayerMove();
         OnPlayerLook();
         CursorSettings(false, CursorLockMode.Locked);
@@ -78,14 +76,7 @@ public class CharacterController : MonoBehaviour
 
     void InputDeviceCheck()
     {
-        if (usingGamepad)
-        {
-            Debug.Log("Switched to Gamepad");
-        }
-        else
-        {
-            Debug.Log("Switched to mouse/keyboard");
-        }
+        usingGamepad = playerInput.currentControlScheme == "Gamepad";
     }
 
     IEnumerator IdleBored()
@@ -182,11 +173,16 @@ public class CharacterController : MonoBehaviour
 
     void OnPlayerLook()
     {
-        //xRotation += 0; //lookInput.y * verticalSensitivity;
+        if (usingGamepad)
+        {
+            horizontalSensitivity = controllerSensitivity;
+        }
+        else
+        {
+            horizontalSensitivity = mouseSensitivity;
+        }
         yRotation += lookInput.x * horizontalSensitivity;
-        //xRotation = Mathf.Clamp(xRotation, clampMinValue, clampMaxValue);
         this.transform.rotation = Quaternion.Euler(0, yRotation, 0).normalized;
-        //cameraHolder.rotation = Quaternion.Euler(xRotation, yRotation, 0).normalized;
     }
 
     public void OnRun(InputAction.CallbackContext incomingValue)

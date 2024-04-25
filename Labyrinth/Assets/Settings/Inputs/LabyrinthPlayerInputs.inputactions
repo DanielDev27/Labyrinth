@@ -16,7 +16,7 @@
                 },
                 {
                     "name": "Look",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "f709902f-4a71-4e9a-86a8-9ac4d08c5f35",
                     "expectedControlType": "Vector2",
                     "processors": "",
@@ -902,7 +902,7 @@
             "actions": [
                 {
                     "name": "Gamepad",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "579582be-2d67-4c13-b8d2-7bd3a5b05fa2",
                     "expectedControlType": "",
                     "processors": "",
