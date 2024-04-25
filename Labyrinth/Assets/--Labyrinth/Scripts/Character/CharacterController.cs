@@ -11,12 +11,18 @@ public class CharacterController : MonoBehaviour
     Vector3 moveDirection;
     Vector2 lookInput;
     float yRotation;
+    [Header("References")]
     [SerializeField] Rigidbody playerRigidbody;
     [SerializeField] Transform cameraHolder;
     [SerializeField] Animator animator;
     [SerializeField] Canvas pauseCanvas;
     [SerializeField] HealthSystem healthSystem;
+    [SerializeField] Weapon weapon;
+    [SerializeField] CinemachineFreeLook cinemachineFreeLook;
     [SerializeField] PlayerInput playerInput;
+    [SerializeField] AIBehaviour ai;
+    [SerializeField] Collider viewable;
+    [SerializeField] Collider damageable;
 
     [Header("Settings")]
     [SerializeField] float speedMultiplier;
@@ -27,8 +33,6 @@ public class CharacterController : MonoBehaviour
     [SerializeField] float controllerSensitivity;
     [SerializeField] float boredTrigger = 10;
     [SerializeField] int maxHealth = 20;
-    [SerializeField] Weapon weapon;
-    [SerializeField] CinemachineFreeLook cinemachineFreeLook;
 
     [Header("Debug")]
     [SerializeField] bool usingGamepad;
@@ -39,9 +43,6 @@ public class CharacterController : MonoBehaviour
     [SerializeField] bool pause = false;
     public int Health;
     public bool IsAttack;
-    [SerializeField] AIBehaviour ai;
-    [SerializeField] Collider viewable;
-    [SerializeField] Collider damageable;
     public bool IsBlock;
 
     void Awake()
