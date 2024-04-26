@@ -40,7 +40,6 @@ public class CharacterController : MonoBehaviour
     [SerializeField] bool isRunning;
     [SerializeField] bool isDodging;
     [SerializeField] float boredCount = 0;
-    [SerializeField] bool pause = false;
     public int Health;
     public bool IsAttack;
     public bool IsBlock;
@@ -247,24 +246,6 @@ public class CharacterController : MonoBehaviour
         {
             isDodging = false;
             animator.SetBool("isDodging", false);
-        }
-    }
-
-    public void OnPause(InputAction.CallbackContext incomingValue)
-    {
-        pause = !pause;
-        if (pause)
-        {
-            pauseCanvas.enabled = pause;
-            CursorSettings(true, CursorLockMode.Confined);
-            Time.timeScale = 0;
-        }
-
-        if (!pause)
-        {
-            pauseCanvas.enabled = pause;
-            CursorSettings(false, CursorLockMode.Locked);
-            Time.timeScale = 1;
         }
     }
 

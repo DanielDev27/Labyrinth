@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Manager : MonoBehaviour {
     [SerializeField] Camera camera1;
@@ -14,8 +10,6 @@ public class Manager : MonoBehaviour {
 
     void Awake () {
         Time.timeScale = 1;
-        //camera1.gameObject.SetActive (true);
-        //camera2.gameObject.SetActive (false);
         endFail.enabled = false;
         endWin.enabled = false;
     }

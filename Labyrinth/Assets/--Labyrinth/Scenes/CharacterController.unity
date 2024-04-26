@@ -7324,8 +7324,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7d6f3ea4f6d0f34d9e0ab902e5af1c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseMenu: {fileID: 263735074}
-  controlsMenu: {fileID: 199889539}
+  playerInput: {fileID: 1287851913}
+  pauseCanvas: {fileID: 263735074}
+  controlsCanvas: {fileID: 199889539}
+  pause: 0
+  pauseMenuFirst: {fileID: 1559178098}
+  controlsMenuFirst: {fileID: 1328065998}
 --- !u!114 &374624498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13793,7 +13797,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.5137255, g: 0.6627451, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -23033,10 +23037,10 @@ GameObject:
   - component: {fileID: 1287851914}
   - component: {fileID: 1287851916}
   - component: {fileID: 1287851918}
+  - component: {fileID: 1287851919}
   - component: {fileID: 1287851913}
   - component: {fileID: 1287851912}
   - component: {fileID: 1287851917}
-  - component: {fileID: 1287851919}
   m_Layer: 7
   m_Name: --Controller
   m_TagString: Player
@@ -23080,7 +23084,12 @@ MonoBehaviour:
   animator: {fileID: 1287851919}
   pauseCanvas: {fileID: 263735074}
   healthSystem: {fileID: 1287851917}
+  weapon: {fileID: 1593683859}
+  cinemachineFreeLook: {fileID: 2134985108}
   playerInput: {fileID: 1287851913}
+  ai: {fileID: 0}
+  viewable: {fileID: 0}
+  damageable: {fileID: 1287851918}
   speedMultiplier: 0
   runSpeed: 5
   walkSpeed: 2.5
@@ -23089,19 +23098,13 @@ MonoBehaviour:
   controllerSensitivity: 2
   boredTrigger: 10
   maxHealth: 50
-  weapon: {fileID: 1593683859}
-  cinemachineFreeLook: {fileID: 2134985108}
   usingGamepad: 0
   isMoving: 0
   isRunning: 0
   isDodging: 0
   boredCount: 0
-  pause: 0
   Health: 0
   IsAttack: 0
-  ai: {fileID: 0}
-  viewable: {fileID: 0}
-  damageable: {fileID: 1287851918}
   IsBlock: 0
 --- !u!114 &1287851913
 MonoBehaviour:
@@ -23267,8 +23270,8 @@ MonoBehaviour:
     m_ActionName: Player/Shield[/Mouse/rightButton]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1287851912}
-        m_TargetAssemblyTypeName: CharacterController, Assembly-CSharp
+      - m_Target: {fileID: 374624497}
+        m_TargetAssemblyTypeName: PauseScript, Assembly-CSharp
         m_MethodName: OnPause
         m_Mode: 0
         m_Arguments:
@@ -24391,7 +24394,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.5137255, g: 0.6627451, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -25827,7 +25830,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.5137255, g: 0.6627451, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -28147,7 +28150,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.514151, g: 0.6608584, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
