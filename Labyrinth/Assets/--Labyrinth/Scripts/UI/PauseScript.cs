@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 public class PauseScript : MonoBehaviour
@@ -9,6 +8,7 @@ public class PauseScript : MonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField] Canvas pauseCanvas;
     [SerializeField] Canvas controlsCanvas;
+    [SerializeField] CanvasGroup loadingGroup;
     [SerializeField] bool pause = false;
     [Header("First Selections")]
     [SerializeField] GameObject pauseMenuFirst;
@@ -41,10 +41,6 @@ public class PauseScript : MonoBehaviour
         }
     }
 
-    public void GoToMain()
-    {
-        SceneManager.LoadScene(0);
-    }
 
     public void GoToControls()
     {
@@ -59,10 +55,17 @@ public class PauseScript : MonoBehaviour
         controlsCanvas.enabled = false;
         EventSystem.current.SetSelectedGameObject(pauseMenuFirst);
     }
+    public void GoToMain()
+    {
+        Debug.Log("Return to main menu");
+        pauseCanvas.enabled = false;
+        loadingGroup.alpha = 1.0f;
+        SceneLoaderManager.Instance.LoadScene(0);
+    }
 
     public void Reload()
     {
-        SceneManager.LoadScene(1);
+        SceneLoaderManager.Instance.LoadScene(1);
     }
 
     public void Quit()

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 public class UIScript : MonoBehaviour
@@ -9,10 +8,12 @@ public class UIScript : MonoBehaviour
     [SerializeField] Canvas mainMenuCanvas;
     [SerializeField] Canvas controlsCanvas;
     [SerializeField] Canvas creditsCanvas;
+    [SerializeField] CanvasGroup loadingScreenGroup;
     [Header("First Selections")]
     [SerializeField] GameObject mainMenuFirst;
     [SerializeField] GameObject controlsMenuFirst;
     [SerializeField] GameObject creditsMenuFirst;
+
     void Start()
     {
         mainMenuCanvas.enabled = true;
@@ -24,8 +25,10 @@ public class UIScript : MonoBehaviour
 
     public void GoToLevel()
     {
-        SceneManager.LoadScene(1);
+        mainMenuCanvas.enabled = false;
+        loadingScreenGroup.alpha = 1;
         Time.timeScale = 1;
+        SceneLoaderManager.Instance.LoadScene(1);
         EventSystem.current.SetSelectedGameObject(null);
     }
 
