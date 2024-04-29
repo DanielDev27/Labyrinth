@@ -53,7 +53,7 @@ public class CharacterController : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(IdleBored());
+        StartCoroutine(IdleBored());//Trigger the Idle counter in order to add bored animations if the player leaves the character inactive
     }
 
     void Update()
@@ -82,7 +82,7 @@ public class CharacterController : MonoBehaviour
         usingGamepad = playerInput.currentControlScheme == "Gamepad";
     }
 
-    IEnumerator IdleBored()
+    IEnumerator IdleBored()//Behaviour for bored animations if the player leaves the character inactive
     {
         if (isMoving)
         {
@@ -140,7 +140,7 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    void OnPlayerMove()
+    void OnPlayerMove()//behaviour for player movement
     {
         moveDirection = moveInput.x * transform.right + moveInput.y * transform.forward;
         Vector3 moveCombined = new Vector3(moveInput.x, 0, moveInput.y);
@@ -176,7 +176,7 @@ public class CharacterController : MonoBehaviour
         boredCount = 0;
     }
 
-    void OnPlayerLook()
+    void OnPlayerLook()//Behaviour for player looking
     {
         if (usingGamepad)
         {
