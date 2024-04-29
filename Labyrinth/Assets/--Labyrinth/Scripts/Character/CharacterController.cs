@@ -56,10 +56,13 @@ public class CharacterController : MonoBehaviour
         StartCoroutine(IdleBored());
     }
 
+    void Update()
+    {
+        OnPlayerMove();
+    }
     void FixedUpdate()
     {
         InputDeviceCheck();
-        OnPlayerMove();
         OnPlayerLook();
         CursorSettings(false, CursorLockMode.Locked);
     }
@@ -161,6 +164,8 @@ public class CharacterController : MonoBehaviour
         else
         {
             playerRigidbody.velocity = Vector3.zero;
+            animator.SetFloat("forward", 0);
+            animator.SetFloat("right", 0);
         }
 
     }
@@ -201,7 +206,7 @@ public class CharacterController : MonoBehaviour
             StartCoroutine(AttackState());
         }
     }
-
+    //Update to use Animation Event
     IEnumerator AttackState()
     {
         IsAttack = true;
