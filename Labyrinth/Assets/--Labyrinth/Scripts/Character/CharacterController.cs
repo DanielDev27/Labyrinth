@@ -144,7 +144,7 @@ public class CharacterController : MonoBehaviour
     {
         moveDirection = moveInput.x * transform.right + moveInput.y * transform.forward;
         Vector3 moveCombined = new Vector3(moveInput.x, 0, moveInput.y);
-        if (moveCombined != Vector3.zero)
+        if (moveCombined != Vector3.zero && !IsBlock && !IsAttack)
         {
             boredCount = 0;
             playerRigidbody.velocity = new Vector3(moveDirection.x * speedMultiplier, 0, moveDirection.z * speedMultiplier);
