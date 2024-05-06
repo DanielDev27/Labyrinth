@@ -13714,8 +13714,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1835039831}
-        m_TargetAssemblyTypeName: PauseScript, Assembly-CSharp
+      - m_Target: {fileID: 1835039830}
+        m_TargetAssemblyTypeName: Manager, Assembly-CSharp
         m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
@@ -16251,8 +16251,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1835039831}
-        m_TargetAssemblyTypeName: PauseScript, Assembly-CSharp
+      - m_Target: {fileID: 1835039830}
+        m_TargetAssemblyTypeName: Manager, Assembly-CSharp
         m_MethodName: Reload
         m_Mode: 1
         m_Arguments:
@@ -19956,8 +19956,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1835039831}
-        m_TargetAssemblyTypeName: PauseScript, Assembly-CSharp
+      - m_Target: {fileID: 1835039830}
+        m_TargetAssemblyTypeName: Manager, Assembly-CSharp
         m_MethodName: Reload
         m_Mode: 1
         m_Arguments:
@@ -21473,8 +21473,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1835039831}
-        m_TargetAssemblyTypeName: PauseScript, Assembly-CSharp
+      - m_Target: {fileID: 1835039830}
+        m_TargetAssemblyTypeName: Manager, Assembly-CSharp
         m_MethodName: GoToMain
         m_Mode: 1
         m_Arguments:
@@ -28073,8 +28073,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1835039831}
-        m_TargetAssemblyTypeName: PauseScript, Assembly-CSharp
+      - m_Target: {fileID: 1835039830}
+        m_TargetAssemblyTypeName: Manager, Assembly-CSharp
         m_MethodName: GoToMain
         m_Mode: 1
         m_Arguments:
@@ -31606,6 +31606,9 @@ MonoBehaviour:
   endFail: {fileID: 707426067}
   endWin: {fileID: 788789345}
   aiParent: {fileID: 794026104}
+  pauseCanvas: {fileID: 263735074}
+  controlsCanvas: {fileID: 199889539}
+  loadingGroup: {fileID: 8142858752224332257}
   winFirst: {fileID: 893204443}
   lossFirst: {fileID: 1090058429}
 --- !u!114 &1835039831
@@ -32716,8 +32719,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1835039831}
-        m_TargetAssemblyTypeName: PauseScript, Assembly-CSharp
+      - m_Target: {fileID: 1835039830}
+        m_TargetAssemblyTypeName: Manager, Assembly-CSharp
         m_MethodName: GoToMain
         m_Mode: 1
         m_Arguments:

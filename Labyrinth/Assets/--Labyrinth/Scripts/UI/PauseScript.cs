@@ -9,7 +9,7 @@ public class PauseScript : MonoBehaviour
     [SerializeField] Canvas pauseCanvas;
     [SerializeField] Canvas controlsCanvas;
     [SerializeField] CanvasGroup loadingGroup;
-    [SerializeField] bool pause = false;
+    [SerializeField] bool pause;
     [Header("First Selections")]
     [SerializeField] GameObject pauseMenuFirst;
     [SerializeField] GameObject controlsMenuFirst;
@@ -40,8 +40,6 @@ public class PauseScript : MonoBehaviour
             Time.timeScale = 1;
         }
     }
-
-
     public void GoToControls()
     {
         controlsCanvas.enabled = true;
@@ -54,23 +52,6 @@ public class PauseScript : MonoBehaviour
         pauseCanvas.enabled = true;
         controlsCanvas.enabled = false;
         EventSystem.current.SetSelectedGameObject(pauseMenuFirst);
-    }
-    public void GoToMain()
-    {
-        Debug.Log("Return to main menu");
-        pauseCanvas.enabled = false;
-        loadingGroup.alpha = 1.0f;
-        SceneLoaderManager.Instance.LoadScene(0);
-    }
-
-    public void Reload()
-    {
-        SceneLoaderManager.Instance.LoadScene(1);
-    }
-
-    public void Quit()
-    {
-        Application.Quit();
     }
 
     private void CursorSettings(bool cursorVisibility, CursorLockMode cursorLockState)

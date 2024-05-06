@@ -8,6 +8,9 @@ public class Manager : MonoBehaviour
     [SerializeField] Canvas endFail;
     [SerializeField] Canvas endWin;
     [SerializeField] GameObject aiParent;
+    [SerializeField] Canvas pauseCanvas;
+    [SerializeField] Canvas controlsCanvas;
+    [SerializeField] CanvasGroup loadingGroup;
     [Header("First Selections")]
     [SerializeField] GameObject winFirst;
     [SerializeField] GameObject lossFirst;
@@ -27,7 +30,8 @@ public class Manager : MonoBehaviour
             endFail.enabled = true;
             EventSystem.current.SetSelectedGameObject(lossFirst);
             CursorSettings(true, CursorLockMode.Confined);
-            Time.timeScale = 0;
+            characterController.enabled = false;
+            aiParent.active = false;
         }
 
         if (aiParent.gameObject.GetComponentsInChildren<AIBehaviour>().Length <= 0)
@@ -35,8 +39,29 @@ public class Manager : MonoBehaviour
             endWin.enabled = true;
             EventSystem.current.SetSelectedGameObject(winFirst);
             CursorSettings(true, CursorLockMode.Confined);
-            Time.timeScale = 0;
+            characterController.enabled = false;
+            aiParent.active = false;
         }
+    }
+
+    public void GoToMain()
+    {
+        Debug.Log("Return to main menu");
+        pauseCanvas.enabled = false;
+        loadingGroup.alpha = 1.0f;
+        Time.timeScale = 1;
+        SceneLoaderManager.Instance.LoadScene(0);
+    }
+
+    public void Reload()
+    {
+        Time.timeScale = 1;
+        SceneLoaderManager.Instance.LoadScene(1);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 
     void CursorSettings(bool cursorVisibility, CursorLockMode cursorLockMode)
