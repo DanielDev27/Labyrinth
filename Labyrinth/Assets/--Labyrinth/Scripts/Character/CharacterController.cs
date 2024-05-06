@@ -206,18 +206,14 @@ public class CharacterController : MonoBehaviour
             StartCoroutine(AttackState());
         }
     }
-    //Update to use Animation Event
     IEnumerator AttackState()
     {
         IsAttack = true;
-        weapon.StartDamage();
         boredCount = 0;
         animator.SetBool("isAttack", true);
         yield return new WaitForSeconds(1);
         animator.SetBool("isAttack", false);
-        //new WaitForSeconds (1 * Time.deltaTime);
         IsAttack = false;
-        weapon.EndDamage();
     }
 
     public void OnBlock(InputAction.CallbackContext incomingValue)
@@ -258,14 +254,6 @@ public class CharacterController : MonoBehaviour
     {
         viewable.TryGetComponent(out AIBehaviour _aiBehaviour);
         ai = _aiBehaviour;
-    }
-
-    void OnTriggerEnter(Collider damageable)
-    {
-        if (damageable.TryGetComponent(out WeaponAI _weaponAI) && ai.isAttacking)
-        {
-            healthSystem.TakeDamage(5);
-        }
     }
 
     void CursorSettings(bool cursorVisibility, CursorLockMode cursorLockMode)

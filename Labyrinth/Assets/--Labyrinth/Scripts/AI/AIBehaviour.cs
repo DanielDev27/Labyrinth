@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,7 +7,7 @@ public class AIBehaviour : MonoBehaviour
     public static AIBehaviour _instance;
     [Header("References")]
     [SerializeField] HealthSystem healthSystem;
-    [SerializeField] WeaponAI weapon;
+    [SerializeField] Weapon weapon;
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Collider searchZone;
     [SerializeField] Transform eyeLine;
@@ -136,14 +134,12 @@ public class AIBehaviour : MonoBehaviour
     IEnumerator OnAttack()
     {
         isAttacking = true;
-        weapon.canDamage = true;
         //Debug.Log ("Attack");
         transform.LookAt(playerReference.transform.position);
         agentAnimator.SetBool("isAttacking", true);
         yield return new WaitForSeconds(1);
         agentAnimator.SetBool("isAttacking", false);
         isAttacking = false;
-        weapon.canDamage = false;
         currentAiState = AiStates.Idle;
     }
     void OnAnimatorUpdate()
@@ -167,7 +163,7 @@ public class AIBehaviour : MonoBehaviour
     }
     void OnTriggerStay(Collider other)
     {
-        if (other.TryGetComponent(out CharacterController _characterController)) //add a target on a collider enter
+        if (other.TryGetComponent(out CharacterController _characterController)) //keep a target on a collider stay
         {
             charCont = _characterController;
             playerReference = other.gameObject;
