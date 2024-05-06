@@ -1,18 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Shield : MonoBehaviour
 {
+    [SerializeField] Collider shieldCollider;
     // Start is called before the first frame update
     void Start()
     {
-        
+        DisableShield();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public void EnableShield() { shieldCollider.enabled = true; }
+    public void DisableShield() { shieldCollider.enabled = false; }
 }

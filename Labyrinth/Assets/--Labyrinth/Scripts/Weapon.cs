@@ -36,8 +36,15 @@ public class Weapon : MonoBehaviour
             if (other.gameObject.GetComponent<CharacterController>() != null && hurtBox.enabled == true)
             {
                 CharacterController _char = other.gameObject.GetComponent<CharacterController>();
-                _char.GetComponent<HealthSystem>().TakeDamage(damage);
-                DisableHurtBox();
+                if (_char.IsBlock)
+                {
+                    DisableHurtBox();
+                }
+                else
+                {
+                    _char.GetComponent<HealthSystem>().TakeDamage(damage);
+                    DisableHurtBox();
+                }
             }
         }
     }

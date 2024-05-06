@@ -18,6 +18,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField] Canvas pauseCanvas;
     [SerializeField] HealthSystem healthSystem;
     [SerializeField] Weapon weapon;
+    [SerializeField] Shield shield;
     [SerializeField] CinemachineFreeLook cinemachineFreeLook;
     [SerializeField] PlayerInput playerInput;
     [SerializeField] AIBehaviour ai;
@@ -224,6 +225,7 @@ public class CharacterController : MonoBehaviour
             //Debug.Log ("Block");
             boredCount = 0;
             animator.SetBool("isBlock", true);
+            shield.EnableShield();
         }
 
         if (incomingValue.canceled)
@@ -231,6 +233,7 @@ public class CharacterController : MonoBehaviour
             IsBlock = false;
             //Debug.Log ("Block Canceled");
             animator.SetBool("isBlock", false);
+            shield.DisableShield();
         }
     }
 

@@ -4651,24 +4651,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 252997868}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &260510456 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -7764487651825262745, guid: 74bed3ac86031d242b1a5ab5d132f567,
-    type: 3}
-  m_PrefabInstance: {fileID: 925303498}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &260510459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 260510456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cf93dea3af7127499e21d2917667305, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &263735071
 GameObject:
   m_ObjectHideFlags: 0
@@ -17050,11 +17032,7 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1593683858}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: -7764487651825262745, guid: 74bed3ac86031d242b1a5ab5d132f567,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 260510459}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74bed3ac86031d242b1a5ab5d132f567, type: 3}
 --- !u!4 &925303499 stripped
 Transform:
@@ -22935,6 +22913,7 @@ GameObject:
   - component: {fileID: 1287851912}
   - component: {fileID: 1287851917}
   - component: {fileID: 1287851920}
+  - component: {fileID: 1287851921}
   m_Layer: 7
   m_Name: --Controller
   m_TagString: Player
@@ -22978,7 +22957,8 @@ MonoBehaviour:
   animator: {fileID: 1287851919}
   pauseCanvas: {fileID: 263735074}
   healthSystem: {fileID: 1287851917}
-  weapon: {fileID: 0}
+  weapon: {fileID: 1287851920}
+  shield: {fileID: 1287851921}
   cinemachineFreeLook: {fileID: 2134985108}
   playerInput: {fileID: 1287851913}
   ai: {fileID: 0}
@@ -23317,6 +23297,19 @@ MonoBehaviour:
   hurtBox: {fileID: 1593683860}
   charcterWeapon: 1
   aIWeapon: 0
+--- !u!114 &1287851921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287851910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cf93dea3af7127499e21d2917667305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shieldCollider: {fileID: 1402293730}
 --- !u!1001 &1288455966
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25564,7 +25557,7 @@ GameObject:
   - component: {fileID: 1402293729}
   - component: {fileID: 1402293730}
   m_Layer: 0
-  m_Name: Collider
+  m_Name: ShieldCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
