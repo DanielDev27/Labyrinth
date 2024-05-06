@@ -7,9 +7,9 @@ using Random = UnityEngine.Random;
 public class CharacterController : MonoBehaviour
 {
     public static CharacterController Instance;
-    Vector2 moveInput;
-    Vector3 moveDirection;
-    Vector2 lookInput;
+    [SerializeField] Vector2 moveInput;
+    [SerializeField] Vector3 moveDirection;
+    [SerializeField] Vector2 lookInput;
     float yRotation;
     [Header("References")]
     [SerializeField] Rigidbody playerRigidbody;
@@ -173,8 +173,15 @@ public class CharacterController : MonoBehaviour
 
     public void OnLookInput(InputAction.CallbackContext incomingValue)
     {
-        lookInput = incomingValue.ReadValue<Vector2>().normalized;
-        boredCount = 0;
+        if (incomingValue.ReadValue<Vector2>().normalized != Vector2.zero)
+        {
+            lookInput = incomingValue.ReadValue<Vector2>().normalized;
+            boredCount = 0;
+        }
+        else
+        {
+            lookInput = Vector2.zero;
+        }
     }
 
     void OnPlayerLook()//Behaviour for player looking
