@@ -5335,6 +5335,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 794026105}
     m_Modifications:
     - target: {fileID: 1522982236, guid: b15fcf116c74894478999af76e74045c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1522982236, guid: b15fcf116c74894478999af76e74045c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
@@ -5433,6 +5437,11 @@ PrefabInstance:
       propertyPath: playerReference
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7190276190231355930, guid: b15fcf116c74894478999af76e74045c,
+        type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 330585546}
     m_RemovedComponents:
     - {fileID: 1497881170073594852, guid: b15fcf116c74894478999af76e74045c, type: 3}
     m_RemovedGameObjects: []
@@ -20084,6 +20093,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 794026105}
     m_Modifications:
     - target: {fileID: 1522982236, guid: b15fcf116c74894478999af76e74045c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1522982236, guid: b15fcf116c74894478999af76e74045c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
@@ -20172,6 +20185,11 @@ PrefabInstance:
       propertyPath: healthSystem
       value: 
       objectReference: {fileID: 1094602964}
+    - target: {fileID: 7190276190231355930, guid: b15fcf116c74894478999af76e74045c,
+        type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 330585546}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -35397,16 +35415,11 @@ PrefabInstance:
     m_TransformParent: {fileID: 794026105}
     m_Modifications:
     - target: {fileID: 1522982236, guid: b15fcf116c74894478999af76e74045c, type: 3}
-      propertyPath: m_AnchorMax.y
+      propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1692686062, guid: b15fcf116c74894478999af76e74045c, type: 3}
-      propertyPath: m_BlockingMask.m_Bits
-      value: 1023
-      objectReference: {fileID: 0}
-    - target: {fileID: 6555814590550537756, guid: b15fcf116c74894478999af76e74045c,
-        type: 3}
-      propertyPath: m_RootOrder
+    - target: {fileID: 1522982236, guid: b15fcf116c74894478999af76e74045c, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6555814590550537756, guid: b15fcf116c74894478999af76e74045c,
@@ -35464,6 +35477,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AI - 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7190276190231355930, guid: b15fcf116c74894478999af76e74045c,
+        type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 330585546}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
