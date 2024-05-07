@@ -2,6 +2,7 @@ using System.Collections;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class CharacterController : MonoBehaviour
@@ -21,6 +22,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField] Shield shield;
     [SerializeField] CinemachineFreeLook cinemachineFreeLook;
     [SerializeField] PlayerInput playerInput;
+    [SerializeField] LabyrinthPlayerInputs labInputs;
     [SerializeField] AIBehaviour ai;
     [SerializeField] Collider viewable;
     [SerializeField] Collider damageable;
@@ -44,19 +46,22 @@ public class CharacterController : MonoBehaviour
     public int Health;
     public bool IsAttack;
     public bool IsBlock;
-
     void Awake()
     {
         Instance = this;
+        playerInput = new PlayerInput();
         Health = maxHealth;
         healthSystem.UpdateHealth(Health);
     }
-
+    void OnEnable()
+    {
+        InputHandler.Enable();
+        //InputHandler.Instance.MovePerformed.AddListener(OnPlayerMove);
+    }
     void Start()
     {
         StartCoroutine(IdleBored());//Trigger the Idle counter in order to add bored animations if the player leaves the character inactive
     }
-
     void Update()
     {
         OnPlayerMove();
@@ -67,7 +72,6 @@ public class CharacterController : MonoBehaviour
         OnPlayerLook();
         CursorSettings(false, CursorLockMode.Locked);
     }
-
     void LateUpdate()
     {
         Health = healthSystem.GetHealth();
@@ -77,12 +81,10 @@ public class CharacterController : MonoBehaviour
             healthSystem.PlayerDie();
         }
     }
-
     void InputDeviceCheck()
     {
         usingGamepad = playerInput.currentControlScheme == "Gamepad";
     }
-
     IEnumerator IdleBored()//Behaviour for bored animations if the player leaves the character inactive
     {
         if (isMoving)
@@ -109,16 +111,13 @@ public class CharacterController : MonoBehaviour
                         yield return new WaitForSeconds(8.6f);
                         break;
                 }
-
                 animator.SetInteger("IdleAnimation", 0);
                 boredCount = 0;
             }
-
             if (boredCount < boredTrigger && animator.GetInteger("IdleAnimation") == 0)
             {
                 yield return new WaitForSeconds(1);
                 boredCount += 1;
-
                 StartCoroutine(IdleBored());
             }
         }
@@ -168,7 +167,6 @@ public class CharacterController : MonoBehaviour
             animator.SetFloat("forward", 0);
             animator.SetFloat("right", 0);
         }
-
     }
 
     public void OnLookInput(InputAction.CallbackContext incomingValue)
@@ -234,7 +232,6 @@ public class CharacterController : MonoBehaviour
             animator.SetBool("isBlock", true);
             shield.EnableShield();
         }
-
         if (incomingValue.canceled)
         {
             IsBlock = false;
@@ -252,7 +249,6 @@ public class CharacterController : MonoBehaviour
             boredCount = 0;
             animator.SetBool("isDodging", true);
         }
-
         if (incomingValue.canceled)
         {
             isDodging = false;
