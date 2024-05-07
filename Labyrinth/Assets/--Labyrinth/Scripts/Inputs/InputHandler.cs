@@ -1,9 +1,10 @@
 using System;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
+using Sirenix.OdinInspector;
 
-public class InputHandler : MonoBehaviour
+public class InputHandler
 {
     static InputHandler instance;
     public static InputHandler Instance
@@ -19,14 +20,15 @@ public class InputHandler : MonoBehaviour
         private set { instance = value; }
     }
     static LabyrinthPlayerInputs labInputs;
+    InputAction move;
     //Events
-    public static event EventHandler<Vector2> OnMovePerformed;
-    public static event EventHandler<Vector2> OnLookPerformed;
-    public static event EventHandler<bool> OnSprintPerformed;
-    public static event EventHandler<bool> OnDodgePerformed;
-    public static event EventHandler<bool> OnAttackPerformed;
-    public static event EventHandler<bool> OnShieldPerformed;
-    public static event EventHandler<bool> OnPausePerformed;
+    public static UnityEvent<Vector2> OnMovePerformed;
+    public static UnityEvent<Vector2> OnLookPerformed;
+    public static UnityEvent<bool> OnSprintPerformed;
+    public static UnityEvent<bool> OnDodgePerformed;
+    public static UnityEvent<bool> OnAttackPerformed;
+    public static UnityEvent<bool> OnShieldPerformed;
+    public static UnityEvent<bool> OnPausePerformed;
     //Values
     [ShowInInspector] public static Vector2 moveInput;
     [ShowInInspector] public static Vector2 lookInput;
@@ -78,51 +80,61 @@ public class InputHandler : MonoBehaviour
     public void MovePerformed(InputAction.CallbackContext incomingValue)
     {
         moveInput = incomingValue.ReadValue<Vector2>();
-        OnMovePerformed?.Invoke(this, moveInput);
+        Debug.Log("Move");
+        OnMovePerformed?.Invoke(moveInput);
     }
     public void LookPerformed(InputAction.CallbackContext incomingValue)
     {
         lookInput = incomingValue.ReadValue<Vector2>();
-        OnLookPerformed?.Invoke(this, lookInput);
+        Debug.Log("Look");
+        OnLookPerformed?.Invoke(lookInput);
     }
     public void SprintStarted(InputAction.CallbackContext context)
     {
         sprinting = true;
-        OnSprintPerformed?.Invoke(this, sprinting);
+        Debug.Log("Sprint Start");
+        OnSprintPerformed?.Invoke(sprinting);
     }
     public void SprintCanceled(InputAction.CallbackContext context)
     {
         sprinting = false;
-        OnSprintPerformed?.Invoke(this, sprinting);
+        Debug.Log("Sprint Canceled");
+        OnSprintPerformed?.Invoke(sprinting);
     }
     public void DodgeStarted(InputAction.CallbackContext context)
     {
         dodging = true;
-        OnDodgePerformed?.Invoke(this, dodging);
+        Debug.Log("Dodge Start");
+        OnDodgePerformed?.Invoke(dodging);
     }
     public void DodgeCanceled(InputAction.CallbackContext context)
     {
         dodging = false;
-        OnDodgePerformed?.Invoke(this, dodging);
+        Debug.Log("Dodge Canceled");
+        OnDodgePerformed?.Invoke(dodging);
     }
     public void AttackStarted(InputAction.CallbackContext context)
     {
         attacking = true;
-        OnAttackPerformed?.Invoke(this, attacking);
+        Debug.Log("Attacking Started");
+        OnAttackPerformed?.Invoke(attacking);
     }
     public void AttackCanceled(InputAction.CallbackContext context)
     {
         attacking = false;
-        OnAttackPerformed?.Invoke(this, attacking);
+        Debug.Log("Attacking Canceled");
+        OnAttackPerformed?.Invoke(attacking);
     }
     public void ShieldStarted(InputAction.CallbackContext context)
     {
         shielding = true;
-        OnShieldPerformed?.Invoke(this, shielding);
+        Debug.Log("Shield Started");
+        OnShieldPerformed?.Invoke(shielding);
     }
     public void ShieldCanceled(InputAction.CallbackContext context)
     {
         shielding = false;
-        OnShieldPerformed?.Invoke(this, shielding);
+        Debug.Log("Shield Canceled");
+        OnShieldPerformed?.Invoke(shielding);
     }
 }

@@ -56,7 +56,6 @@ public class CharacterController : MonoBehaviour
     void OnEnable()
     {
         InputHandler.Enable();
-        //InputHandler.Instance.MovePerformed.AddListener(OnPlayerMove);
     }
     void Start()
     {
