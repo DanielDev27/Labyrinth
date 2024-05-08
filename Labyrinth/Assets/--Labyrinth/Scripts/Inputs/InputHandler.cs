@@ -56,7 +56,9 @@ public class InputHandler : MonoBehaviour
     void RegisterInputs()
     {
         //Move
+        labInputs.Player.Move.started += MovePerformed;
         labInputs.Player.Move.performed += MovePerformed;
+        labInputs.Player.Move.canceled += MovePerformed;
         //Look
         labInputs.Player.Look.performed += LookPerformed;
         //Sprint
@@ -74,13 +76,21 @@ public class InputHandler : MonoBehaviour
     }
     public void MovePerformed(InputAction.CallbackContext incomingValue)
     {
-        moveInput = incomingValue.ReadValue<Vector2>();
-        Debug.Log("Move");
-        OnMovePerformed?.Invoke(moveInput);
+        if (incomingValue.ReadValue<Vector2>().normalized != Vector2.zero)
+        {
+            moveInput = incomingValue.ReadValue<Vector2>().normalized;
+            Debug.Log("Move");
+            OnMovePerformed?.Invoke(moveInput);
+        }
+        if (incomingValue.ReadValue<Vector2>().normalized == Vector2.zero)
+        {
+            moveInput = Vector2.zero;
+            OnMovePerformed?.Invoke(moveInput);
+        }
     }
     public void LookPerformed(InputAction.CallbackContext incomingValue)
     {
-        lookInput = incomingValue.ReadValue<Vector2>();
+        lookInput = incomingValue.ReadValue<Vector2>().normalized;
         //Debug.Log("Look");
         OnLookPerformed?.Invoke(lookInput);
     }

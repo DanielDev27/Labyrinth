@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class Weapon : MonoBehaviour
 {
     public int damage;
@@ -7,7 +6,6 @@ public class Weapon : MonoBehaviour
     [Header("Weapon Settings")]
     [SerializeField] bool charcterWeapon;
     [SerializeField] bool aIWeapon;
-
     private void Start()
     {
         DisableHurtBox();

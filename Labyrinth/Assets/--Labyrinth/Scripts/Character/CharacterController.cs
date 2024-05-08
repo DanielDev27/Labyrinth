@@ -56,8 +56,8 @@ public class CharacterController : MonoBehaviour
     }
     void OnEnable()
     {
-        InputHandler.Instance.OnMovePerformed.AddListener(OnPlayerMove);
-        InputHandler.Instance.OnLookPerformed.AddListener(OnPlayerLook);
+        InputHandler.Instance.OnMovePerformed.AddListener(InputMove);
+        InputHandler.Instance.OnLookPerformed.AddListener(InputLook);
         InputHandler.Instance.OnSprintPerformed.AddListener(OnRun);
         InputHandler.Instance.OnDodgePerformed.AddListener(OnDodge);
         InputHandler.Instance.OnAttackPerformed.AddListener(OnAttack);
@@ -65,8 +65,8 @@ public class CharacterController : MonoBehaviour
     }
     void OnDisable()
     {
-        InputHandler.Instance.OnMovePerformed.RemoveListener(OnPlayerMove);
-        InputHandler.Instance.OnLookPerformed.RemoveListener(OnPlayerLook);
+        InputHandler.Instance.OnMovePerformed.RemoveListener(InputMove);
+        InputHandler.Instance.OnLookPerformed.RemoveListener(InputLook);
         InputHandler.Instance.OnSprintPerformed.RemoveListener(OnRun);
         InputHandler.Instance.OnDodgePerformed.RemoveListener(OnDodge);
         InputHandler.Instance.OnAttackPerformed.RemoveListener(OnAttack);
@@ -76,8 +76,16 @@ public class CharacterController : MonoBehaviour
     {
         StartCoroutine(IdleBored());//Trigger the Idle counter in order to add bored animations if the player leaves the character inactive
     }
+    private void Update()
+    {
+        if (moveInput != Vector2.zero)
+        {
+            OnPlayerMove();
+        }
+    }
     void FixedUpdate()
     {
+        OnPlayerLook();
         InputDeviceCheck();
         CursorSettings(false, CursorLockMode.Locked);
     }
@@ -131,11 +139,10 @@ public class CharacterController : MonoBehaviour
             }
         }
     }
-
-    public void OnPlayerMove(Vector2 _moveInput)//behaviour for player movement
+    void InputMove(Vector2 _moveInput)
     {
         this.moveInput = _moveInput;
-        if (moveInput.x != 0 && moveInput.y != 0)
+        if (moveInput != Vector2.zero)
         {
             isMoving = true;
             animator.SetBool("isMoving", true);
@@ -147,6 +154,9 @@ public class CharacterController : MonoBehaviour
             animator.SetBool("isMoving", false);
             StartCoroutine(IdleBored());
         }
+    }
+    public void OnPlayerMove()//behaviour for player movement
+    {
         moveDirection = moveInput.x * transform.right + moveInput.y * transform.forward;
         Vector3 moveCombined = new Vector3(moveInput.x, 0, moveInput.y);
         if (moveCombined != Vector3.zero && !IsBlock && !IsAttack)
@@ -173,10 +183,13 @@ public class CharacterController : MonoBehaviour
             animator.SetFloat("right", 0);
         }
     }
-    void OnPlayerLook(Vector2 lookInput)//Behaviour for player looking
+    void InputLook(Vector2 lookInput)
     {
         this.lookInput = lookInput;
-        if (lookInput.normalized != Vector2.zero)
+    }
+    void OnPlayerLook()//Behaviour for player looking
+    {
+        if (lookInput != Vector2.zero)
         {
             boredCount = 0;
         }
