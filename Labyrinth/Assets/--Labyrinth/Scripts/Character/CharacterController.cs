@@ -50,25 +50,35 @@ public class CharacterController : MonoBehaviour
     {
         Instance = this;
         playerInput = new PlayerInput();
+        InputHandler.Enable();
         Health = maxHealth;
         healthSystem.UpdateHealth(Health);
     }
     void OnEnable()
     {
-        InputHandler.Enable();
+        InputHandler.Instance.OnMovePerformed.AddListener(OnPlayerMove);
+        InputHandler.Instance.OnLookPerformed.AddListener(OnPlayerLook);
+        InputHandler.Instance.OnSprintPerformed.AddListener(OnRun);
+        InputHandler.Instance.OnDodgePerformed.AddListener(OnDodge);
+        InputHandler.Instance.OnAttackPerformed.AddListener(OnAttack);
+        InputHandler.Instance.OnShieldPerformed.AddListener(OnBlock);
+    }
+    void OnDisable()
+    {
+        InputHandler.Instance.OnMovePerformed.RemoveListener(OnPlayerMove);
+        InputHandler.Instance.OnLookPerformed.RemoveListener(OnPlayerLook);
+        InputHandler.Instance.OnSprintPerformed.RemoveListener(OnRun);
+        InputHandler.Instance.OnDodgePerformed.RemoveListener(OnDodge);
+        InputHandler.Instance.OnAttackPerformed.RemoveListener(OnAttack);
+        InputHandler.Instance.OnShieldPerformed.RemoveListener(OnBlock);
     }
     void Start()
     {
         StartCoroutine(IdleBored());//Trigger the Idle counter in order to add bored animations if the player leaves the character inactive
     }
-    void Update()
-    {
-        OnPlayerMove();
-    }
     void FixedUpdate()
     {
         InputDeviceCheck();
-        OnPlayerLook();
         CursorSettings(false, CursorLockMode.Locked);
     }
     void LateUpdate()
@@ -122,25 +132,21 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    public void OnMoveInput(InputAction.CallbackContext incomingValue)
+    public void OnPlayerMove(Vector2 _moveInput)//behaviour for player movement
     {
-        moveInput = incomingValue.ReadValue<Vector2>();
-        if (incomingValue.performed)
+        this.moveInput = _moveInput;
+        if (moveInput.x != 0 && moveInput.y != 0)
         {
             isMoving = true;
             animator.SetBool("isMoving", true);
             StartCoroutine(IdleBored());
         }
-        else if (incomingValue.canceled)
+        else if (moveInput == Vector2.zero)
         {
             isMoving = false;
             animator.SetBool("isMoving", false);
             StartCoroutine(IdleBored());
         }
-    }
-
-    void OnPlayerMove()//behaviour for player movement
-    {
         moveDirection = moveInput.x * transform.right + moveInput.y * transform.forward;
         Vector3 moveCombined = new Vector3(moveInput.x, 0, moveInput.y);
         if (moveCombined != Vector3.zero && !IsBlock && !IsAttack)
@@ -167,22 +173,17 @@ public class CharacterController : MonoBehaviour
             animator.SetFloat("right", 0);
         }
     }
-
-    public void OnLookInput(InputAction.CallbackContext incomingValue)
+    void OnPlayerLook(Vector2 lookInput)//Behaviour for player looking
     {
-        if (incomingValue.ReadValue<Vector2>().normalized != Vector2.zero)
+        this.lookInput = lookInput;
+        if (lookInput.normalized != Vector2.zero)
         {
-            lookInput = incomingValue.ReadValue<Vector2>().normalized;
             boredCount = 0;
         }
         else
         {
             lookInput = Vector2.zero;
         }
-    }
-
-    void OnPlayerLook()//Behaviour for player looking
-    {
         if (usingGamepad)
         {
             horizontalSensitivity = controllerSensitivity;
@@ -195,18 +196,14 @@ public class CharacterController : MonoBehaviour
         this.transform.rotation = Quaternion.Euler(0, yRotation, 0).normalized;
     }
 
-    public void OnRun(InputAction.CallbackContext incomingValue)
+    public void OnRun(bool sprinting)
     {
-        if (incomingValue.performed)
-        {
-            isRunning = true;
-        }
-        else if (incomingValue.canceled) { isRunning = false; }
+        isRunning = sprinting;
     }
 
-    public void OnAttack(InputAction.CallbackContext incomingValue)
+    public void OnAttack(bool attacking)
     {
-        if (incomingValue.performed && !IsAttack)
+        if (attacking && !IsAttack)
         {
             StartCoroutine(AttackState());
         }
@@ -221,9 +218,9 @@ public class CharacterController : MonoBehaviour
         IsAttack = false;
     }
 
-    public void OnBlock(InputAction.CallbackContext incomingValue)
+    public void OnBlock(bool blocking)
     {
-        if (incomingValue.performed)
+        if (blocking)
         {
             IsBlock = true;
             //Debug.Log ("Block");
@@ -231,7 +228,7 @@ public class CharacterController : MonoBehaviour
             animator.SetBool("isBlock", true);
             shield.EnableShield();
         }
-        if (incomingValue.canceled)
+        if (!blocking)
         {
             IsBlock = false;
             //Debug.Log ("Block Canceled");
@@ -240,15 +237,15 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    public void OnDodge(InputAction.CallbackContext incomingValue)
+    public void OnDodge(bool dodging)
     {
-        if (incomingValue.performed)
+        if (dodging)
         {
             isDodging = true;
             boredCount = 0;
             animator.SetBool("isDodging", true);
         }
-        if (incomingValue.canceled)
+        if (!dodging)
         {
             isDodging = false;
             animator.SetBool("isDodging", false);

@@ -22910,6 +22910,7 @@ GameObject:
   - component: {fileID: 1287851918}
   - component: {fileID: 1287851919}
   - component: {fileID: 1287851913}
+  - component: {fileID: 1287851922}
   - component: {fileID: 1287851912}
   - component: {fileID: 1287851917}
   - component: {fileID: 1287851920}
@@ -23010,67 +23011,19 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1287851912}
-        m_TargetAssemblyTypeName: CharacterController, Assembly-CSharp
-        m_MethodName: OnMoveInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 809f526d-17cb-44b2-bdd7-07d473dd2c48
     m_ActionName: Player/Move[/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1287851912}
-        m_TargetAssemblyTypeName: CharacterController, Assembly-CSharp
-        m_MethodName: OnLookInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: f709902f-4a71-4e9a-86a8-9ac4d08c5f35
     m_ActionName: Player/Look[/XInputControllerWindows/rightStick,/Mouse/delta,/Pen/delta]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1287851912}
-        m_TargetAssemblyTypeName: CharacterController, Assembly-CSharp
-        m_MethodName: OnAttack
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 3d8dce79-63ae-4875-80ba-f5d783cf807d
     m_ActionName: Player/Attack[/XInputControllerWindows/rightTrigger,/Mouse/leftButton]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1287851912}
-        m_TargetAssemblyTypeName: CharacterController, Assembly-CSharp
-        m_MethodName: OnDodge
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 725d2828-4dcb-465c-814f-8fa1171ef1d7
     m_ActionName: Player/Dodge
   - m_PersistentCalls:
@@ -23114,35 +23067,11 @@ MonoBehaviour:
     m_ActionId: 35344fcc-85c3-42a4-96a2-e0a891bb5032
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1287851912}
-        m_TargetAssemblyTypeName: CharacterController, Assembly-CSharp
-        m_MethodName: OnRun
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 7cf868ba-b810-4d68-839c-ccead606f323
     m_ActionName: Player/Sprint[/Keyboard/leftShift]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1287851912}
-        m_TargetAssemblyTypeName: CharacterController, Assembly-CSharp
-        m_MethodName: OnBlock
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: c64100ad-4e5a-4f38-82da-bca1670806eb
     m_ActionName: Player/Shield[/Mouse/rightButton]
   - m_PersistentCalls:
@@ -23313,6 +23242,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shieldCollider: {fileID: 1402293730}
+--- !u!114 &1287851922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287851910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f15a1b70c35bcc4ea7ac240a82a3340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnMovePerformed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLookPerformed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSprintPerformed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDodgePerformed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAttackPerformed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnShieldPerformed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPausePerformed:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1288455966
 PrefabInstance:
   m_ObjectHideFlags: 0

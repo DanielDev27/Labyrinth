@@ -4,31 +4,19 @@ using UnityEngine.InputSystem;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
 
-public class InputHandler
+public class InputHandler : MonoBehaviour
 {
-    static InputHandler instance;
-    public static InputHandler Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = new InputHandler();
-            }
-            return instance;
-        }
-        private set { instance = value; }
-    }
+    public static InputHandler Instance;
     static LabyrinthPlayerInputs labInputs;
     InputAction move;
     //Events
-    public static UnityEvent<Vector2> OnMovePerformed;
-    public static UnityEvent<Vector2> OnLookPerformed;
-    public static UnityEvent<bool> OnSprintPerformed;
-    public static UnityEvent<bool> OnDodgePerformed;
-    public static UnityEvent<bool> OnAttackPerformed;
-    public static UnityEvent<bool> OnShieldPerformed;
-    public static UnityEvent<bool> OnPausePerformed;
+    public UnityEvent<Vector2> OnMovePerformed;
+    public UnityEvent<Vector2> OnLookPerformed;
+    public UnityEvent<bool> OnSprintPerformed;
+    public UnityEvent<bool> OnDodgePerformed;
+    public UnityEvent<bool> OnAttackPerformed;
+    public UnityEvent<bool> OnShieldPerformed;
+    public UnityEvent<bool> OnPausePerformed;
     //Values
     [ShowInInspector] public static Vector2 moveInput;
     [ShowInInspector] public static Vector2 lookInput;
@@ -36,11 +24,18 @@ public class InputHandler
     [ShowInInspector] public static bool dodging = false;
     [ShowInInspector] public static bool attacking = false;
     [ShowInInspector] public static bool shielding = false;
+    private void Awake()
+    {
+        Instance = this;
+    }
     public static void Enable()
     {
-        labInputs ??= new LabyrinthPlayerInputs();
+        if (labInputs == null)
+        {
+            labInputs = new LabyrinthPlayerInputs();
+            Instance.RegisterInputs();
+        }
         labInputs.Enable();
-        Instance.RegisterInputs();
     }
     public static void Disable()
     {
@@ -86,7 +81,7 @@ public class InputHandler
     public void LookPerformed(InputAction.CallbackContext incomingValue)
     {
         lookInput = incomingValue.ReadValue<Vector2>();
-        Debug.Log("Look");
+        //Debug.Log("Look");
         OnLookPerformed?.Invoke(lookInput);
     }
     public void SprintStarted(InputAction.CallbackContext context)
