@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 public class Manager : MonoBehaviour
 {
+    public static Manager Instance;
     [SerializeField] Camera camera1;
     [SerializeField] Camera camera2;
     [SerializeField] CharacterController characterController;
@@ -17,31 +18,39 @@ public class Manager : MonoBehaviour
 
     void Awake()
     {
+        Instance = this;
         Time.timeScale = 1;
         endFail.enabled = false;
         endWin.enabled = false;
     }
-
-    void Update()
+    private void OnEnable()
     {
-        if (characterController.Health <= 0)
-        {
-            camera2.gameObject.SetActive(true);
-            endFail.enabled = true;
-            EventSystem.current.SetSelectedGameObject(lossFirst);
-            CursorSettings(true, CursorLockMode.Confined);
-            characterController.enabled = false;
-            aiParent.active = false;
-        }
+        HealthSystem.Instance.AIDeath.AddListener(GameWin);
+    }
+    private void OnDisable()
+    {
+        HealthSystem.Instance.AIDeath.RemoveListener(GameWin);
+    }
 
+    void GameWin()
+    {
         if (aiParent.gameObject.GetComponentsInChildren<AIBehaviour>().Length <= 0)
         {
             endWin.enabled = true;
             EventSystem.current.SetSelectedGameObject(winFirst);
             CursorSettings(true, CursorLockMode.Confined);
             characterController.enabled = false;
-            aiParent.active = false;
+            aiParent.gameObject.SetActive(false);
         }
+    }
+    public void GameOver()
+    {
+        camera2.gameObject.SetActive(true);
+        endFail.enabled = true;
+        EventSystem.current.SetSelectedGameObject(lossFirst);
+        CursorSettings(true, CursorLockMode.Confined);
+        characterController.enabled = false;
+        aiParent.gameObject.SetActive(false);
     }
 
     public void GoToMain()

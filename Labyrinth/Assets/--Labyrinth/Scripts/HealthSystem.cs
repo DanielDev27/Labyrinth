@@ -1,6 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.Events;
 public class HealthSystem : MonoBehaviour
 {
     public static HealthSystem Instance;
@@ -8,9 +9,13 @@ public class HealthSystem : MonoBehaviour
     [SerializeField] int maxHealth;
     [SerializeField] bool dead;
     [SerializeField] Slider healthBar;
-    void Start()
+    public UnityEvent AIDeath;
+    private void Awake()
     {
         Instance = this;
+    }
+    void Start()
+    {
         GetHealth();
         maxHealth = currentHealth;
         healthBar.value = 100 * currentHealth / maxHealth;
@@ -24,6 +29,27 @@ public class HealthSystem : MonoBehaviour
     public int GetHealth() { return currentHealth; }
     public void TakeDamage(int damage) { currentHealth -= damage; }
     public void UpdateHealth(int health) { currentHealth = health; }
-    public void EnemyDie() { this.gameObject.SetActive(false); }
-    public void PlayerDie() { this.gameObject.SetActive(false); }
+    public void EnemyDie()
+    {
+        StartCoroutine(EnemyDespawn());
+    }
+    IEnumerator EnemyDespawn()
+    {
+        yield return new WaitForSeconds(5);
+        GetComponent<Animator>().SetBool("Dead", false);
+        this.gameObject.SetActive(false);
+        AIDeath.Invoke();
+    }
+    public void PlayerDie()
+    {
+        GetComponent<Animator>().SetBool("Dead", true);
+        StartCoroutine(PlayerDeath());
+    }
+    IEnumerator PlayerDeath()
+    {
+        yield return new WaitForSeconds(5);
+        Manager.Instance.GameOver();
+        GetComponent<Animator>().SetBool("Dead", false);
+        this.gameObject.SetActive(false);
+    }
 }
