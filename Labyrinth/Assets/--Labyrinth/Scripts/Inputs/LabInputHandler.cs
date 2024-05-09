@@ -86,7 +86,7 @@ public class LabInputHandler
         if (incomingValue.ReadValue<Vector2>().normalized != Vector2.zero)
         {
             moveInput = incomingValue.ReadValue<Vector2>().normalized;
-            Debug.Log("Move");
+            //Debug.Log("Move");
         }
         if (incomingValue.ReadValue<Vector2>().normalized == Vector2.zero)
         {
@@ -103,49 +103,49 @@ public class LabInputHandler
     public static void SprintStarted(InputAction.CallbackContext context)
     {
         sprinting = true;
-        Debug.Log("Sprint Start");
+        //Debug.Log("Sprint Start");
         OnSprintPerformed?.Invoke(sprinting);
     }
     public static void SprintCanceled(InputAction.CallbackContext context)
     {
         sprinting = false;
-        Debug.Log("Sprint Canceled");
+        //Debug.Log("Sprint Canceled");
         OnSprintPerformed?.Invoke(sprinting);
     }
     public static void DodgeStarted(InputAction.CallbackContext context)
     {
         dodging = true;
-        Debug.Log("Dodge Start");
+        //Debug.Log("Dodge Start");
         OnDodgePerformed?.Invoke(dodging);
     }
     public static void DodgeCanceled(InputAction.CallbackContext context)
     {
         dodging = false;
-        Debug.Log("Dodge Canceled");
+        //Debug.Log("Dodge Canceled");
         OnDodgePerformed?.Invoke(dodging);
     }
     public static void AttackStarted(InputAction.CallbackContext context)
     {
         attacking = true;
-        Debug.Log("Attacking Started");
+        //Debug.Log("Attacking Started");
         OnAttackPerformed?.Invoke(attacking);
     }
     public static void AttackCanceled(InputAction.CallbackContext context)
     {
         attacking = false;
-        Debug.Log("Attacking Canceled");
+        //Debug.Log("Attacking Canceled");
         OnAttackPerformed?.Invoke(attacking);
     }
     public static void ShieldStarted(InputAction.CallbackContext context)
     {
         shielding = true;
-        Debug.Log("Shield Started");
+        //Debug.Log("Shield Started");
         OnShieldPerformed?.Invoke(shielding);
     }
     public static void ShieldCanceled(InputAction.CallbackContext context)
     {
         shielding = false;
-        Debug.Log("Shield Canceled");
+        //Debug.Log("Shield Canceled");
         OnShieldPerformed?.Invoke(shielding);
     }
 }

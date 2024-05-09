@@ -9,7 +9,6 @@ public class HealthSystem : MonoBehaviour
     [SerializeField] int maxHealth;
     [SerializeField] bool dead;
     [SerializeField] Slider healthBar;
-    public UnityEvent AIDeath = new UnityEvent();
     private void Awake()
     {
         Instance = this;
@@ -45,7 +44,7 @@ public class HealthSystem : MonoBehaviour
         yield return new WaitForSeconds(5);
         GetComponent<Animator>().SetBool("Dead", false);
         this.gameObject.SetActive(false);
-        AIDeath.Invoke();
+        Manager.Instance.GameWin();
     }
     public void PlayerDie()
     {

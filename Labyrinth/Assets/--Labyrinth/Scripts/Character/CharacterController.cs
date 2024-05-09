@@ -48,8 +48,6 @@ public class CharacterController : MonoBehaviour
     public int Health;
     public bool IsAttack;
     public bool IsBlock;
-    public static bool isInitialized;
-
     void Awake()
     {
         Debug.Log("Awake Character Controller");
@@ -70,23 +68,19 @@ public class CharacterController : MonoBehaviour
     }
     void Start()
     {
-        isInitialized = true;
-        OnEnable();
         StartCoroutine(IdleBored());//Trigger the Idle counter in order to add bored animations if the player leaves the character inactive
     }
     void OnEnable()
     {
         LabInputHandler.Enable();
-        if (isInitialized)
-        {
-            Debug.Log("Initialized");
-            LabInputHandler.OnMovePerformed.AddListener(InputMove);
-            LabInputHandler.OnLookPerformed.AddListener(InputLook);
-            LabInputHandler.OnSprintPerformed.AddListener(OnRun);
-            LabInputHandler.OnDodgePerformed.AddListener(OnDodge);
-            LabInputHandler.OnAttackPerformed.AddListener(OnAttack);
-            LabInputHandler.OnShieldPerformed.AddListener(OnBlock);
-        }
+        Debug.Log("Initialized");
+        LabInputHandler.OnMovePerformed.AddListener(InputMove);
+        LabInputHandler.OnLookPerformed.AddListener(InputLook);
+        LabInputHandler.OnSprintPerformed.AddListener(OnRun);
+        LabInputHandler.OnDodgePerformed.AddListener(OnDodge);
+        LabInputHandler.OnAttackPerformed.AddListener(OnAttack);
+        LabInputHandler.OnShieldPerformed.AddListener(OnBlock);
+
     }
     void OnDisable()
     {

@@ -15,6 +15,8 @@ public class Manager : MonoBehaviour
     [Header("First Selections")]
     [SerializeField] GameObject winFirst;
     [SerializeField] GameObject lossFirst;
+    [Header("Debug")]
+    [SerializeField] int aIs;
 
     void Awake()
     {
@@ -22,19 +24,17 @@ public class Manager : MonoBehaviour
         Time.timeScale = 1;
         endFail.enabled = false;
         endWin.enabled = false;
+        aIs = aiParent.gameObject.GetComponentsInChildren<AIBehaviour>().Length;
     }
-    private void OnEnable()
+    /*private void LateUpdate()
     {
-        HealthSystem.Instance.AIDeath.AddListener(GameWin);
-    }
-    private void OnDisable()
-    {
-        HealthSystem.Instance.AIDeath.RemoveListener(GameWin);
-    }
+        ais = aiParent.gameObject.GetComponentsInChildren<AIBehaviour>().Length;
+    }*/
 
-    void GameWin()
+    public void GameWin()
     {
-        if (aiParent.gameObject.GetComponentsInChildren<AIBehaviour>().Length <= 0)
+        aIs = aiParent.gameObject.GetComponentsInChildren<AIBehaviour>().Length;
+        if (aIs <= 0)
         {
             endWin.enabled = true;
             EventSystem.current.SetSelectedGameObject(winFirst);

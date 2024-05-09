@@ -16181,7 +16181,7 @@ GameObject:
   - component: {fileID: 893204446}
   - component: {fileID: 893204445}
   m_Layer: 5
-  m_Name: Restart
+  m_Name: Restart-Loss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16231,7 +16231,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.5137255, g: 0.6627451, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -19886,7 +19886,7 @@ GameObject:
   - component: {fileID: 1090058432}
   - component: {fileID: 1090058431}
   m_Layer: 5
-  m_Name: Restart
+  m_Name: Restart-Win
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19936,7 +19936,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.5137255, g: 0.6627451, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -23168,9 +23168,6 @@ MonoBehaviour:
   maxHealth: 0
   dead: 0
   healthBar: {fileID: 1824241762}
-  AIDeath:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!136 &1287851918
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -31543,8 +31540,9 @@ MonoBehaviour:
   pauseCanvas: {fileID: 263735074}
   controlsCanvas: {fileID: 199889539}
   loadingGroup: {fileID: 8142858752224332257}
-  winFirst: {fileID: 893204443}
-  lossFirst: {fileID: 1090058429}
+  winFirst: {fileID: 1090058429}
+  lossFirst: {fileID: 893204443}
+  aIs: 0
 --- !u!114 &1835039831
 MonoBehaviour:
   m_ObjectHideFlags: 0
