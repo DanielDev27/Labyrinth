@@ -22910,7 +22910,6 @@ GameObject:
   - component: {fileID: 1287851918}
   - component: {fileID: 1287851919}
   - component: {fileID: 1287851913}
-  - component: {fileID: 1287851922}
   - component: {fileID: 1287851912}
   - component: {fileID: 1287851917}
   - component: {fileID: 1287851920}
@@ -23169,6 +23168,9 @@ MonoBehaviour:
   maxHealth: 0
   dead: 0
   healthBar: {fileID: 1824241762}
+  AIDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!136 &1287851918
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -23242,39 +23244,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shieldCollider: {fileID: 1402293730}
---- !u!114 &1287851922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1287851910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f15a1b70c35bcc4ea7ac240a82a3340, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnMovePerformed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnLookPerformed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnSprintPerformed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDodgePerformed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnAttackPerformed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnShieldPerformed:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPausePerformed:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &1288455966
 PrefabInstance:
   m_ObjectHideFlags: 0

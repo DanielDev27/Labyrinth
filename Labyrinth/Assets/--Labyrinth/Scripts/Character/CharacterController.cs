@@ -2,8 +2,9 @@ using System.Collections;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Events;
 using Random = UnityEngine.Random;
+using Unity.Collections;
+using Sirenix.OdinInspector;
 
 public class CharacterController : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField] CinemachineFreeLook cinemachineFreeLook;
     [SerializeField] PlayerInput playerInput;
     [SerializeField] LabyrinthPlayerInputs labInputs;
+    [ShowInInspector] LabInputHandler labInputHandler;
     [SerializeField] AIBehaviour ai;
     [SerializeField] Collider viewable;
     [SerializeField] Collider damageable;
@@ -34,47 +36,66 @@ public class CharacterController : MonoBehaviour
     [SerializeField] float horizontalSensitivity;
     [SerializeField] float mouseSensitivity;
     [SerializeField] float controllerSensitivity;
-    [SerializeField] float boredTrigger = 10;
-    [SerializeField] int maxHealth = 20;
+    [SerializeField] float boredTrigger;
+    [SerializeField, Unity.Collections.ReadOnly] public int maxHealth;
 
     [Header("Debug")]
     [SerializeField] bool usingGamepad;
     [SerializeField] bool isMoving;
     [SerializeField] bool isRunning;
     [SerializeField] bool isDodging;
-    [SerializeField] float boredCount = 0;
+    [SerializeField] float boredCount;
     public int Health;
     public bool IsAttack;
     public bool IsBlock;
+    public static bool isInitialized;
+
     void Awake()
     {
+        Debug.Log("Awake Character Controller");
         Instance = this;
-        playerInput = new PlayerInput();
-        InputHandler.Enable();
         Health = maxHealth;
-        healthSystem.UpdateHealth(Health);
-    }
-    void OnEnable()
-    {
-        InputHandler.Instance.OnMovePerformed.AddListener(InputMove);
-        InputHandler.Instance.OnLookPerformed.AddListener(InputLook);
-        InputHandler.Instance.OnSprintPerformed.AddListener(OnRun);
-        InputHandler.Instance.OnDodgePerformed.AddListener(OnDodge);
-        InputHandler.Instance.OnAttackPerformed.AddListener(OnAttack);
-        InputHandler.Instance.OnShieldPerformed.AddListener(OnBlock);
-    }
-    void OnDisable()
-    {
-        InputHandler.Instance.OnMovePerformed.RemoveListener(InputMove);
-        InputHandler.Instance.OnLookPerformed.RemoveListener(InputLook);
-        InputHandler.Instance.OnSprintPerformed.RemoveListener(OnRun);
-        InputHandler.Instance.OnDodgePerformed.RemoveListener(OnDodge);
-        InputHandler.Instance.OnAttackPerformed.RemoveListener(OnAttack);
-        InputHandler.Instance.OnShieldPerformed.RemoveListener(OnBlock);
+        if (playerInput == null)
+        {
+            playerInput = new PlayerInput();
+        }
+        if (labInputHandler == null)
+        {
+            labInputHandler = new LabInputHandler();
+        }
+        if (labInputs == null)
+        {
+            labInputs = LabInputHandler.labInputs;
+        }
     }
     void Start()
     {
+        isInitialized = true;
+        OnEnable();
         StartCoroutine(IdleBored());//Trigger the Idle counter in order to add bored animations if the player leaves the character inactive
+    }
+    void OnEnable()
+    {
+        LabInputHandler.Enable();
+        if (isInitialized)
+        {
+            Debug.Log("Initialized");
+            LabInputHandler.OnMovePerformed.AddListener(InputMove);
+            LabInputHandler.OnLookPerformed.AddListener(InputLook);
+            LabInputHandler.OnSprintPerformed.AddListener(OnRun);
+            LabInputHandler.OnDodgePerformed.AddListener(OnDodge);
+            LabInputHandler.OnAttackPerformed.AddListener(OnAttack);
+            LabInputHandler.OnShieldPerformed.AddListener(OnBlock);
+        }
+    }
+    void OnDisable()
+    {
+        LabInputHandler.OnMovePerformed.RemoveListener(InputMove);
+        LabInputHandler.OnLookPerformed.RemoveListener(InputLook);
+        LabInputHandler.OnSprintPerformed.RemoveListener(OnRun);
+        LabInputHandler.OnDodgePerformed.RemoveListener(OnDodge);
+        LabInputHandler.OnAttackPerformed.RemoveListener(OnAttack);
+        LabInputHandler.OnShieldPerformed.RemoveListener(OnBlock);
     }
     private void Update()
     {
@@ -91,8 +112,7 @@ public class CharacterController : MonoBehaviour
     }
     void LateUpdate()
     {
-        Health = healthSystem.GetHealth();
-        healthSystem.UpdateHealth(Health);
+        Health = healthSystem.UpdateHealth();
         if (Health <= 0)
         {
             healthSystem.PlayerDie();

@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,7 +16,7 @@ public class AIBehaviour : MonoBehaviour
     [SerializeField] Animator agentAnimator;
     [Header("Settings")]
     [SerializeField] float fovAngle = 120;
-    [SerializeField] int maxHealth = 10;
+    [SerializeField, ReadOnly] public int maxHealth = 10;
     [Header("Debug")]
     [SerializeField] CharacterController charCont;
     [SerializeField] GameObject playerReference;
@@ -30,13 +31,19 @@ public class AIBehaviour : MonoBehaviour
     {
         _instance = this;
         health = maxHealth;
-        healthSystem.UpdateHealth(health);
         coroutineInProgress = false;
         isDead = false;
     }
     void Update()
     {
         FieldOfViewCheck();
+        health = healthSystem.UpdateHealth();
+        if (health <= 0 && !isDead)
+        {
+            isDead = true;
+            currentAiState = AiStates.Dead;
+            healthSystem.EnemyDie();
+        }
         if (!coroutineInProgress)
             switch (currentAiState)
             {
@@ -60,24 +67,10 @@ public class AIBehaviour : MonoBehaviour
                 case AiStates.Dead:
                     agentAnimator.SetBool("isMoving", false);
                     agentAnimator.SetBool("Dead", true);
-                    coroutineInProgress = true;
-                    isAttacking = false;
-                    isSprinting = false;
+                    StartCoroutine(OnDeath());
                     break;
             }
         OnAnimatorUpdate();
-    }
-
-    void LateUpdate()
-    {
-        health = healthSystem.GetHealth();
-        healthSystem.UpdateHealth(health);
-        if (health <= 0 && !isDead)
-        {
-            isDead = true;
-            currentAiState = AiStates.Dead;
-            healthSystem.EnemyDie();
-        }
     }
     void FieldOfViewCheck()
     {
@@ -105,15 +98,22 @@ public class AIBehaviour : MonoBehaviour
     {
         coroutineInProgress = true;
         //Debug.Log ("Is Idle");
-        yield return new WaitForSeconds(1);
-        if (playerReference != null)
+        if (!isDead)
         {
-            currentAiState = AiStates.Chasing;
-            coroutineInProgress = false;
+            yield return new WaitForSeconds(1);
+            if (playerReference != null && !isDead)
+            {
+                currentAiState = AiStates.Chasing;
+                coroutineInProgress = false;
+            }
+            else
+            {
+                currentAiState = AiStates.Idle;
+            }
         }
         else
         {
-            currentAiState = AiStates.Idle;
+            currentAiState = AiStates.Dead;
         }
         coroutineInProgress = false;
     }
@@ -149,10 +149,18 @@ public class AIBehaviour : MonoBehaviour
         //Debug.Log ("Attack");
         transform.LookAt(playerReference.transform.position);
         agentAnimator.SetBool("isAttacking", true);
-        yield return new WaitForSeconds(1);
+        float attackTime = agentAnimator.GetCurrentAnimatorStateInfo(0).length;
+        yield return new WaitForSeconds(attackTime);
         agentAnimator.SetBool("isAttacking", false);
         isAttacking = false;
-        currentAiState = AiStates.Idle;
+        currentAiState = AiStates.Chasing;
+    }
+
+    IEnumerator OnDeath()
+    {
+        coroutineInProgress = true;
+        yield return new WaitForSeconds(6);
+        coroutineInProgress = false;
     }
     void OnAnimatorUpdate()
     {
@@ -163,6 +171,10 @@ public class AIBehaviour : MonoBehaviour
         else if (!isDead)
         {
             agentAnimator.SetFloat("speed", Mathf.Clamp(agent.velocity.sqrMagnitude, 0, 1));
+        }
+        else if (isDead)
+        {
+            agentAnimator.SetFloat("speed", Mathf.Clamp(agent.velocity.sqrMagnitude, 0, 0));
         }
     }
     void OnTriggerEnter(Collider other)

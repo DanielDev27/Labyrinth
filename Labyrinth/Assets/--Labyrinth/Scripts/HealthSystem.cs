@@ -9,26 +9,33 @@ public class HealthSystem : MonoBehaviour
     [SerializeField] int maxHealth;
     [SerializeField] bool dead;
     [SerializeField] Slider healthBar;
-    public UnityEvent AIDeath;
+    public UnityEvent AIDeath = new UnityEvent();
     private void Awake()
     {
         Instance = this;
-    }
-    void Start()
-    {
         GetHealth();
         maxHealth = currentHealth;
         healthBar.value = 100 * currentHealth / maxHealth;
     }
     void Update()
     {
-        GetHealth();
         healthBar.value = 100 * currentHealth / maxHealth;
     }
     // Update is called once per frame
-    public int GetHealth() { return currentHealth; }
+    public int GetHealth()
+    {
+        if (this.gameObject.GetComponent<CharacterController>() != null)
+        {
+            currentHealth = GetComponent<CharacterController>().maxHealth;
+        }
+        if (this.gameObject.GetComponent<AIBehaviour>() != null)
+        {
+            currentHealth = GetComponent<AIBehaviour>().maxHealth;
+        }
+        return currentHealth;
+    }
     public void TakeDamage(int damage) { currentHealth -= damage; }
-    public void UpdateHealth(int health) { currentHealth = health; }
+    public int UpdateHealth() { return currentHealth; }
     public void EnemyDie()
     {
         StartCoroutine(EnemyDespawn());

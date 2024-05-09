@@ -1,22 +1,19 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
 
-public class InputHandler : MonoBehaviour
+public class LabInputHandler
 {
-    public static InputHandler Instance;
-    static LabyrinthPlayerInputs labInputs;
-    InputAction move;
+    public static LabyrinthPlayerInputs labInputs;
     //Events
-    public UnityEvent<Vector2> OnMovePerformed;
-    public UnityEvent<Vector2> OnLookPerformed;
-    public UnityEvent<bool> OnSprintPerformed;
-    public UnityEvent<bool> OnDodgePerformed;
-    public UnityEvent<bool> OnAttackPerformed;
-    public UnityEvent<bool> OnShieldPerformed;
-    public UnityEvent<bool> OnPausePerformed;
+    public static UnityEvent<Vector2> OnMovePerformed = new UnityEvent<Vector2>();
+    public static UnityEvent<Vector2> OnLookPerformed = new UnityEvent<Vector2>();
+    public static UnityEvent<bool> OnSprintPerformed = new UnityEvent<bool>();
+    public static UnityEvent<bool> OnDodgePerformed = new UnityEvent<bool>();
+    public static UnityEvent<bool> OnAttackPerformed = new UnityEvent<bool>();
+    public static UnityEvent<bool> OnShieldPerformed = new UnityEvent<bool>();
+    public static UnityEvent<bool> OnPausePerformed = new UnityEvent<bool>();
     //Values
     [ShowInInspector] public static Vector2 moveInput;
     [ShowInInspector] public static Vector2 lookInput;
@@ -24,17 +21,28 @@ public class InputHandler : MonoBehaviour
     [ShowInInspector] public static bool dodging = false;
     [ShowInInspector] public static bool attacking = false;
     [ShowInInspector] public static bool shielding = false;
-    private void Awake()
+
+    static LabInputHandler instance;
+    public static LabInputHandler Instance
     {
-        Instance = this;
+        get
+        {
+            if (instance == null)
+            {
+                instance = new LabInputHandler();
+            }
+            return instance;
+        }
+        private set { instance = value; }
     }
     public static void Enable()
     {
+        Debug.Log("Enable Input Handler");
         if (labInputs == null)
         {
             labInputs = new LabyrinthPlayerInputs();
-            Instance.RegisterInputs();
         }
+        RegisterInputs();
         labInputs.Enable();
     }
     public static void Disable()
@@ -53,10 +61,9 @@ public class InputHandler : MonoBehaviour
         }
         labInputs.Dispose();
     }
-    void RegisterInputs()
+    static void RegisterInputs()
     {
         //Move
-        labInputs.Player.Move.started += MovePerformed;
         labInputs.Player.Move.performed += MovePerformed;
         labInputs.Player.Move.canceled += MovePerformed;
         //Look
@@ -74,69 +81,68 @@ public class InputHandler : MonoBehaviour
         labInputs.Player.Shield.started += ShieldStarted;
         labInputs.Player.Shield.canceled += ShieldCanceled;
     }
-    public void MovePerformed(InputAction.CallbackContext incomingValue)
+    public static void MovePerformed(InputAction.CallbackContext incomingValue)
     {
         if (incomingValue.ReadValue<Vector2>().normalized != Vector2.zero)
         {
             moveInput = incomingValue.ReadValue<Vector2>().normalized;
             Debug.Log("Move");
-            OnMovePerformed?.Invoke(moveInput);
         }
         if (incomingValue.ReadValue<Vector2>().normalized == Vector2.zero)
         {
             moveInput = Vector2.zero;
-            OnMovePerformed?.Invoke(moveInput);
         }
+        OnMovePerformed?.Invoke(moveInput);
     }
-    public void LookPerformed(InputAction.CallbackContext incomingValue)
+    public static void LookPerformed(InputAction.CallbackContext incomingValue)
     {
         lookInput = incomingValue.ReadValue<Vector2>().normalized;
         //Debug.Log("Look");
         OnLookPerformed?.Invoke(lookInput);
     }
-    public void SprintStarted(InputAction.CallbackContext context)
+    public static void SprintStarted(InputAction.CallbackContext context)
     {
         sprinting = true;
         Debug.Log("Sprint Start");
         OnSprintPerformed?.Invoke(sprinting);
     }
-    public void SprintCanceled(InputAction.CallbackContext context)
+    public static void SprintCanceled(InputAction.CallbackContext context)
     {
         sprinting = false;
         Debug.Log("Sprint Canceled");
         OnSprintPerformed?.Invoke(sprinting);
     }
-    public void DodgeStarted(InputAction.CallbackContext context)
+    public static void DodgeStarted(InputAction.CallbackContext context)
     {
         dodging = true;
         Debug.Log("Dodge Start");
         OnDodgePerformed?.Invoke(dodging);
     }
-    public void DodgeCanceled(InputAction.CallbackContext context)
+    public static void DodgeCanceled(InputAction.CallbackContext context)
     {
         dodging = false;
         Debug.Log("Dodge Canceled");
         OnDodgePerformed?.Invoke(dodging);
     }
-    public void AttackStarted(InputAction.CallbackContext context)
+    public static void AttackStarted(InputAction.CallbackContext context)
     {
         attacking = true;
         Debug.Log("Attacking Started");
         OnAttackPerformed?.Invoke(attacking);
     }
-    public void AttackCanceled(InputAction.CallbackContext context)
+    public static void AttackCanceled(InputAction.CallbackContext context)
     {
         attacking = false;
         Debug.Log("Attacking Canceled");
         OnAttackPerformed?.Invoke(attacking);
     }
-    public void ShieldStarted(InputAction.CallbackContext context)
+    public static void ShieldStarted(InputAction.CallbackContext context)
     {
         shielding = true;
         Debug.Log("Shield Started");
         OnShieldPerformed?.Invoke(shielding);
     }
-    public void ShieldCanceled(InputAction.CallbackContext context)
+    public static void ShieldCanceled(InputAction.CallbackContext context)
     {
         shielding = false;
         Debug.Log("Shield Canceled");
