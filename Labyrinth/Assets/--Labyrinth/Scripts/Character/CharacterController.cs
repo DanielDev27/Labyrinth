@@ -24,7 +24,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField] CinemachineFreeLook cinemachineFreeLook;
     [SerializeField] PlayerInput playerInput;
     [SerializeField] LabyrinthPlayerInputs labInputs;
-    [ShowInInspector] LabInputHandler labInputHandler;
+    LabInputHandler labInputHandler;
     [SerializeField] AIBehaviour ai;
     [SerializeField] Collider viewable;
     [SerializeField] Collider damageable;
@@ -33,6 +33,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField] float speedMultiplier;
     [SerializeField] private float runSpeed;
     [SerializeField] private float walkSpeed;
+    [SerializeField] private float dodgeForce;
     [SerializeField] float horizontalSensitivity;
     [SerializeField] float mouseSensitivity;
     [SerializeField] float controllerSensitivity;
@@ -182,6 +183,10 @@ public class CharacterController : MonoBehaviour
                 speedMultiplier = runSpeed;
                 animator.SetFloat("forward", moveCombined.z * 2, 0.2f, Time.deltaTime);
                 animator.SetFloat("right", moveCombined.x * 2, 0.2f, Time.deltaTime);
+            }
+            if (isDodging)
+            {
+                playerRigidbody.AddForce(moveCombined * dodgeForce, ForceMode.Acceleration);
             }
             else
             {

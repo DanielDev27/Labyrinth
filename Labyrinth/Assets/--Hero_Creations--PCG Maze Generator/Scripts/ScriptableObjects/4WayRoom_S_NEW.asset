@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 4WayRoom_S_NEW
   m_EditorClassIdentifier: 
   nameRoom: 4WayRoom_S_NEW
-  RoomModel: {fileID: 8416550418122045382, guid: 02ee3abea8d01b24e9208199b92d4c08,
+  RoomModel: {fileID: 8416550418122045382, guid: 4eacec1bc0bb23d4191aa0af2556042c,
     type: 3}
   CompatibleRooms:
   - {fileID: 11400000}

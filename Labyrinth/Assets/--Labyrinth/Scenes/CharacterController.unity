@@ -22970,6 +22970,7 @@ MonoBehaviour:
   speedMultiplier: 0
   runSpeed: 4.5
   walkSpeed: 3
+  dodgeForce: 50
   horizontalSensitivity: 0
   mouseSensitivity: 2
   controllerSensitivity: 2
