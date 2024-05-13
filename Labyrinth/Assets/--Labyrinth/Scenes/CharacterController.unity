@@ -29652,9 +29652,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9179836201219740272, guid: eca47780baa8f4a4e97bbddbb8be8037,
         type: 3}
+      propertyPath: attackAnim
+      value: 
+      objectReference: {fileID: 7400000, guid: 9004e77d2573add4fa6c2a13568b2185, type: 2}
+    - target: {fileID: 9179836201219740272, guid: eca47780baa8f4a4e97bbddbb8be8037,
+        type: 3}
       propertyPath: pauseCanvas
       value: 
       objectReference: {fileID: 263735074}
+    - target: {fileID: 9179836201219740272, guid: eca47780baa8f4a4e97bbddbb8be8037,
+        type: 3}
+      propertyPath: attackAnimBack
+      value: 
+      objectReference: {fileID: 7400000, guid: 5cb4716c4da558541a12df813a00e915, type: 2}
+    - target: {fileID: 9179836201219740272, guid: eca47780baa8f4a4e97bbddbb8be8037,
+        type: 3}
+      propertyPath: attackAnimSlash
+      value: 
+      objectReference: {fileID: 7400000, guid: 9004e77d2573add4fa6c2a13568b2185, type: 2}
     - target: {fileID: 9179836201219740272, guid: eca47780baa8f4a4e97bbddbb8be8037,
         type: 3}
       propertyPath: cinemachineFreeLook

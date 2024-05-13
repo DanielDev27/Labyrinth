@@ -39,7 +39,9 @@ public class CharacterController : MonoBehaviour
     [SerializeField] float controllerSensitivity;
     [SerializeField] float boredTrigger;
     [SerializeField, Unity.Collections.ReadOnly] public int maxHealth;
-
+    [Header("Anim Settings")]
+    [SerializeField] AnimationClip attackAnimSlash;
+    [SerializeField] AnimationClip attackAnimBack;
     [Header("Debug")]
     [SerializeField] bool usingGamepad;
     [SerializeField] bool isMoving;
@@ -48,7 +50,9 @@ public class CharacterController : MonoBehaviour
     [SerializeField] float boredCount;
     public int Health;
     public bool IsAttack;
+    [SerializeField] int attackCount = 0;
     public bool IsBlock;
+
     void Awake()
     {
         Debug.Log("Awake Character Controller");
@@ -184,15 +188,15 @@ public class CharacterController : MonoBehaviour
                 animator.SetFloat("forward", moveCombined.z * 2, 0.2f, Time.deltaTime);
                 animator.SetFloat("right", moveCombined.x * 2, 0.2f, Time.deltaTime);
             }
-            if (isDodging)
-            {
-                playerRigidbody.AddForce(moveCombined * dodgeForce, ForceMode.Acceleration);
-            }
             else
             {
                 speedMultiplier = walkSpeed;
                 animator.SetFloat("forward", moveCombined.z, 0.2f, Time.deltaTime);
                 animator.SetFloat("right", moveCombined.x, 0.2f, Time.deltaTime);
+            }
+            if (isDodging)
+            {
+                playerRigidbody.AddForce(moveCombined * dodgeForce, ForceMode.Acceleration);
             }
         }
         else
@@ -244,10 +248,34 @@ public class CharacterController : MonoBehaviour
     {
         IsAttack = true;
         boredCount = 0;
+        animator.SetTrigger("attackTrigger");
         animator.SetBool("isAttack", true);
-        yield return new WaitForSeconds(1);
-        animator.SetBool("isAttack", false);
-        IsAttack = false;
+        if (attackCount == 0)
+        {
+            float attackAnimTime = attackAnimSlash.averageDuration;
+            yield return new WaitForSeconds(attackAnimTime);
+            IsAttack = false;
+        }
+        if (attackCount == 1)
+        {
+            float attackAnimTime = attackAnimBack.averageDuration;
+            yield return new WaitForSeconds(attackAnimTime);
+            IsAttack = false;
+        }
+        attackCount++;
+        if (attackCount == 2)
+        {
+            attackCount = 0;
+        }
+
+    }
+    public IEnumerator SetAttackFalse()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if (!IsAttack)
+        {
+            animator.SetBool("isAttack", false);
+        }
     }
 
     public void OnBlock(bool blocking)
