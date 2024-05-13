@@ -611,7 +611,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 5a378f571f558d44bae76fd45ba4c9bf, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -640,15 +640,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   agentAnimator: {fileID: 6555814590550537755}
+  walkSpeed: 1
+  sprintSpeed: 3
   fovAngle: 360
   maxHealth: 20
   charCont: {fileID: 0}
   playerReference: {fileID: 0}
+  currentAiState: 0
   canSeePlayer: 0
   coroutineInProgress: 0
-  currentAiState: 0
   isSprinting: 0
   isAttacking: 0
+  isDead: 0
   health: 0
 --- !u!114 &4997268746331407054
 MonoBehaviour:

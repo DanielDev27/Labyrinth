@@ -2,6 +2,7 @@ using System.Collections;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering;
 
 public class AIBehaviour : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class AIBehaviour : MonoBehaviour
     [SerializeField] LayerMask obstructionLayer;
     [SerializeField] Animator agentAnimator;
     [Header("Settings")]
+    [SerializeField] float walkSpeed;
+    [SerializeField] float sprintSpeed;
     [SerializeField] float fovAngle = 120;
     [SerializeField, ReadOnly] public int maxHealth = 10;
     [Header("Debug")]
@@ -27,6 +30,7 @@ public class AIBehaviour : MonoBehaviour
     public bool isAttacking = false;
     [SerializeField] bool isDead;
     [SerializeField] int health;
+
     void Awake()
     {
         _instance = this;
@@ -123,17 +127,19 @@ public class AIBehaviour : MonoBehaviour
         {
             transform.LookAt(playerReference.transform.position);
             agent.SetDestination(playerReference.transform.position);
-            if (Vector3.Distance(transform.position, playerReference.transform.position) > 5f)
+            if (Vector3.Distance(transform.position, playerReference.transform.position) > 2.5f)
             {
                 agent.isStopped = false;
+                agent.speed = sprintSpeed;
                 isSprinting = true;
             }
-            if (Vector3.Distance(transform.position, playerReference.transform.position) <= 5f)
+            if (Vector3.Distance(transform.position, playerReference.transform.position) <= 2.5f)
             {
                 agent.isStopped = false;
+                agent.speed = walkSpeed;
                 isSprinting = false;
             }
-            if (Vector3.Distance(transform.position, playerReference.transform.position) <= 2.5f)
+            if (Vector3.Distance(transform.position, playerReference.transform.position) <= 1f)
             {
                 agent.isStopped = true;
                 agentAnimator.SetBool("isMoving", false);
@@ -166,15 +172,15 @@ public class AIBehaviour : MonoBehaviour
     {
         if (isSprinting)
         {
-            agentAnimator.SetFloat("speed", Mathf.Clamp(agent.velocity.sqrMagnitude, 1, 2));
+            agentAnimator.SetFloat("speed", Mathf.Clamp(agent.velocity.sqrMagnitude, 1, 2), 0.05f, Time.deltaTime);
         }
         else if (!isDead)
         {
-            agentAnimator.SetFloat("speed", Mathf.Clamp(agent.velocity.sqrMagnitude, 0, 1));
+            agentAnimator.SetFloat("speed", Mathf.Clamp(agent.velocity.sqrMagnitude, 0, 1), 0.05f, Time.deltaTime);
         }
         else if (isDead)
         {
-            agentAnimator.SetFloat("speed", Mathf.Clamp(agent.velocity.sqrMagnitude, 0, 0));
+            agentAnimator.SetFloat("speed", Mathf.Clamp(agent.velocity.sqrMagnitude, 0, 0), 0.05f, Time.deltaTime);
         }
     }
     void OnTriggerEnter(Collider other)
