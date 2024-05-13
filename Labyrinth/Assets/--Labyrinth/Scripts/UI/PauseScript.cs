@@ -24,7 +24,7 @@ public class PauseScript : MonoBehaviour
         pause = !pause;
         if (pause)
         {
-            CharacterController.Instance.enabled = false;
+            PlayerController.Instance.enabled = false;
             pauseCanvas.enabled = pause;
             EventSystem.current.SetSelectedGameObject(pauseMenuFirst);
             CursorSettings(true, CursorLockMode.Confined);
@@ -33,7 +33,7 @@ public class PauseScript : MonoBehaviour
 
         if (!pause)
         {
-            CharacterController.Instance.enabled = true;
+            PlayerController.Instance.enabled = true;
             pauseCanvas.enabled = pause;
             EventSystem.current.SetSelectedGameObject(null);
             CursorSettings(false, CursorLockMode.Locked);

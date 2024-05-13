@@ -596,7 +596,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 10, y: 1, z: 10}
+  m_Size: {x: 20, y: 1, z: 20}
   m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!95 &6555814590550537755
 Animator:
@@ -638,15 +638,17 @@ MonoBehaviour:
   eyeLine: {fileID: 6555814589296613336}
   obstructionLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 384
   agentAnimator: {fileID: 6555814590550537755}
   walkSpeed: 1
   sprintSpeed: 3
-  fovAngle: 360
+  fovAngle: 150
   maxHealth: 20
   charCont: {fileID: 0}
   playerReference: {fileID: 0}
   currentAiState: 0
+  directionToTarget: {x: 0, y: 0, z: 0}
+  distanceToPlayer: 0
   canSeePlayer: 0
   coroutineInProgress: 0
   isSprinting: 0

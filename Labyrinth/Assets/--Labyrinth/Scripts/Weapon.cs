@@ -31,9 +31,9 @@ public class Weapon : MonoBehaviour
         }
         if (aIWeapon)
         {
-            if (other.gameObject.GetComponent<CharacterController>() != null && hurtBox.enabled == true)
+            if (other.gameObject.GetComponent<PlayerController>() != null && hurtBox.enabled == true)
             {
-                CharacterController _char = other.gameObject.GetComponent<CharacterController>();
+                PlayerController _char = other.gameObject.GetComponent<PlayerController>();
                 if (_char.IsBlock)
                 {
                     DisableHurtBox();

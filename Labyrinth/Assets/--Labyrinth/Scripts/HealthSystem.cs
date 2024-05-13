@@ -23,9 +23,9 @@ public class HealthSystem : MonoBehaviour
     // Update is called once per frame
     public int GetHealth()
     {
-        if (this.gameObject.GetComponent<CharacterController>() != null)
+        if (this.gameObject.GetComponent<PlayerController>() != null)
         {
-            currentHealth = GetComponent<CharacterController>().maxHealth;
+            currentHealth = GetComponent<PlayerController>().maxHealth;
         }
         if (this.gameObject.GetComponent<AIBehaviour>() != null)
         {

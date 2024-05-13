@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering;
@@ -19,15 +18,17 @@ public class AIBehaviour : MonoBehaviour
     [SerializeField] float walkSpeed;
     [SerializeField] float sprintSpeed;
     [SerializeField] float fovAngle = 120;
-    [SerializeField, ReadOnly] public int maxHealth = 10;
+    [SerializeField] public int maxHealth = 10;
     [Header("Debug")]
-    [SerializeField] CharacterController charCont;
+    [SerializeField] PlayerController charCont;
     [SerializeField] GameObject playerReference;
     public AiStates currentAiState;
+    [SerializeField] Vector3 directionToTarget;
+    [SerializeField] float distanceToPlayer;
     [SerializeField] bool canSeePlayer;
     [SerializeField] bool coroutineInProgress;
     [SerializeField] bool isSprinting;
-    public bool isAttacking = false;
+    public bool isAttacking;
     [SerializeField] bool isDead;
     [SerializeField] int health;
 
@@ -53,18 +54,24 @@ public class AIBehaviour : MonoBehaviour
             {
                 case AiStates.Idle:
                     //Debug.Log ("Idle");
+                    OnAnimatorUpdate();
                     StartCoroutine(OnIdle());
                     agentAnimator.SetBool("isMoving", false);
                     break;
                 case AiStates.Chasing:
                     //Debug.Log ("Chasing");
+                    OnAnimatorUpdate();
                     agentAnimator.SetBool("isMoving", true);
                     OnChasing();
                     break;
                 case AiStates.Attacking:
-                    //Debug.Log ("Attacking");
+                    Debug.Log("Attacking");
                     if (!isAttacking)
                     {
+                        isAttacking = true;
+                        agentAnimator.SetFloat("speed", 0);
+                        agentAnimator.SetBool("isMoving", false);
+                        agentAnimator.SetBool("isAttacking", true);
                         StartCoroutine(OnAttack());
                     }
                     break;
@@ -74,38 +81,66 @@ public class AIBehaviour : MonoBehaviour
                     StartCoroutine(OnDeath());
                     break;
             }
-        OnAnimatorUpdate();
     }
     void FieldOfViewCheck()
     {
         if (playerReference != null && !isDead)
         {
-            Vector3 directionToTarget = (playerReference.transform.position - transform.position).normalized;
-            if (Vector3.Angle(transform.forward, directionToTarget) <= fovAngle / 2)
+            RaycastHit _hit;
+            Vector3 playerPosition = playerReference.transform.position;
+            directionToTarget = playerPosition - transform.position;
+            distanceToPlayer = Vector3.Distance(transform.position, playerPosition);
+            if (Vector3.Angle(eyeLine.transform.position, playerPosition) <= fovAngle / 2)
             {
-                float distanceToPlayer = Vector3.Distance(transform.position, playerReference.transform.position);
-                if (!Physics.Raycast(eyeLine.position, directionToTarget, distanceToPlayer, obstructionLayer) && !canSeePlayer)
+                bool _hitLayer = Physics.Raycast(transform.position, directionToTarget, out _hit, 100, obstructionLayer, QueryTriggerInteraction.Ignore);
+                if (_hitLayer && _hit.collider.gameObject.TryGetComponent<PlayerController>(out PlayerController player))
                 {
+                    transform.LookAt(playerReference.transform.position);
+                    Debug.DrawRay(transform.position, directionToTarget * 100, Color.green);
                     canSeePlayer = true;
-                    currentAiState = AiStates.Chasing;
+                }
+                else
+                {
+                    Debug.DrawRay(transform.position, directionToTarget, Color.red);
+                    canSeePlayer = false;
                 }
             }
             else
             {
-                canSeePlayer = false;
-                playerReference = null;
-                currentAiState = AiStates.Idle;
+                Debug.DrawLine(eyeLine.position, playerPosition, Color.black);
             }
+        }
+    }
+    void OnAnimatorUpdate()
+    {
+        if (!isDead)
+        {
+            if (isSprinting)
+            {
+                agentAnimator.SetFloat("speed", Mathf.Clamp(agent.velocity.sqrMagnitude, 1, 2), 0.05f, Time.deltaTime);
+            }
+            if (!isSprinting)
+            {
+                agentAnimator.SetFloat("speed", Mathf.Clamp(agent.velocity.sqrMagnitude, 0, 1), 0.05f, Time.deltaTime);
+            }
+            if (isAttacking)
+            {
+                agentAnimator.SetFloat("speed", 0);
+            }
+        }
+        if (isDead)
+        {
+            agentAnimator.SetFloat("speed", 0);
         }
     }
     IEnumerator OnIdle()
     {
         coroutineInProgress = true;
-        //Debug.Log ("Is Idle");
-        if (!isDead)
+        Debug.Log("Is Idle");
+        if (!isDead && !isAttacking)
         {
             yield return new WaitForSeconds(1);
-            if (playerReference != null && !isDead)
+            if (playerReference != null && canSeePlayer)
             {
                 currentAiState = AiStates.Chasing;
                 coroutineInProgress = false;
@@ -117,29 +152,35 @@ public class AIBehaviour : MonoBehaviour
         }
         else
         {
-            currentAiState = AiStates.Dead;
+            if (isDead)
+            {
+                currentAiState = AiStates.Dead;
+            }
+            if (isAttacking)
+            {
+                currentAiState = AiStates.Attacking;
+            }
         }
         coroutineInProgress = false;
     }
     void OnChasing()
     {
-        if (playerReference != null && !isDead)
+        if (playerReference != null && !isDead && canSeePlayer)
         {
-            transform.LookAt(playerReference.transform.position);
             agent.SetDestination(playerReference.transform.position);
-            if (Vector3.Distance(transform.position, playerReference.transform.position) > 2.5f)
+            if (Vector3.Distance(transform.position, playerReference.transform.position) > 10f)
             {
                 agent.isStopped = false;
                 agent.speed = sprintSpeed;
                 isSprinting = true;
             }
-            if (Vector3.Distance(transform.position, playerReference.transform.position) <= 2.5f)
+            if (Vector3.Distance(transform.position, playerReference.transform.position) <= 5f)
             {
                 agent.isStopped = false;
                 agent.speed = walkSpeed;
                 isSprinting = false;
             }
-            if (Vector3.Distance(transform.position, playerReference.transform.position) <= 1f)
+            if (Vector3.Distance(transform.position, playerReference.transform.position) <= 2.5f)
             {
                 agent.isStopped = true;
                 agentAnimator.SetBool("isMoving", false);
@@ -151,13 +192,14 @@ public class AIBehaviour : MonoBehaviour
     }
     IEnumerator OnAttack()
     {
-        isAttacking = true;
-        //Debug.Log ("Attack");
+        Debug.Log("Attack");
+        agentAnimator.SetBool("isMoving", false);
         transform.LookAt(playerReference.transform.position);
-        agentAnimator.SetBool("isAttacking", true);
-        float attackTime = agentAnimator.GetCurrentAnimatorStateInfo(0).length;
+        GetComponent<Rigidbody>().isKinematic = true;
+        float attackTime = 1;
         yield return new WaitForSeconds(attackTime);
         agentAnimator.SetBool("isAttacking", false);
+        GetComponent<Rigidbody>().isKinematic = false;
         isAttacking = false;
         currentAiState = AiStates.Chasing;
     }
@@ -168,24 +210,10 @@ public class AIBehaviour : MonoBehaviour
         yield return new WaitForSeconds(6);
         coroutineInProgress = false;
     }
-    void OnAnimatorUpdate()
-    {
-        if (isSprinting)
-        {
-            agentAnimator.SetFloat("speed", Mathf.Clamp(agent.velocity.sqrMagnitude, 1, 2), 0.05f, Time.deltaTime);
-        }
-        else if (!isDead)
-        {
-            agentAnimator.SetFloat("speed", Mathf.Clamp(agent.velocity.sqrMagnitude, 0, 1), 0.05f, Time.deltaTime);
-        }
-        else if (isDead)
-        {
-            agentAnimator.SetFloat("speed", Mathf.Clamp(agent.velocity.sqrMagnitude, 0, 0), 0.05f, Time.deltaTime);
-        }
-    }
+
     void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out CharacterController _characterController)) //add a target on a collider enter
+        if (other.TryGetComponent(out PlayerController _characterController)) //add a target on a collider enter
         {
             charCont = _characterController;
             playerReference = other.gameObject;
@@ -193,7 +221,7 @@ public class AIBehaviour : MonoBehaviour
     }
     void OnTriggerStay(Collider other)
     {
-        if (other.TryGetComponent(out CharacterController _characterController)) //keep a target on a collider stay
+        if (other.TryGetComponent(out PlayerController _characterController)) //keep a target on a collider stay
         {
             charCont = _characterController;
             playerReference = other.gameObject;
@@ -201,7 +229,7 @@ public class AIBehaviour : MonoBehaviour
     }
     void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent(out CharacterController _characterController)) //remove a target on a collider exit
+        if (other.TryGetComponent(out PlayerController _characterController)) //remove a target on a collider exit
         {
             playerReference = null;
             charCont = null;

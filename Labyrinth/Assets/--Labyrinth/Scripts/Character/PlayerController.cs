@@ -3,12 +3,10 @@ using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
-using Unity.Collections;
-using Sirenix.OdinInspector;
 
-public class CharacterController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    public static CharacterController Instance;
+    public static PlayerController Instance;
     [SerializeField] Vector2 moveInput;
     [SerializeField] Vector3 moveDirection;
     [SerializeField] Vector2 lookInput;

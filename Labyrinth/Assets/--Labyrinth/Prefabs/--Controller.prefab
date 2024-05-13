@@ -900,7 +900,7 @@ GameObject:
   - component: {fileID: 8028058167719069672}
   - component: {fileID: 2434536831001351549}
   - component: {fileID: 8655638355566323477}
-  - component: {fileID: 7482013118648060400}
+  - component: {fileID: 213868853684219081}
   - component: {fileID: 4414180444166485832}
   - component: {fileID: 5262345671448789080}
   - component: {fileID: 9179836201219740272}
@@ -979,11 +979,11 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.1
+  m_Radius: 0.3
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
---- !u!136 &7482013118648060400
+--- !u!136 &213868853684219081
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1002,7 +1002,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.75
+  m_Radius: 0.35
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
@@ -1172,7 +1172,7 @@ MonoBehaviour:
   playerInput: {fileID: 5262345671448789080}
   ai: {fileID: 0}
   viewable: {fileID: 0}
-  damageable: {fileID: 7482013118648060400}
+  damageable: {fileID: 0}
   speedMultiplier: 0
   runSpeed: 4.5
   walkSpeed: 3
@@ -1182,6 +1182,8 @@ MonoBehaviour:
   controllerSensitivity: 2
   boredTrigger: 10
   maxHealth: 50
+  attackAnimSlash: {fileID: 7400000, guid: 9004e77d2573add4fa6c2a13568b2185, type: 2}
+  attackAnimBack: {fileID: 7400000, guid: 5cb4716c4da558541a12df813a00e915, type: 2}
   usingGamepad: 0
   isMoving: 0
   isRunning: 0
@@ -1189,6 +1191,7 @@ MonoBehaviour:
   boredCount: 0
   Health: 0
   IsAttack: 0
+  attackCount: 0
   IsBlock: 0
 --- !u!114 &2906811728877114191
 MonoBehaviour:
