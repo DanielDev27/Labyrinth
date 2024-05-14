@@ -65,7 +65,7 @@ public class AIBehaviour : MonoBehaviour
                     OnChasing();
                     break;
                 case AiStates.Attacking:
-                    Debug.Log("Attacking");
+                    //Debug.Log("Attacking");
                     if (!isAttacking)
                     {
                         isAttacking = true;
@@ -136,7 +136,7 @@ public class AIBehaviour : MonoBehaviour
     IEnumerator OnIdle()
     {
         coroutineInProgress = true;
-        Debug.Log("Is Idle");
+        //Debug.Log("Is Idle");
         if (!isDead && !isAttacking)
         {
             yield return new WaitForSeconds(1);
@@ -192,7 +192,7 @@ public class AIBehaviour : MonoBehaviour
     }
     IEnumerator OnAttack()
     {
-        Debug.Log("Attack");
+        //Debug.Log("Attack");
         agentAnimator.SetBool("isMoving", false);
         transform.LookAt(playerReference.transform.position);
         GetComponent<Rigidbody>().isKinematic = true;
