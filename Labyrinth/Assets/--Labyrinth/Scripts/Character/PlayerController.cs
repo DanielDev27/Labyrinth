@@ -227,7 +227,15 @@ public class PlayerController : MonoBehaviour
             horizontalSensitivity = mouseSensitivity;
         }
         yRotation += lookInput.x * horizontalSensitivity;
-        this.transform.rotation = Quaternion.Euler(0, yRotation, 0).normalized;
+        if (moveInput != Vector2.zero)
+        {
+            this.transform.rotation = Quaternion.Euler(0, yRotation, 0).normalized;
+            cameraHolder.transform.rotation = this.transform.rotation;
+        }
+        else
+        {
+            cameraHolder.transform.rotation = Quaternion.Euler(0, yRotation, 0).normalized;
+        }
     }
 
     public void OnRun(bool sprinting)
