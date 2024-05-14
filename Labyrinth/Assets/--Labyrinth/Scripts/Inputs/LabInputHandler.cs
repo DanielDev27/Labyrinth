@@ -23,7 +23,7 @@ public class LabInputHandler
     [ShowInInspector] public static bool shielding = false;
 
     static LabInputHandler instance;
-    public static LabInputHandler Instance
+    public static LabInputHandler Instance//Create the Labyrinth Input Handler Instace
     {
         get
         {
@@ -37,7 +37,7 @@ public class LabInputHandler
     }
     public static void Enable()
     {
-        Debug.Log("Enable Input Handler");
+        //Debug.Log("Enable Input Handler");
         if (labInputs == null)
         {
             labInputs = new LabyrinthPlayerInputs();
@@ -81,6 +81,7 @@ public class LabInputHandler
         labInputs.Player.Shield.started += ShieldStarted;
         labInputs.Player.Shield.canceled += ShieldCanceled;
     }
+    //Movement input logic
     public static void MovePerformed(InputAction.CallbackContext incomingValue)
     {
         if (incomingValue.ReadValue<Vector2>().normalized != Vector2.zero)
@@ -94,12 +95,14 @@ public class LabInputHandler
         }
         OnMovePerformed?.Invoke(moveInput);
     }
+    //Look Input Logic
     public static void LookPerformed(InputAction.CallbackContext incomingValue)
     {
         lookInput = incomingValue.ReadValue<Vector2>().normalized;
         //Debug.Log("Look");
         OnLookPerformed?.Invoke(lookInput);
     }
+    //Sprint Input Logic
     public static void SprintStarted(InputAction.CallbackContext context)
     {
         sprinting = true;
@@ -112,6 +115,7 @@ public class LabInputHandler
         //Debug.Log("Sprint Canceled");
         OnSprintPerformed?.Invoke(sprinting);
     }
+    //Dodge Input Logic
     public static void DodgeStarted(InputAction.CallbackContext context)
     {
         dodging = true;
@@ -124,6 +128,7 @@ public class LabInputHandler
         //Debug.Log("Dodge Canceled");
         OnDodgePerformed?.Invoke(dodging);
     }
+    //Attack Input Logic
     public static void AttackStarted(InputAction.CallbackContext context)
     {
         attacking = true;
@@ -136,6 +141,7 @@ public class LabInputHandler
         //Debug.Log("Attacking Canceled");
         OnAttackPerformed?.Invoke(attacking);
     }
+    //Shield Input Logic
     public static void ShieldStarted(InputAction.CallbackContext context)
     {
         shielding = true;

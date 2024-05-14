@@ -84,7 +84,6 @@ public class PlayerController : MonoBehaviour
         LabInputHandler.OnDodgePerformed.AddListener(OnDodge);
         LabInputHandler.OnAttackPerformed.AddListener(OnAttack);
         LabInputHandler.OnShieldPerformed.AddListener(OnBlock);
-
     }
     void OnDisable()//Remove event listeners for inputs
     {
@@ -243,12 +242,10 @@ public class PlayerController : MonoBehaviour
             cameraHolder.transform.rotation = Quaternion.Euler(0, yRotation, 0).normalized;
         }
     }
-
     public void OnRun(bool sprinting)//Run Input listener
     {
         isRunning = sprinting;
     }
-
     public void OnAttack(bool attacking)//Attack Input listener
     {
         if (attacking && !IsAttack)
@@ -258,12 +255,16 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator AttackState()//Attack Logic
     {
-        IsAttack = true;
+        //Reset Bored counter
         boredCount = 0;
+        //Set attack true
+        IsAttack = true;
         animator.SetTrigger("attackTrigger");
         animator.SetBool("isAttack", true);
+        //Stop movement
         isMoving = false;
         animator.SetBool("isMoving", false);
+        //Combo logic
         if (attackCount == 0)
         {
             float attackAnimTime = attackAnimSlash.averageDuration;
@@ -278,25 +279,23 @@ public class PlayerController : MonoBehaviour
         }
         attackCount++;
         if (attackCount == 2)
-        {
+        {//Reset combo counter
             attackCount = 0;
         }
-
     }
-    public IEnumerator SetAttackFalse()
+    public IEnumerator SetAttackFalse()//Exit Attack AnimEvent
     {
         yield return new WaitForSeconds(0.1f);
         if (!IsAttack)
         {
-            animator.SetBool("isAttack", false);
+            animator.SetBool("isAttack", false);//Exit Attack state
             if (moveInput != Vector2.zero)
-            {
+            {//Turn movement back on
                 isMoving = true;
                 animator.SetBool("isMoving", true);
             }
         }
     }
-
     public void OnBlock(bool blocking)//Block Input logic
     {
         if (blocking)
@@ -316,7 +315,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnDodge(bool dodging)
+    public void OnDodge(bool dodging)//Dodging Input Logic
     {
         if (dodging)
         {
@@ -332,11 +331,11 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnTriggerStay(Collider viewable)
-    {
+    {//Set AI went entering a trigger
         viewable.TryGetComponent(out AIBehaviour _aiBehaviour);
         ai = _aiBehaviour;
     }
-
+    //Cursor logic
     void CursorSettings(bool cursorVisibility, CursorLockMode cursorLockMode)
     {
         Cursor.visible = cursorVisibility;

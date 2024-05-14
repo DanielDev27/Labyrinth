@@ -23,7 +23,7 @@ public class UIScript : MonoBehaviour
         CursorSettings(true, CursorLockMode.Confined);
     }
 
-    public void GoToLevel()
+    public void GoToLevel()//Changing scenes to the main game level
     {
         mainMenuCanvas.enabled = false;
         loadingScreenGroup.alpha = 1;
@@ -32,21 +32,21 @@ public class UIScript : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    public void GoToControls()
+    public void GoToControls()//changing canvases to view the controls
     {
         controlsCanvas.enabled = true;
         mainMenuCanvas.enabled = false;
         EventSystem.current.SetSelectedGameObject(controlsMenuFirst);
     }
 
-    public void GoToCredits()
+    public void GoToCredits()//changing canvases to see the credits
     {
         creditsCanvas.enabled = true;
         mainMenuCanvas.enabled = false;
         EventSystem.current.SetSelectedGameObject(creditsMenuFirst);
     }
 
-    public void GoToMenu()
+    public void GoToMenu()//changing canvases to go to the main menu
     {
         mainMenuCanvas.enabled = true;
         controlsCanvas.enabled = false;
@@ -54,7 +54,7 @@ public class UIScript : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(mainMenuFirst);
     }
 
-    public void Quit()
+    public void Quit()//Quit application
     {
         Application.Quit();
     }

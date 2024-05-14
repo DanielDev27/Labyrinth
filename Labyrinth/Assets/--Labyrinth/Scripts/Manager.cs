@@ -3,12 +3,14 @@ using UnityEngine.EventSystems;
 public class Manager : MonoBehaviour
 {
     public static Manager Instance;
+    [Header("References - Objects")]
     [SerializeField] Camera camera1;
     [SerializeField] Camera camera2;
     [SerializeField] CharacterController characterController;
+    [SerializeField] GameObject aiParent;
+    [Header("References - UI")]
     [SerializeField] Canvas endFail;
     [SerializeField] Canvas endWin;
-    [SerializeField] GameObject aiParent;
     [SerializeField] Canvas pauseCanvas;
     [SerializeField] Canvas controlsCanvas;
     [SerializeField] CanvasGroup loadingGroup;
@@ -22,19 +24,16 @@ public class Manager : MonoBehaviour
     {
         Instance = this;
         Time.timeScale = 1;
+        //Set UIs
         endFail.enabled = false;
         endWin.enabled = false;
+        //Fetch the number of AIs
         aIs = aiParent.gameObject.GetComponentsInChildren<AIBehaviour>().Length;
     }
-    /*private void LateUpdate()
-    {
-        ais = aiParent.gameObject.GetComponentsInChildren<AIBehaviour>().Length;
-    }*/
-
-    public void GameWin()
+    public void GameWin()//Logic for winning the game - Triggered after each AI death
     {
         aIs = aiParent.gameObject.GetComponentsInChildren<AIBehaviour>().Length;
-        if (aIs <= 0)
+        if (aIs <= 0)//Logic only completes if there are no more AIs
         {
             endWin.enabled = true;
             EventSystem.current.SetSelectedGameObject(winFirst);
@@ -43,7 +42,7 @@ public class Manager : MonoBehaviour
             aiParent.gameObject.SetActive(false);
         }
     }
-    public void GameOver()
+    public void GameOver()//Logic for losing the game
     {
         camera2.gameObject.SetActive(true);
         endFail.enabled = true;
@@ -53,7 +52,7 @@ public class Manager : MonoBehaviour
         aiParent.gameObject.SetActive(false);
     }
 
-    public void GoToMain()
+    public void GoToMain()//Change Scenes to the Main Menu
     {
         Debug.Log("Return to main menu");
         pauseCanvas.enabled = false;
@@ -62,13 +61,13 @@ public class Manager : MonoBehaviour
         SceneLoaderManager.Instance.LoadScene(0);
     }
 
-    public void Reload()
+    public void Reload()//Reload the Game Scene to start over
     {
         Time.timeScale = 1;
         SceneLoaderManager.Instance.LoadScene(1);
     }
 
-    public void Quit()
+    public void Quit()//Quit Application
     {
         Application.Quit();
     }

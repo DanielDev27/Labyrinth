@@ -6,20 +6,7 @@ using UnityEngine.Rendering;
 public class AIBehaviour : MonoBehaviour
 {
     public static AIBehaviour _instance;
-    [Header("References")]
-    [SerializeField] HealthSystem healthSystem;
-    [SerializeField] Weapon weapon;
-    [SerializeField] NavMeshAgent agent;
-    [SerializeField] Collider searchZone;
-    [SerializeField] Transform eyeLine;
-    [SerializeField] LayerMask obstructionLayer;
-    [SerializeField] Animator agentAnimator;
-    [Header("Settings")]
-    [SerializeField] float walkSpeed;
-    [SerializeField] float sprintSpeed;
-    [SerializeField] float fovAngle = 120;
-    [SerializeField] public int maxHealth = 10;
-    [Header("Debug")]
+    [Header("Debug")]//Useful values for visual debug
     [SerializeField] PlayerController charCont;
     [SerializeField] GameObject playerReference;
     public AiStates currentAiState;
@@ -31,6 +18,19 @@ public class AIBehaviour : MonoBehaviour
     public bool isAttacking;
     [SerializeField] bool isDead;
     [SerializeField] int health;
+    [Header("References")]//References to necessary systems and objects
+    [SerializeField] HealthSystem healthSystem;
+    [SerializeField] Weapon weapon;
+    [SerializeField] NavMeshAgent agent;
+    [SerializeField] Collider searchZone;
+    [SerializeField] Transform eyeLine;
+    [SerializeField] LayerMask obstructionLayer;
+    [SerializeField] Animator agentAnimator;
+    [Header("Settings")]//Settings for system function
+    [SerializeField] float walkSpeed;
+    [SerializeField] float sprintSpeed;
+    [SerializeField] float fovAngle = 120;
+    [SerializeField] public int maxHealth = 10;
 
     void Awake()
     {
@@ -42,6 +42,7 @@ public class AIBehaviour : MonoBehaviour
     void Update()
     {
         FieldOfViewCheck();
+        //Health Checks
         health = healthSystem.UpdateHealth();
         if (health <= 0 && !isDead)
         {
@@ -49,6 +50,7 @@ public class AIBehaviour : MonoBehaviour
             currentAiState = AiStates.Dead;
             healthSystem.EnemyDie();
         }
+        //State Switch
         if (!coroutineInProgress)
             switch (currentAiState)
             {
@@ -82,17 +84,21 @@ public class AIBehaviour : MonoBehaviour
                     break;
             }
     }
-    void FieldOfViewCheck()
+    void FieldOfViewCheck()//Logic to check if player is within visual range of AI
     {
-        if (playerReference != null && !isDead)
+        if (playerReference != null && !isDead)//Can see player and AI is alive
         {
             RaycastHit _hit;
+            //Player reference values
             Vector3 playerPosition = playerReference.transform.position;
             directionToTarget = playerPosition - transform.position;
             distanceToPlayer = Vector3.Distance(transform.position, playerPosition);
+            //Vision Check
             if (Vector3.Angle(eyeLine.transform.position, playerPosition) <= fovAngle / 2)
             {
+                //Does AI see the player
                 bool _hitLayer = Physics.Raycast(transform.position, directionToTarget, out _hit, 100, obstructionLayer, QueryTriggerInteraction.Ignore);
+                //Does AI see player without obstruction
                 if (_hitLayer && _hit.collider.gameObject.TryGetComponent<PlayerController>(out PlayerController player))
                 {
                     transform.LookAt(playerReference.transform.position);
@@ -111,7 +117,7 @@ public class AIBehaviour : MonoBehaviour
             }
         }
     }
-    void OnAnimatorUpdate()
+    void OnAnimatorUpdate()//Logic to change Animator states for movement
     {
         if (!isDead)
         {
@@ -133,53 +139,56 @@ public class AIBehaviour : MonoBehaviour
             agentAnimator.SetFloat("speed", 0);
         }
     }
-    IEnumerator OnIdle()
+    IEnumerator OnIdle()//Idle Logic
     {
         coroutineInProgress = true;
         //Debug.Log("Is Idle");
-        if (!isDead && !isAttacking)
+        if (!isDead && !isAttacking)//AI is fully Idle
         {
             yield return new WaitForSeconds(1);
             if (playerReference != null && canSeePlayer)
-            {
+            {//AI can see player -> chase
                 currentAiState = AiStates.Chasing;
                 coroutineInProgress = false;
             }
             else
-            {
+            {//AI cannot see player -> Idle
                 currentAiState = AiStates.Idle;
             }
         }
-        else
+        else//AI is not Idle but not chasing
         {
-            if (isDead)
+            if (isDead)//Dead switch
             {
                 currentAiState = AiStates.Dead;
             }
-            if (isAttacking)
+            if (isAttacking)//Attack switch
             {
                 currentAiState = AiStates.Attacking;
             }
         }
         coroutineInProgress = false;
     }
-    void OnChasing()
+    void OnChasing()//Chasing logic
     {
-        if (playerReference != null && !isDead && canSeePlayer)
+        if (playerReference != null && !isDead && canSeePlayer)//Player target exists and is visible
         {
             agent.SetDestination(playerReference.transform.position);
+            //Player target is far away
             if (Vector3.Distance(transform.position, playerReference.transform.position) > 10f)
             {
                 agent.isStopped = false;
                 agent.speed = sprintSpeed;
                 isSprinting = true;
             }
+            //Player target is close
             if (Vector3.Distance(transform.position, playerReference.transform.position) <= 5f)
             {
                 agent.isStopped = false;
                 agent.speed = walkSpeed;
                 isSprinting = false;
             }
+            //Reached Player target
             if (Vector3.Distance(transform.position, playerReference.transform.position) <= 2.5f)
             {
                 agent.isStopped = true;
@@ -188,23 +197,27 @@ public class AIBehaviour : MonoBehaviour
                 currentAiState = AiStates.Attacking;
             }
         }
+        //Can't see Player Target
         else { currentAiState = AiStates.Idle; }
     }
-    IEnumerator OnAttack()
+    IEnumerator OnAttack()//Attack Logic
     {
         //Debug.Log("Attack");
-        agentAnimator.SetBool("isMoving", false);
+        //Turn to Player Target
         transform.LookAt(playerReference.transform.position);
+        //Stop movement
+        agentAnimator.SetBool("isMoving", false);
         GetComponent<Rigidbody>().isKinematic = true;
+        //Attack animation
         float attackTime = 1;
         yield return new WaitForSeconds(attackTime);
+        //Reset values
         agentAnimator.SetBool("isAttacking", false);
         GetComponent<Rigidbody>().isKinematic = false;
         isAttacking = false;
         currentAiState = AiStates.Chasing;
     }
-
-    IEnumerator OnDeath()
+    IEnumerator OnDeath()//Death Logic
     {
         coroutineInProgress = true;
         yield return new WaitForSeconds(6);
@@ -235,7 +248,7 @@ public class AIBehaviour : MonoBehaviour
             charCont = null;
         }
     }
-    public enum AiStates
+    public enum AiStates//AI States for Logic
     {
         Idle,
         Chasing,

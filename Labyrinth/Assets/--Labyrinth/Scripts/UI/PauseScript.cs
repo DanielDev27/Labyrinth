@@ -3,14 +3,13 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 public class PauseScript : MonoBehaviour
 {
-    // Start is called before the first frame update
     [Header("References")]
     [SerializeField] PlayerInput playerInput;
     [SerializeField] Canvas pauseCanvas;
     [SerializeField] Canvas controlsCanvas;
     [SerializeField] CanvasGroup loadingGroup;
     [SerializeField] bool pause;
-    [Header("First Selections")]
+    [Header("First Selections")]//First buttons selected on each menu
     [SerializeField] GameObject pauseMenuFirst;
     [SerializeField] GameObject controlsMenuFirst;
 
@@ -19,12 +18,15 @@ public class PauseScript : MonoBehaviour
         controlsCanvas.enabled = false;
         CursorSettings(true, CursorLockMode.Confined);
     }
+    //Pause Input Logic
     public void OnPause(InputAction.CallbackContext incomingValue)
     {
         pause = !pause;
         if (pause)
         {
+            //Turn Off Player Controller
             PlayerController.Instance.enabled = false;
+            //Turn On Canvas elements
             pauseCanvas.enabled = pause;
             EventSystem.current.SetSelectedGameObject(pauseMenuFirst);
             CursorSettings(true, CursorLockMode.Confined);
@@ -33,7 +35,9 @@ public class PauseScript : MonoBehaviour
 
         if (!pause)
         {
+            //Turn On Player Controller
             PlayerController.Instance.enabled = true;
+            //Turn Off Canvas elements
             pauseCanvas.enabled = pause;
             EventSystem.current.SetSelectedGameObject(null);
             CursorSettings(false, CursorLockMode.Locked);
