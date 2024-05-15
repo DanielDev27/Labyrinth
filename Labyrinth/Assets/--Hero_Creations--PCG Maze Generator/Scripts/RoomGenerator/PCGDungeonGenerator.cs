@@ -30,6 +30,8 @@ public class PCGDungeonGenerator : MonoBehaviour
     [SerializeField] Canvas canvasInputs;
     [SerializeField] Vector3 startingPosition;
     [Header("Debug Info")]
+    [SerializeField] int rooms2VCount;
+    float dungeonRoomCount;
     [SerializeField] List<Room> roomV2s = new List<Room>();
     RoomDataObject[] inbetweenRooms;
     int currentInbetweenRooms;
@@ -49,8 +51,6 @@ public class PCGDungeonGenerator : MonoBehaviour
     List<Vector2Int> spawnedCoordinates = new List<Vector2Int>();
     Dictionary<Room, Vector2> dungeonDict = new Dictionary<Room, Vector2>();
     Dictionary<Vector2, SpaceOccupied> occupiedDict = new Dictionary<Vector2, SpaceOccupied>();
-    float dungeonRoomCount = 0;
-    int rooms2VCount = 0;
     int roomParentCount;
 
     public void ReadInbetweenRoomsInput(string input)
@@ -404,6 +404,10 @@ public class PCGDungeonGenerator : MonoBehaviour
     void MakeDictionaryRoomPositions()
     {
         //Debug.Log ("Make room dictionary");
+        if (dungeonDict != null)
+        {
+            dungeonDict.Clear();
+        }
         foreach (Room _roomSlot in roomV2s)
         {
             _roomSlot.GetRoomDataObject();
@@ -418,12 +422,10 @@ public class PCGDungeonGenerator : MonoBehaviour
                         {
                             continue;
                         }
-
                         if (occupiedDict.ContainsKey(_positionVector2))
                         {
                             continue;
                         }
-
                         dungeonDict.Add(_roomSlot, _roomSlot.GetGridPosition());
                         gridOccupied[_roomSlot.GetGridPosition().x, _roomSlot.GetGridPosition().y] = SpaceOccupied.Yes;
                         occupiedDict.Add(_positionVector2, _roomSlot.GetGridOccupied());
@@ -432,7 +434,6 @@ public class PCGDungeonGenerator : MonoBehaviour
                 }
             }
         }
-
         dungeonRoomCount = dungeonDict.Count;
     }
 
@@ -559,7 +560,20 @@ public class PCGDungeonGenerator : MonoBehaviour
                 Destroy(roomV2s[i].gameObject);
                 roomV2s.Remove(roomV2s[i]);
             }
+            if (roomV2s[i].gameObject.transform.childCount > 1)
+            {
+                for (int j = 0; j < roomV2s[i].gameObject.transform.childCount; j++)
+                {
+                    if (roomV2s[i].gameObject.transform.GetChild(j).gameObject != null && roomV2s[i].gameObject.transform.GetChild(j).gameObject.activeSelf == false)
+                    {
+                        //Debug.Log("Room is inactive");
+                        Destroy(roomV2s[i].gameObject.transform.GetChild(j).gameObject);
+                    }
+                }
+            }
         }
+        rooms2VCount = roomV2s.Count;
+        MakeDictionaryRoomPositions();
     }
 }
 //enum for exit directions, can be used for entrance directions as well
