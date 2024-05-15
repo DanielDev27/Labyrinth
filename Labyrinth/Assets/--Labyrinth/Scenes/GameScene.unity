@@ -179,12 +179,12 @@ PrefabInstance:
     - target: {fileID: 5080973300692303838, guid: 84efdda4aa67c9243ab303a749b80e08,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000018163917
+      value: -0.000000018205728
       objectReference: {fileID: 0}
     - target: {fileID: 5080973300692303838, guid: 84efdda4aa67c9243ab303a749b80e08,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000001562556
+      value: 0.0000000015661529
       objectReference: {fileID: 0}
     - target: {fileID: 5182869792536502528, guid: 84efdda4aa67c9243ab303a749b80e08,
         type: 3}
@@ -575,11 +575,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1659923456459588040, guid: 91bfc692985d5054abef1f23d07042c3,
-        type: 3}
-      propertyPath: roomGameObject
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 4143757314986123878, guid: 91bfc692985d5054abef1f23d07042c3,
         type: 3}
       propertyPath: m_LocalPosition.x

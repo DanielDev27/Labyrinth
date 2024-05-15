@@ -200,7 +200,6 @@ public class PCGDungeonGenerator : MonoBehaviour
             }
         }
     }
-
     void SetNewRoom(RoomDataObject roomDataObject, Vector3 roomPosition)
     {
         //set the room position as the incoming room position
@@ -208,7 +207,6 @@ public class PCGDungeonGenerator : MonoBehaviour
         //set new room with the current room
         newRoom.SetRoomDataObject(roomDataObject);
     }
-
     List<ExitDirection> GetPossibleDirections(RoomDataObject roomDataObject)
     {
         List<bool> _exitDoors = roomDataObject.GetExitDoors();
@@ -224,28 +222,29 @@ public class PCGDungeonGenerator : MonoBehaviour
 
             i++;
         }
-
         return possibleDirections;
     }
-
     ExitDirection NextPositionCheck(Room newRoom, RoomDataObject _previousRoom, RoomDataObject _currentRoom, Vector3 roomPosition, ExitDirection _chosenExit) /*is the next position within the grid*/
     {
         if (possibleDirections.Count > 0)
         {
-            chosenExit = possibleDirections[Random.Range(0, possibleDirections.Count)]; //choose exit door
-            GetNextRoomPosition(newRoom, chosenExit); //get the direction of the exit door
+            //choose exit door
+            chosenExit = possibleDirections[Random.Range(0, possibleDirections.Count)];
+            //get the direction of the exit door
+            GetNextRoomPosition(newRoom, chosenExit);
             /**/
             if ((nextRoomPosition.x / dungeon.roomWidth + dungeon.width / 2) < 0 || (nextRoomPosition.x / dungeon.roomWidth + dungeon.width / 2) >= dungeon.width - 1 || nextRoomPosition.z / dungeon.roomHeight < 0 || nextRoomPosition.z / dungeon.roomHeight >= dungeon.height - 1 || spaceOccupied[(int)(nextRoomPosition.x / dungeon.roomWidth + dungeon.width / 2), (int)(nextRoomPosition.z / dungeon.roomHeight)] == SpaceOccupied.Yes)
             {
-                /**/
-                possibleDirections.Remove(chosenExit); //remove the possible exit that leads out of the grid
+                //remove the possible exit that leads out of the grid
+                possibleDirections.Remove(chosenExit);
                 /**/
                 if (possibleDirections.Count >= 1)
                 {
-                    chosenExit = possibleDirections[Random.Range(0, possibleDirections.Count)]; //choose exit door
-                    NextPositionCheck(newRoom, _previousRoom, _currentRoom, roomPosition, _chosenExit); //check function to see if the next position is viable
+                    //choose exit door
+                    chosenExit = possibleDirections[Random.Range(0, possibleDirections.Count)];
+                    //check function to see if the next position is viable 
+                    NextPositionCheck(newRoom, _previousRoom, _currentRoom, roomPosition, _chosenExit);
                 }
-
                 if (possibleDirections.Count < 1)
                 {
                     //change the current room for a different compatible room
@@ -266,10 +265,8 @@ public class PCGDungeonGenerator : MonoBehaviour
                 }
             }
         }
-
         return chosenExit;
     }
-
     Vector3 GetNextRoomPosition(Room newRoom, ExitDirection chosenExit)
     {
         //set the next room's position based on exit from current room
@@ -291,7 +288,6 @@ public class PCGDungeonGenerator : MonoBehaviour
 
         return nextRoomPosition;
     }
-
     void ReplaceCurrentRoom(RoomDataObject _currentRoom, RoomDataObject _previousRoom, ExitDirection _chosenExit, out RoomDataObject replaceRoom)
     {
         _previousNext.Remove(_currentRoom);
@@ -315,7 +311,6 @@ public class PCGDungeonGenerator : MonoBehaviour
                         _previousNext.Remove(_replaceRoom);
                         _replaceRoomAcceptable = false;
                     }
-
                     break;
                 case ExitDirection.East:
                     if (_replaceRoom.GetEntrances()[0] || _replaceRoom.GetEntrances()[1] || _replaceRoom.GetEntrances()[2])
@@ -323,16 +318,13 @@ public class PCGDungeonGenerator : MonoBehaviour
                         _previousNext.Remove(_replaceRoom);
                         _replaceRoomAcceptable = false;
                     }
-
                     break;
-
                 case ExitDirection.South:
                     if (_replaceRoom.GetEntrances()[1] || _replaceRoom.GetEntrances()[2] || _replaceRoom.GetEntrances()[3])
                     {
                         _previousNext.Remove(_replaceRoom);
                         _replaceRoomAcceptable = false;
                     }
-
                     break;
                 case ExitDirection.West:
                     if (_replaceRoom.GetEntrances()[0] || _replaceRoom.GetEntrances()[2] || _replaceRoom.GetEntrances()[3])
@@ -340,10 +332,8 @@ public class PCGDungeonGenerator : MonoBehaviour
                         _previousNext.Remove(_replaceRoom);
                         _replaceRoomAcceptable = false;
                     }
-
                     break;
             }
-
             if (!_replaceRoomAcceptable)
             {
                 replaceRoom = null;
@@ -355,7 +345,6 @@ public class PCGDungeonGenerator : MonoBehaviour
             }
         }
     }
-
     RoomDataObject GetCompatibleRooms(RoomDataObject currentRoom, ExitDirection chosenExit)
     {
         //get compatible rooms for the current room and exit
@@ -375,27 +364,22 @@ public class PCGDungeonGenerator : MonoBehaviour
                 }
             }
         }
-
         int _v = 0;
         foreach (ExitDirection _room in compatibleRoomEntrance)
         {
             // if a room exit aligns with a room entrance, add to compatible room list
             if (chosenExit == ExitDirection.North && _room == ExitDirection.South) { _compatibleRoom.Add(currentRoom.CompatibleRooms[_v]); }
-
             if (chosenExit == ExitDirection.East && _room == ExitDirection.West) { _compatibleRoom.Add(currentRoom.CompatibleRooms[_v]); }
-
             if (chosenExit == ExitDirection.South && _room == ExitDirection.North) { _compatibleRoom.Add(currentRoom.CompatibleRooms[_v]); }
-
             if (chosenExit == ExitDirection.West && _room == ExitDirection.East) { _compatibleRoom.Add(currentRoom.CompatibleRooms[_v]); }
-
             _v++;
         }
-
         //Get the next possible Room, Reformat for probability
-        nextRoom = _compatibleRoom[Random.Range(0, _compatibleRoom.Count)]; //choose a compatible room at random
+        //choose a compatible room at random
+        nextRoom = _compatibleRoom[Random.Range(0, _compatibleRoom.Count)];
         return nextRoom;
     }
-
+    //Spawns end rooms
     RoomDataObject SpawnEndRoom(ExitDirection chosenExit)
     {
         switch (chosenExit)
@@ -413,12 +397,10 @@ public class PCGDungeonGenerator : MonoBehaviour
                 nextRoom = dungeon.endRooms[1];
                 break;
         }
-
         newRoom.SetExit(chosenExit);
-
         return nextRoom;
     }
-
+    //Makes a dictionary of all the rooms in the grid
     void MakeDictionaryRoomPositions()
     {
         //Debug.Log ("Make room dictionary");
@@ -510,6 +492,7 @@ public class PCGDungeonGenerator : MonoBehaviour
             roomParentCount = dungeon.roomParent.childCount + 1;
             canvasInputs.enabled = true;
         }
+        ClearEmptyRooms();
     }
 
     Room SetExtensionRoom(Room dungRoom, ExitDirection exitDirection)
@@ -547,6 +530,7 @@ public class PCGDungeonGenerator : MonoBehaviour
     Room SetExitAtPosition(Room dungRoom, ExitDirection exitDirection, bool extension)
     {
         Vector3 _roomPosition = GetNextRoomPosition(dungRoom, exitDirection);
+        _roomPosition = new Vector3(_roomPosition.x, startingPosition.y, _roomPosition.z);
         if (gridOccupied[(int)(nextRoomPosition.x / dungeon.roomWidth + dungeon.width / 2) + 1, (int)(nextRoomPosition.z / dungeon.roomHeight) + 1] == SpaceOccupied.No)
         {
             if (!extension)
@@ -565,18 +549,30 @@ public class PCGDungeonGenerator : MonoBehaviour
         }
         return newRoom;
     }
+    //Remove empty room parents
+    public void ClearEmptyRooms()
+    {
+        for (int i = 0; i < roomV2s.Count; i++)
+        {
+            if (roomV2s[i].roomGameObject == null)
+            {
+                Destroy(roomV2s[i].gameObject);
+                roomV2s.Remove(roomV2s[i]);
+            }
+        }
+    }
 }
+//enum for exit directions, can be used for entrance directions as well
 public enum ExitDirection
 {
-    //enum for exit directions, can be used for entrance directions as well
     North,
     East,
     South,
     West,
 }
+//enum for positional check in array grid
 public enum SpaceOccupied
 {
-    //enum for positional check in array grid
     Yes,
     No
 }

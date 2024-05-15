@@ -4,8 +4,7 @@ using UnityEngine.Serialization;
 
 public class Room : MonoBehaviour {
     [Header ("Debug")]
-    [SerializeField] GameObject roomGameObject;
-
+    [SerializeField] public GameObject roomGameObject;
     [SerializeField] ExitDirection chosenExit;
     [SerializeField] RoomDataObject previousRoom;
     [SerializeField] RoomDataObject currentRoom;

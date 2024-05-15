@@ -821,7 +821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89bf8a43f74948247816e11e2c0429f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomGameObject: {fileID: 0}
+  roomGameObject: {fileID: 1109399521746624500}
   chosenExit: 0
   previousRoom: {fileID: 0}
   currentRoom: {fileID: 0}
@@ -3292,6 +3292,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de704193e9757cc4f8b9903d18c5be14, type: 3}
+--- !u!1 &1109399521746624500 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3206658429003822334, guid: de704193e9757cc4f8b9903d18c5be14,
+    type: 3}
+  m_PrefabInstance: {fileID: 2586533100909161226}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3053003682895937634 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 701229527145261928, guid: de704193e9757cc4f8b9903d18c5be14,
