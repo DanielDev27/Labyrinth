@@ -1,9 +1,7 @@
 using System.Collections;
-using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
-
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance;
@@ -25,18 +23,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Rigidbody playerRigidbody;
     [SerializeField] Transform cameraHolder;
     [SerializeField] Animator animator;
-    [SerializeField] Canvas pauseCanvas;
     [SerializeField] HealthSystem healthSystem;
     [SerializeField] Weapon weapon;
     [SerializeField] Shield shield;
-    [SerializeField] CinemachineFreeLook cinemachineFreeLook;
+    //[SerializeField] CinemachineFreeLook cinemachineFreeLook;
     [SerializeField] PlayerInput playerInput;
     [SerializeField] LabyrinthPlayerInputs labInputs;
     LabInputHandler labInputHandler;
     [SerializeField] AIBehaviour ai;
-    [SerializeField] Collider viewable;
-    [SerializeField] Collider damageable;
-
     [Header("Settings")]//Settings required for the script's functioning
     [SerializeField] float speedMultiplier;
     [SerializeField] private float runSpeed;
