@@ -23,12 +23,12 @@ public class UIScript : MonoBehaviour
         CursorSettings(true, CursorLockMode.Confined);
     }
 
-    public void GoToLevel()//Changing scenes to the main game level
+    public void GoToLevel(int level)//Changing scenes to the main game level
     {
         mainMenuCanvas.enabled = false;
         loadingScreenGroup.alpha = 1;
         Time.timeScale = 1;
-        SceneLoaderManager.Instance.LoadScene(1);
+        SceneLoaderManager.Instance.LoadScene(level);
         EventSystem.current.SetSelectedGameObject(null);
     }
 

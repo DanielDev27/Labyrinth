@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 public class Manager : MonoBehaviour
 {
     public static Manager Instance;
@@ -28,7 +29,15 @@ public class Manager : MonoBehaviour
         endFail.enabled = false;
         endWin.enabled = false;
         //Fetch the number of AIs
-        aIs = aiParent.gameObject.GetComponentsInChildren<AIBehaviour>().Length;
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            aIs = aiParent.gameObject.GetComponentsInChildren<AIBehaviour>().Length;
+        }
+        //Activate Maze
+        if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            FindAnyObjectByType<PCGDungeonGenerator>().Generate();
+        }
     }
     public void GameWin()//Logic for winning the game - Triggered after each AI death
     {

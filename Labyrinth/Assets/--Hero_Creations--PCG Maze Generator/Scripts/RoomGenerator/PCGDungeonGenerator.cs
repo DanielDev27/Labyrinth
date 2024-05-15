@@ -20,7 +20,7 @@ public struct Dungeon
     public Room baseRoom;
 }
 
-public class PCGDundeonGenerator : MonoBehaviour
+public class PCGDungeonGenerator : MonoBehaviour
 {
     [FormerlySerializedAs("dungeonSettings")]
     [SerializeField]
