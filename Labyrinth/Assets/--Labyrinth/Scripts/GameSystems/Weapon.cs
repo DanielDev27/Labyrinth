@@ -14,10 +14,18 @@ public class Weapon : MonoBehaviour
     public void EnableHurtBox()//Animation event to turn on collider
     {
         hurtBox.enabled = true;
+        if (aIWeapon)
+        {
+            GetComponent<AIBehaviour>().immune = true;
+        }
     }
     public void DisableHurtBox()//Animation event to turn off collider
     {
         hurtBox.enabled = false;
+        if (aIWeapon)
+        {
+            GetComponent<AIBehaviour>().immune = false;
+        }
     }
     private void OnCollisionEnter(Collision other)//Collision Event
     {

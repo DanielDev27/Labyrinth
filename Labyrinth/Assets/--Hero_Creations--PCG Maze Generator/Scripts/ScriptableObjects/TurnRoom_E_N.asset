@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TurnRoom_E_N
   m_EditorClassIdentifier: 
   nameRoom: TurnRoom_E_N
-  RoomModel: {fileID: 5130009718561489621, guid: e75c7595c04b9564a954af94be26fa2e,
+  RoomModel: {fileID: 2496118090210185431, guid: 996a3bfabaea63b4ab24703a815b7a5a,
     type: 3}
   CompatibleRooms:
   - {fileID: 11400000, guid: d54bca4a4eeee1747ae2ce195b0f3291, type: 2}

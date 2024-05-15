@@ -631,6 +631,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f4c948063f3dc488a3acfc429b3c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charCont: {fileID: 0}
+  playerReference: {fileID: 0}
+  currentAiState: 0
+  directionToTarget: {x: 0, y: 0, z: 0}
+  distanceToPlayer: 0
+  canSeePlayer: 0
+  coroutineInProgress: 0
+  isSprinting: 0
+  isAttacking: 0
+  isDead: 0
+  health: 0
+  timerCD: 0
   healthSystem: {fileID: 4997268746331407054}
   weapon: {fileID: 5403583155911702019}
   agent: {fileID: 6555814590550537759}
@@ -644,17 +656,7 @@ MonoBehaviour:
   sprintSpeed: 3
   fovAngle: 150
   maxHealth: 20
-  charCont: {fileID: 0}
-  playerReference: {fileID: 0}
-  currentAiState: 0
-  directionToTarget: {x: 0, y: 0, z: 0}
-  distanceToPlayer: 0
-  canSeePlayer: 0
-  coroutineInProgress: 0
-  isSprinting: 0
-  isAttacking: 0
-  isDead: 0
-  health: 0
+  attackCD: 1.5
 --- !u!114 &4997268746331407054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -697,8 +699,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da6ac3215744fae438736c5a95c71176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
   hurtBox: {fileID: 4754204814022932805}
+  damage: 5
   charcterWeapon: 0
   aIWeapon: 1
 --- !u!1 &6884711562352624780

@@ -34,7 +34,17 @@ public class HealthSystem : MonoBehaviour
         return currentHealth;
     }
     public void TakeDamage(int damage)//Take damage Logic
-    { currentHealth -= damage; }
+    {
+        currentHealth -= damage;
+        if (this.gameObject.GetComponent<PlayerController>() != null)
+        {
+            //GetComponent<Animator>().SetTrigger("damage");
+        }
+        if (this.gameObject.GetComponent<AIBehaviour>() != null && !this.gameObject.GetComponent<AIBehaviour>().immune)
+        {
+            GetComponent<Animator>().SetTrigger("damage");
+        }
+    }
     public int UpdateHealth()//Update Health Logic
     { return currentHealth; }
     public void PlayerDie()//Triggering Death for Player

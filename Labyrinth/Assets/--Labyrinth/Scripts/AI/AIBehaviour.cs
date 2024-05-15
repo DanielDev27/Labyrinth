@@ -18,6 +18,8 @@ public class AIBehaviour : MonoBehaviour
     public bool isAttacking;
     [SerializeField] bool isDead;
     [SerializeField] int health;
+    [SerializeField] public bool immune = false;
+    [SerializeField] float timerCD;
     [Header("References")]//References to necessary systems and objects
     [SerializeField] HealthSystem healthSystem;
     [SerializeField] Weapon weapon;
@@ -31,6 +33,7 @@ public class AIBehaviour : MonoBehaviour
     [SerializeField] float sprintSpeed;
     [SerializeField] float fovAngle = 120;
     [SerializeField] public int maxHealth = 10;
+    [SerializeField] float attackCD;
 
     void Awake()
     {
@@ -49,6 +52,10 @@ public class AIBehaviour : MonoBehaviour
             isDead = true;
             currentAiState = AiStates.Dead;
             healthSystem.EnemyDie();
+        }
+        if (currentAiState == AiStates.Idle || currentAiState == AiStates.Chasing)
+        {
+            timerCD += Time.deltaTime;
         }
         //State Switch
         if (!coroutineInProgress)
@@ -189,7 +196,7 @@ public class AIBehaviour : MonoBehaviour
                 isSprinting = false;
             }
             //Reached Player target
-            if (Vector3.Distance(transform.position, playerReference.transform.position) <= 2.5f)
+            if (Vector3.Distance(transform.position, playerReference.transform.position) <= 2.5f && timerCD >= attackCD)
             {
                 agent.isStopped = true;
                 agentAnimator.SetBool("isMoving", false);
@@ -215,6 +222,7 @@ public class AIBehaviour : MonoBehaviour
         agentAnimator.SetBool("isAttacking", false);
         GetComponent<Rigidbody>().isKinematic = false;
         isAttacking = false;
+        timerCD = 0;
         currentAiState = AiStates.Chasing;
     }
     IEnumerator OnDeath()//Death Logic

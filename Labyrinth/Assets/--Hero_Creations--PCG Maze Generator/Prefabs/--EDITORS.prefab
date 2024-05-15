@@ -1599,8 +1599,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dungeon:
-    roomHeight: 3
-    roomWidth: 3
+    roomHeight: 9
+    roomWidth: 9
     maxInbetweenRooms: 50
     maxExtensionRooms: 5
     width: 10
@@ -1616,7 +1616,7 @@ MonoBehaviour:
     roomParent: {fileID: 3924150699115814472}
     baseRoom: {fileID: 1659923456459588040}
   canvasInputs: {fileID: 8799316051285348035}
-  startingPosition: {x: 0, y: -1, z: 0}
+  startingPosition: {x: 0, y: -1, z: 8}
   roomV2s: []
   possibleDirections: 0000000001000000
 --- !u!114 &1934591809732028270
