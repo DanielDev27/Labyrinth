@@ -44,7 +44,7 @@ public class AIBehaviour : MonoBehaviour
     }
     void Update()
     {
-        FieldOfViewCheck();
+        if (!immune) { FieldOfViewCheck(); }
         //Health Checks
         health = healthSystem.UpdateHealth();
         if (health <= 0 && !isDead)
@@ -202,6 +202,14 @@ public class AIBehaviour : MonoBehaviour
                 agentAnimator.SetBool("isMoving", false);
                 isSprinting = false;
                 currentAiState = AiStates.Attacking;
+            }
+            //In Cooldown
+            if (timerCD < attackCD)
+            {
+                agent.isStopped = true;
+                agentAnimator.SetBool("isMoving", false);
+                isSprinting = false;
+                currentAiState = AiStates.Idle;
             }
         }
         //Can't see Player Target
