@@ -108,7 +108,8 @@ public class PlayerController : MonoBehaviour
         CursorSettings(false, CursorLockMode.Locked);
     }
     void LateUpdate()
-    {//Update Health values and systems
+    {
+        //Update Health values and systems
         Health = healthSystem.UpdateHealth();
         if (Health <= 0)
         {
@@ -121,7 +122,7 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator IdleBored()//Behaviour for bored animations if the player leaves the character inactive
     {
-        if (isMoving)
+        if (isMoving || IsAttack || isDodging || IsBlock)
         {//When moving the bored counter resets to zero
             animator.SetInteger("IdleAnimation", 0);
             boredCount = 0;
@@ -283,11 +284,16 @@ public class PlayerController : MonoBehaviour
             attackCount = 0;
         }
     }
-    public IEnumerator SetAttackFalse()//Exit Attack AnimEvent
+    public void AnimSetAttackFalse()
+    {//Exit Attack AnimEvent
+        StartCoroutine(SetAttackFalse());
+    }
+    IEnumerator SetAttackFalse()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         if (!IsAttack)
         {
+            attackCount = 0;
             animator.SetBool("isAttack", false);//Exit Attack state
             if (moveInput != Vector2.zero)
             {//Turn movement back on

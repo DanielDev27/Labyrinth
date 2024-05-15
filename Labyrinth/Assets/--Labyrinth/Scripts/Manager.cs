@@ -7,7 +7,6 @@ public class Manager : MonoBehaviour
     [Header("References - Objects")]
     [SerializeField] Camera camera1;
     [SerializeField] Camera camera2;
-    [SerializeField] PlayerController playerController;
     [SerializeField] GameObject aiParent;
     [Header("References - UI")]
     [SerializeField] Canvas endFail;
@@ -47,7 +46,7 @@ public class Manager : MonoBehaviour
             endWin.enabled = true;
             EventSystem.current.SetSelectedGameObject(winFirst);
             CursorSettings(true, CursorLockMode.Confined);
-            playerController.enabled = false;
+            PlayerController.Instance.enabled = false;
             aiParent.gameObject.SetActive(false);
         }
     }
@@ -57,7 +56,7 @@ public class Manager : MonoBehaviour
         endFail.enabled = true;
         EventSystem.current.SetSelectedGameObject(lossFirst);
         CursorSettings(true, CursorLockMode.Confined);
-        playerController.enabled = false;
+        PlayerController.Instance.enabled = false;
         aiParent.gameObject.SetActive(false);
     }
 

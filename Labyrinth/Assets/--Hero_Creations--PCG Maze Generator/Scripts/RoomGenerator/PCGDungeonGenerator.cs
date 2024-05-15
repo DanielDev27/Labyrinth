@@ -572,7 +572,6 @@ public class PCGDungeonGenerator : MonoBehaviour
                 }
             }
         }
-        rooms2VCount = roomV2s.Count;
         MakeDictionaryRoomPositions();
     }
 }
