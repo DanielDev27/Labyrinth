@@ -1,7 +1,7 @@
 using UnityEngine;
 public class HealthBarsRotation : MonoBehaviour
 {
-    [SerializeField] Transform mainCamera;
+    [SerializeField] public Transform mainCamera;
     [SerializeField] Canvas healthBarCanvas;
     void Update()
     {

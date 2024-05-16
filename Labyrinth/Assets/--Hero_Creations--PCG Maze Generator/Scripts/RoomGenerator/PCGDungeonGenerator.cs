@@ -5,6 +5,7 @@ using UnityEngine.Serialization;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 using Unity.Jobs;
+using Unity.AI.Navigation;
 
 [System.Serializable]
 public struct Dungeon
@@ -27,7 +28,7 @@ public class PCGDungeonGenerator : MonoBehaviour
     public static PCGDungeonGenerator Instance;
     [FormerlySerializedAs("dungeonSettings")]
     [SerializeField]
-    Dungeon dungeon;
+    public Dungeon dungeon;
     Room newRoom;
     [Header("Settings")]
     [SerializeField] Canvas canvasInputs;
@@ -56,6 +57,7 @@ public class PCGDungeonGenerator : MonoBehaviour
     Dictionary<Vector2, SpaceOccupied> occupiedDict = new Dictionary<Vector2, SpaceOccupied>();
     int roomParentCount;
     public UnityEvent<Dictionary<Vector2, SpaceOccupied>> mazeComplete = new UnityEvent<Dictionary<Vector2, SpaceOccupied>>();
+    [SerializeField] NavMeshSurface navMeshSurface;
 
     private void Awake()
     {
@@ -108,6 +110,7 @@ public class PCGDungeonGenerator : MonoBehaviour
         currentExtensionRooms = dungeon.maxExtensionRooms;
         //Start generating dungeon
         SpawningRooms(dungeon.startRoom, startingPosition, null);
+        navMeshSurface.BuildNavMesh();
         mazeComplete.Invoke(occupiedDict);
         Debug.Log("Maze Complete");
     }

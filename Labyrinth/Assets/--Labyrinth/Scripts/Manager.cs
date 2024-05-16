@@ -28,10 +28,7 @@ public class Manager : MonoBehaviour
         endFail.enabled = false;
         endWin.enabled = false;
         //Fetch the number of AIs
-        if (SceneManager.GetActiveScene().buildIndex == 1)
-        {
-            aIs = aiParent.gameObject.GetComponentsInChildren<AIBehaviour>().Length;
-        }
+        aIs = aiParent.gameObject.GetComponentsInChildren<AIBehaviour>().Length;
         //Activate Maze
         if (SceneManager.GetActiveScene().buildIndex == 2)
         {
