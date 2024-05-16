@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
+using Unity.Jobs;
 
 [System.Serializable]
 public struct Dungeon
@@ -22,6 +24,7 @@ public struct Dungeon
 
 public class PCGDungeonGenerator : MonoBehaviour
 {
+    public static PCGDungeonGenerator Instance;
     [FormerlySerializedAs("dungeonSettings")]
     [SerializeField]
     Dungeon dungeon;
@@ -30,6 +33,7 @@ public class PCGDungeonGenerator : MonoBehaviour
     [SerializeField] Canvas canvasInputs;
     [SerializeField] Vector3 startingPosition;
     [Header("Debug Info")]
+    [SerializeField] bool completed;
     [SerializeField] int rooms2VCount;
     float dungeonRoomCount;
     [SerializeField] List<Room> roomV2s = new List<Room>();
@@ -48,11 +52,15 @@ public class PCGDungeonGenerator : MonoBehaviour
     List<RoomDataObject> currentCompatibleRooms;
     List<RoomDataObject> previousCompatibleRooms;
     List<RoomDataObject> _previousNext;
-    List<Vector2Int> spawnedCoordinates = new List<Vector2Int>();
     Dictionary<Room, Vector2> dungeonDict = new Dictionary<Room, Vector2>();
     Dictionary<Vector2, SpaceOccupied> occupiedDict = new Dictionary<Vector2, SpaceOccupied>();
     int roomParentCount;
+    public UnityEvent<Dictionary<Vector2, SpaceOccupied>> mazeComplete = new UnityEvent<Dictionary<Vector2, SpaceOccupied>>();
 
+    private void Awake()
+    {
+        Instance = this;
+    }
     public void ReadInbetweenRoomsInput(string input)
     {
         dungeon.maxInbetweenRooms = Int32.Parse(input);
@@ -100,6 +108,8 @@ public class PCGDungeonGenerator : MonoBehaviour
         currentExtensionRooms = dungeon.maxExtensionRooms;
         //Start generating dungeon
         SpawningRooms(dungeon.startRoom, startingPosition, null);
+        mazeComplete.Invoke(occupiedDict);
+        Debug.Log("Maze Complete");
     }
 
     [ContextMenu("Clear")]
@@ -469,7 +479,6 @@ public class PCGDungeonGenerator : MonoBehaviour
                 }
             }
         }
-
         rooms2VCount = roomV2s.Count;
         dungeonRoomCount = dungeonDict.Count;
         currentExtensionRooms--;
