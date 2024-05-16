@@ -152,13 +152,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e18242b786030af429c3dcef97d1d88d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentSpawnPosition: {x: 0, y: 0}
   spawnPositions: []
+  possiblePlacements: []
   aiPrefab: {fileID: 6555814590550537757, guid: b15fcf116c74894478999af76e74045c,
     type: 3}
   mazeGenerator: {fileID: 317037740}
   aiParent: {fileID: 0}
   mazeOffset: {x: 6, y: 1}
   numEnemies: 4
+  enemyDRadius: 0
 --- !u!4 &172134486
 Transform:
   m_ObjectHideFlags: 0
@@ -488,6 +491,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2889450154666608079, guid: 91bfc692985d5054abef1f23d07042c3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4143757314986123878, guid: 91bfc692985d5054abef1f23d07042c3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -543,6 +551,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: --EDITORS
       objectReference: {fileID: 0}
+    - target: {fileID: 5284051211869275927, guid: 91bfc692985d5054abef1f23d07042c3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -9
+      objectReference: {fileID: 0}
     - target: {fileID: 8872804585866493029, guid: 91bfc692985d5054abef1f23d07042c3,
         type: 3}
       propertyPath: mazeComplete.m_PersistentCalls.m_Calls.Array.size
@@ -577,6 +590,16 @@ PrefabInstance:
         type: 3}
       propertyPath: mazeComplete.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 9085135124094033445, guid: 91bfc692985d5054abef1f23d07042c3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9085135124094033445, guid: 91bfc692985d5054abef1f23d07042c3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

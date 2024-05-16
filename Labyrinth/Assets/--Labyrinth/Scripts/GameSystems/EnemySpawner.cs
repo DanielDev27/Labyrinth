@@ -2,13 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
     public static EnemySpawner Instance;
     [Header("Debug")]
+    [SerializeField] Vector2 _currentSpawnPosition;
     [SerializeField] List<Vector2> spawnPositions;
+    [SerializeField] List<Vector2> possiblePlacements;
+    [ShowInInspector] Dictionary<Vector2, bool> enemyPlacements = new Dictionary<Vector2, bool>();
     [Header("References")]
     [SerializeField] GameObject aiPrefab;
     [SerializeField] PCGDungeonGenerator mazeGenerator;
@@ -16,10 +20,11 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] Transform aiParent;
     [SerializeField] Vector2 mazeOffset;
     [SerializeField] int numEnemies;
+    [SerializeField] int enemyDRadius;
     private void Awake()
     {
         Instance = this;
-        aiParent = this.transform;
+        aiParent = transform;
         aiPrefab.GetComponent<HealthBarsRotation>().mainCamera = FindObjectOfType<Camera>().transform;
     }
     private void OnEnable()
@@ -28,26 +33,34 @@ public class EnemySpawner : MonoBehaviour
     }
     public void SpawnEnemies(Dictionary<Vector2, SpaceOccupied> occupiedDict)
     {
-        Vector2 _currentSpawnPostion = Vector2.zero;
-        Vector2 _previousSpawnPostion = Vector2.zero;
         foreach (Vector2 gridPosition in occupiedDict.Keys)
         {
             spawnPositions.Add(gridPosition);
+            enemyPlacements.Add(gridPosition, false);
         }
         //Debug.Log("SpawnEnemies");
         for (int i = 0; i < numEnemies; i++)
         {
-            _currentSpawnPostion = spawnPositions[UnityEngine.Random.Range(0, spawnPositions.Count)];
-            if (Vector2.Distance(_currentSpawnPostion, _previousSpawnPostion) < 5 && _previousSpawnPostion != Vector2.zero)
+            _currentSpawnPosition = spawnPositions[UnityEngine.Random.Range(0, spawnPositions.Count)];
+            //Check space
+            for (int x = -enemyDRadius; x < enemyDRadius; x++)
             {
-                Debug.Log("Enemies spawned too close to each other");
+                for (int y = -enemyDRadius; y < enemyDRadius; y++)
+                {
+                    Vector2 positionCheck = _currentSpawnPosition + new Vector2(x, y);
+                    if (spawnPositions.Contains(positionCheck))
+                    {
+                        possiblePlacements.Add(positionCheck);
+                    }
+                }
             }
-            GameObject aiEnemy = Instantiate(aiPrefab, new Vector3(_currentSpawnPostion.x * PCGDungeonGenerator.Instance.dungeon.roomWidth -
-            PCGDungeonGenerator.Instance.dungeon.roomWidth * mazeOffset.x, transform.position.y, _currentSpawnPostion.y *
+            GameObject aiEnemy = Instantiate(aiPrefab, new Vector3(_currentSpawnPosition.x * PCGDungeonGenerator.Instance.dungeon.roomWidth -
+            PCGDungeonGenerator.Instance.dungeon.roomWidth * mazeOffset.x, transform.position.y, _currentSpawnPosition.y *
             PCGDungeonGenerator.Instance.dungeon.roomHeight - PCGDungeonGenerator.Instance.dungeon.roomHeight * mazeOffset.y),
             Quaternion.identity);
+            enemyPlacements[_currentSpawnPosition] = true;
             aiEnemy.transform.parent = aiParent;
-            _previousSpawnPostion = _currentSpawnPostion;
+            //possiblePlacements.Clear();
         }
     }
     public void RemoveEnemies()
@@ -57,5 +70,6 @@ public class EnemySpawner : MonoBehaviour
             Destroy(aiParent.GetChild(i).gameObject);
         }
         spawnPositions.Clear();
+        enemyPlacements.Clear();
     }
 }
