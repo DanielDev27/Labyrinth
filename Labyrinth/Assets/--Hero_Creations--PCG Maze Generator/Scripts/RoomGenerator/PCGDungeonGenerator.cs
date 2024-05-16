@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
-using Unity.Jobs;
 using Unity.AI.Navigation;
+using System.Collections;
 
 [System.Serializable]
 public struct Dungeon
@@ -31,8 +31,10 @@ public class PCGDungeonGenerator : MonoBehaviour
     public Dungeon dungeon;
     Room newRoom;
     [Header("Settings")]
-    [SerializeField] Canvas canvasInputs;
     [SerializeField] Vector3 startingPosition;
+    [Header("References")]
+    [SerializeField] Canvas canvasInputs;
+    [SerializeField] NavMeshSurface navMeshSurface;
     [Header("Debug Info")]
     [SerializeField] bool completed;
     [SerializeField] int rooms2VCount;
@@ -56,8 +58,7 @@ public class PCGDungeonGenerator : MonoBehaviour
     Dictionary<Room, Vector2> dungeonDict = new Dictionary<Room, Vector2>();
     Dictionary<Vector2, SpaceOccupied> occupiedDict = new Dictionary<Vector2, SpaceOccupied>();
     int roomParentCount;
-    public UnityEvent<Dictionary<Vector2, SpaceOccupied>> mazeComplete = new UnityEvent<Dictionary<Vector2, SpaceOccupied>>();
-    [SerializeField] NavMeshSurface navMeshSurface;
+    [HideInInspector] public UnityEvent<Dictionary<Vector2, SpaceOccupied>> mazeComplete = new UnityEvent<Dictionary<Vector2, SpaceOccupied>>();
 
     private void Awake()
     {
@@ -82,10 +83,11 @@ public class PCGDungeonGenerator : MonoBehaviour
     {
         dungeon.maxExtensionRooms = Int32.Parse(input);
     }
-
     [ContextMenu("Generate")]
     public void Generate()
     {
+        //Clear rooms on button push if there are rooms
+        if (dungeon.roomParent.childCount > 0) { ClearRooms(); }
         canvasInputs.enabled = false;
         //create new grid array
         spaceOccupied = new SpaceOccupied[dungeon.width, dungeon.height];
@@ -100,21 +102,23 @@ public class PCGDungeonGenerator : MonoBehaviour
         {
             for (int z = 0; z < dungeon.height + 2; z++) { gridOccupied[x, z] = SpaceOccupied.No; }
         }
-
+        //Start generating dungeon
         roomV2s.Add(dungeon.baseRoom);
         dungeon.baseRoom.SetGridPosition(dungeon.width / 2, -1);
         gridOccupied[dungeon.baseRoom.GetGridPosition().x + 1, dungeon.baseRoom.GetGridPosition().y + 1] = SpaceOccupied.Yes;
-        //Clear rooms on button push if there are rooms
-        if (dungeon.roomParent.childCount > 0) { ClearRooms(); }
         currentInbetweenRooms = dungeon.maxInbetweenRooms;
         currentExtensionRooms = dungeon.maxExtensionRooms;
-        //Start generating dungeon
         SpawningRooms(dungeon.startRoom, startingPosition, null);
+        //Start Functions once the maze has been made
+        StartCoroutine(PopulateMaze());
+    }
+    IEnumerator PopulateMaze()
+    {
+        yield return new WaitForEndOfFrame();
+        Debug.Log("Maze Complete");
         navMeshSurface.BuildNavMesh();
         mazeComplete.Invoke(occupiedDict);
-        Debug.Log("Maze Complete");
     }
-
     [ContextMenu("Clear")]
     void ClearRooms()
     {
@@ -130,6 +134,7 @@ public class PCGDungeonGenerator : MonoBehaviour
         dungeonRoomCount = dungeonDict.Count;
         occupiedDict.Clear();
         roomParentCount = 0;
+        EnemySpawner.Instance.RemoveEnemies();
     }
 
     void SpawningRooms(RoomDataObject roomData, Vector3 roomPosition, RoomDataObject _previousRoom)
