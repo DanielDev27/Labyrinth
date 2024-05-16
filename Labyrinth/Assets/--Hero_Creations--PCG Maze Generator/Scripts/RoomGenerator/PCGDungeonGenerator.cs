@@ -56,9 +56,9 @@ public class PCGDungeonGenerator : MonoBehaviour
     List<RoomDataObject> previousCompatibleRooms;
     List<RoomDataObject> _previousNext;
     Dictionary<Room, Vector2> dungeonDict = new Dictionary<Room, Vector2>();
-    Dictionary<Vector2, SpaceOccupied> occupiedDict = new Dictionary<Vector2, SpaceOccupied>();
+    public Dictionary<Vector2, SpaceOccupied> occupiedDict = new Dictionary<Vector2, SpaceOccupied>();
     int roomParentCount;
-    [HideInInspector] public UnityEvent<Dictionary<Vector2, SpaceOccupied>> mazeComplete = new UnityEvent<Dictionary<Vector2, SpaceOccupied>>();
+    [HideInInspector] public UnityEvent mazeComplete = new UnityEvent();
 
     private void Awake()
     {
@@ -117,7 +117,7 @@ public class PCGDungeonGenerator : MonoBehaviour
         yield return new WaitForEndOfFrame();
         Debug.Log("Maze Complete");
         navMeshSurface.BuildNavMesh();
-        mazeComplete.Invoke(occupiedDict);
+        mazeComplete.Invoke();
     }
     [ContextMenu("Clear")]
     void ClearRooms()
@@ -211,9 +211,9 @@ public class PCGDungeonGenerator : MonoBehaviour
             }
             /**/
             currentInbetweenRooms--;
+            //restart coroutine whilst there are inbetween rooms
             if (currentInbetweenRooms >= -1)
             {
-                //restart coroutine whilst there are inbetween rooms
                 SpawningRooms(nextRoom, nextRoomPosition, currentRoom);
             }
         }

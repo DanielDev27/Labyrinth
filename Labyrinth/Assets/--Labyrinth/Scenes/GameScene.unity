@@ -154,14 +154,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentSpawnPosition: {x: 0, y: 0}
   spawnPositions: []
-  possiblePlacements: []
   aiPrefab: {fileID: 6555814590550537757, guid: b15fcf116c74894478999af76e74045c,
     type: 3}
   mazeGenerator: {fileID: 317037740}
   aiParent: {fileID: 0}
   mazeOffset: {x: 6, y: 1}
-  numEnemies: 4
-  enemyDRadius: 0
+  enemyDRadius: 3
 --- !u!4 &172134486
 Transform:
   m_ObjectHideFlags: 0
@@ -200,17 +198,17 @@ PrefabInstance:
     - target: {fileID: 5080973300692303838, guid: 84efdda4aa67c9243ab303a749b80e08,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.08570873
+      value: 0.085708715
       objectReference: {fileID: 0}
     - target: {fileID: 5080973300692303838, guid: 84efdda4aa67c9243ab303a749b80e08,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000018205892
+      value: 0.000000016623817
       objectReference: {fileID: 0}
     - target: {fileID: 5080973300692303838, guid: 84efdda4aa67c9243ab303a749b80e08,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000001566167
+      value: -0.0000000014300684
       objectReference: {fileID: 0}
     - target: {fileID: 5182869792536502528, guid: 84efdda4aa67c9243ab303a749b80e08,
         type: 3}

@@ -11,15 +11,14 @@ public class EnemySpawner : MonoBehaviour
     [Header("Debug")]
     [SerializeField] Vector2 _currentSpawnPosition;
     [SerializeField] List<Vector2> spawnPositions;
-    [SerializeField] List<Vector2> possiblePlacements;
     [ShowInInspector] Dictionary<Vector2, bool> enemyPlacements = new Dictionary<Vector2, bool>();
+    Dictionary<Vector2, SpaceOccupied> occupiedDict;
     [Header("References")]
     [SerializeField] GameObject aiPrefab;
     [SerializeField] PCGDungeonGenerator mazeGenerator;
     [Header("Settings")]
     [SerializeField] Transform aiParent;
     [SerializeField] Vector2 mazeOffset;
-    [SerializeField] int numEnemies;
     [SerializeField] int enemyDRadius;
     private void Awake()
     {
@@ -29,28 +28,31 @@ public class EnemySpawner : MonoBehaviour
     }
     private void OnEnable()
     {
-        mazeGenerator.mazeComplete.AddListener(SpawnEnemies);
+        mazeGenerator.mazeComplete.AddListener(GetMazeData);
     }
-    public void SpawnEnemies(Dictionary<Vector2, SpaceOccupied> occupiedDict)
+    public void GetMazeData()
     {
+        this.occupiedDict = mazeGenerator.occupiedDict;
         foreach (Vector2 gridPosition in occupiedDict.Keys)
         {
             spawnPositions.Add(gridPosition);
             enemyPlacements.Add(gridPosition, false);
         }
+        SpawnEnemies();
+    }
+    public void SpawnEnemies()
+    {
         //Debug.Log("SpawnEnemies");
-        for (int i = 0; i < numEnemies; i++)
+        //for (int i = 0; i < numEnemies; i++)
         {
             _currentSpawnPosition = spawnPositions[UnityEngine.Random.Range(0, spawnPositions.Count)];
-            //Check space
             for (int x = -enemyDRadius; x < enemyDRadius; x++)
             {
                 for (int y = -enemyDRadius; y < enemyDRadius; y++)
                 {
-                    Vector2 positionCheck = _currentSpawnPosition + new Vector2(x, y);
-                    if (spawnPositions.Contains(positionCheck))
+                    if (spawnPositions.Contains(_currentSpawnPosition + new Vector2(x, y)))
                     {
-                        possiblePlacements.Add(positionCheck);
+                        spawnPositions.Remove(_currentSpawnPosition + new Vector2(x, y));
                     }
                 }
             }
@@ -60,7 +62,10 @@ public class EnemySpawner : MonoBehaviour
             Quaternion.identity);
             enemyPlacements[_currentSpawnPosition] = true;
             aiEnemy.transform.parent = aiParent;
-            //possiblePlacements.Clear();
+        }
+        if (spawnPositions.Count > 0)
+        {
+            SpawnEnemies();
         }
     }
     public void RemoveEnemies()
