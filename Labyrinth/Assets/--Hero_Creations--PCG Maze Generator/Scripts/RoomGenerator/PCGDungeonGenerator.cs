@@ -85,9 +85,15 @@ public class PCGDungeonGenerator : MonoBehaviour
     }
     [ContextMenu("Generate")]
     public void Generate()
+    { StartCoroutine(GenerateMaze()); }
+    IEnumerator GenerateMaze()
     {
         //Clear rooms on button push if there are rooms
-        if (dungeon.roomParent.childCount > 0) { ClearRooms(); }
+        if (dungeon.roomParent.childCount > 0)
+        {
+            ClearRooms();
+            yield return new WaitForEndOfFrame();
+        }
         canvasInputs.enabled = false;
         //create new grid array
         spaceOccupied = new SpaceOccupied[dungeon.width, dungeon.height];
