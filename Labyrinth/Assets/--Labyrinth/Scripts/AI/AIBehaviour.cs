@@ -25,7 +25,6 @@ public class AIBehaviour : MonoBehaviour
     [SerializeField] HealthSystem healthSystem;
     [SerializeField] Weapon weapon;
     [SerializeField] NavMeshAgent agent;
-    [SerializeField] Collider searchZone;
     [SerializeField] Transform eyeLine;
     [SerializeField] LayerMask obstructionLayer;
     [SerializeField] Animator agentAnimator;
@@ -104,7 +103,7 @@ public class AIBehaviour : MonoBehaviour
             directionToTarget = playerPosition - transform.position;
             distanceToPlayer = Vector3.Distance(transform.position, playerPosition);
             //Vision Check
-            visionCheck = Vector3.Angle(transform.forward, playerPosition.normalized);
+            visionCheck = Vector3.Angle(transform.forward, directionToTarget);
             if (visionCheck <= (fovAngle / 2))
             {
                 //Does AI see the player
@@ -124,7 +123,7 @@ public class AIBehaviour : MonoBehaviour
             }
             else
             {
-                Debug.DrawLine(eyeLine.position, playerPosition, Color.black);
+                Debug.DrawRay(eyeLine.position, directionToTarget, Color.black);
             }
         }
     }

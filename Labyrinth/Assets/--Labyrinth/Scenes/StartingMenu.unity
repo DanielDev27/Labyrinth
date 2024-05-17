@@ -1215,7 +1215,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Control: \tMnK \t\t/ \tController\nMovement: \tWASD \t/ \tLeft Stick\nLook:
-    \tMouse Delta \t/ \tRight Stick\nSprint: \tLeft Shift \t/\t L3\nDodge: \tC \t\t/\t
+    \t\tMouse Delta / \tRight Stick\nSprint: \tLeft Shift \t/\t L3\nDodge: \tCtrl\t\t/\t
     East Button\nAttack: \tLeft Button \t/\t Right Trigger\nBlock: \tRight Button
     /\t Left Trigger\nPause: \tEscape \t/\t Start Button"
   m_isRightToLeft: 0

@@ -594,7 +594,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 9
+  m_Radius: 12
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &6555814590550537755
 Animator:
@@ -634,6 +634,7 @@ MonoBehaviour:
   currentAiState: 0
   directionToTarget: {x: 0, y: 0, z: 0}
   distanceToPlayer: 0
+  visionCheck: 0
   startingDistanceToPlayer: 0
   canSeePlayer: 0
   coroutineInProgress: 0
@@ -646,7 +647,6 @@ MonoBehaviour:
   healthSystem: {fileID: 4997268746331407054}
   weapon: {fileID: 5403583155911702019}
   agent: {fileID: 6555814590550537759}
-  searchZone: {fileID: 0}
   eyeLine: {fileID: 6555814589296613336}
   obstructionLayer:
     serializedVersion: 2
@@ -654,7 +654,7 @@ MonoBehaviour:
   agentAnimator: {fileID: 6555814590550537755}
   walkSpeed: 1
   sprintSpeed: 3
-  fovAngle: 150
+  fovAngle: 180
   maxHealth: 40
   attackCD: 0.1
 --- !u!114 &4997268746331407054
