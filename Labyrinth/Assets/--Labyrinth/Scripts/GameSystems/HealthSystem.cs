@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 public class HealthSystem : MonoBehaviour
 {
     public static HealthSystem Instance;
@@ -8,6 +9,7 @@ public class HealthSystem : MonoBehaviour
     [SerializeField] int maxHealth;
     [SerializeField] bool dead;
     [SerializeField] Slider healthBar;
+    public UnityEvent takeDamage = new UnityEvent();
     private void Awake()
     {
         Instance = this;
@@ -43,6 +45,8 @@ public class HealthSystem : MonoBehaviour
         if (this.gameObject.GetComponent<AIBehaviour>() != null && !this.gameObject.GetComponent<AIBehaviour>().immune)
         {
             GetComponent<Animator>().SetTrigger("damage");
+            Debug.Log("Enemy Take Damage");
+            takeDamage.Invoke();
         }
     }
     public int UpdateHealth()//Update Health Logic

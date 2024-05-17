@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EndingRoom_N
   m_EditorClassIdentifier: 
   nameRoom: EndingRoom_N
-  RoomModel: {fileID: 2253422074515774339, guid: c706528b683d7c14b9782574b373314b,
+  RoomModel: {fileID: 319556571405824193, guid: de704193e9757cc4f8b9903d18c5be14,
     type: 3}
   CompatibleRooms: []
   DoorN: 1

@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Rendering;
 
 public class AIBehaviour : MonoBehaviour
 {
@@ -12,6 +11,7 @@ public class AIBehaviour : MonoBehaviour
     public AiStates currentAiState;
     [SerializeField] Vector3 directionToTarget;
     [SerializeField] float distanceToPlayer;
+    [SerializeField] float visionCheck;
     [SerializeField] float startingDistanceToPlayer;
     [SerializeField] bool canSeePlayer;
     [SerializeField] bool coroutineInProgress;
@@ -42,6 +42,7 @@ public class AIBehaviour : MonoBehaviour
         health = maxHealth;
         coroutineInProgress = false;
         isDead = false;
+        healthSystem.takeDamage.AddListener(LookToPlayer);
     }
     void Update()
     {
@@ -94,6 +95,7 @@ public class AIBehaviour : MonoBehaviour
     }
     void FieldOfViewCheck()//Logic to check if player is within visual range of AI
     {
+        Debug.DrawRay(transform.position + transform.up, transform.forward, Color.blue);
         if (playerReference != null && !isDead)//Can see player and AI is alive
         {
             RaycastHit _hit;
@@ -102,7 +104,8 @@ public class AIBehaviour : MonoBehaviour
             directionToTarget = playerPosition - transform.position;
             distanceToPlayer = Vector3.Distance(transform.position, playerPosition);
             //Vision Check
-            if (Vector3.Angle(eyeLine.transform.position, playerPosition) <= fovAngle / 2)
+            visionCheck = Vector3.Angle(transform.forward, playerPosition.normalized);
+            if (visionCheck <= (fovAngle / 2))
             {
                 //Does AI see the player
                 bool _hitLayer = Physics.Raycast(transform.position, directionToTarget, out _hit, 100, obstructionLayer, QueryTriggerInteraction.Ignore);
@@ -257,7 +260,10 @@ public class AIBehaviour : MonoBehaviour
     {
         immune = false;
     }
-
+    void LookToPlayer()
+    {
+        transform.LookAt(playerReference.transform.position);
+    }
     void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out PlayerController _characterController)) //add a target on a collider enter

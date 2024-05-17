@@ -650,7 +650,7 @@ MonoBehaviour:
   eyeLine: {fileID: 6555814589296613336}
   obstructionLayer:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 385
   agentAnimator: {fileID: 6555814590550537755}
   walkSpeed: 1
   sprintSpeed: 3
@@ -673,6 +673,9 @@ MonoBehaviour:
   maxHealth: 0
   dead: 0
   healthBar: {fileID: 144998056}
+  takeDamage:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7190276190231355930
 MonoBehaviour:
   m_ObjectHideFlags: 0
