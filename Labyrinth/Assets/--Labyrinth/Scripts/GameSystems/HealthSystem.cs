@@ -16,8 +16,8 @@ public class HealthSystem : MonoBehaviour
         healthBar.value = 100 * currentHealth / maxHealth;
     }
     void FixedUpdate()
-    {//Update the healthbar UI
-        healthBar.value = 100 * currentHealth / maxHealth;
+    {
+
     }
     public int GetHealth()//Logic to get the health from a character
     {
@@ -46,7 +46,11 @@ public class HealthSystem : MonoBehaviour
         }
     }
     public int UpdateHealth()//Update Health Logic
-    { return currentHealth; }
+    {
+        //Update the healthbar UI
+        healthBar.value = 100 * currentHealth / maxHealth;
+        return currentHealth;
+    }
     public void PlayerDie()//Triggering Death for Player
     {
         GetComponent<Animator>().SetBool("Dead", true);

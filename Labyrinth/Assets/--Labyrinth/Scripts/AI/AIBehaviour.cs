@@ -8,10 +8,11 @@ public class AIBehaviour : MonoBehaviour
     public static AIBehaviour _instance;
     [Header("Debug")]//Useful values for visual debug
     [SerializeField] PlayerController charCont;
-    [SerializeField] GameObject playerReference;
+    [SerializeField] public GameObject playerReference;
     public AiStates currentAiState;
     [SerializeField] Vector3 directionToTarget;
     [SerializeField] float distanceToPlayer;
+    [SerializeField] float startingDistanceToPlayer;
     [SerializeField] bool canSeePlayer;
     [SerializeField] bool coroutineInProgress;
     [SerializeField] bool isSprinting;
@@ -149,6 +150,10 @@ public class AIBehaviour : MonoBehaviour
     IEnumerator OnIdle()//Idle Logic
     {
         coroutineInProgress = true;
+        if (playerReference != null)
+        {
+            startingDistanceToPlayer = Vector3.Distance(transform.position, playerReference.transform.position);
+        }
         //Debug.Log("Is Idle");
         if (!isDead && !isAttacking)//AI is fully Idle
         {
@@ -182,25 +187,26 @@ public class AIBehaviour : MonoBehaviour
         {
             agent.SetDestination(playerReference.transform.position);
             //Player target is far away
-            if (Vector3.Distance(transform.position, playerReference.transform.position) > 10f)
+            //if (Vector3.Distance(transform.position, playerReference.transform.position) > 10f)
+            if (startingDistanceToPlayer > 5f)
             {
-                agent.isStopped = false;
-                agent.speed = sprintSpeed;
                 isSprinting = true;
+                agent.speed = sprintSpeed;
+                agent.isStopped = false;
             }
             //Player target is close
-            if (Vector3.Distance(transform.position, playerReference.transform.position) <= 5f)
+            if (startingDistanceToPlayer <= 5f)
             {
-                agent.isStopped = false;
-                agent.speed = walkSpeed;
                 isSprinting = false;
+                agent.speed = walkSpeed;
+                agent.isStopped = false;
             }
             //Reached Player target
             if (Vector3.Distance(transform.position, playerReference.transform.position) <= 2.5f && timerCD >= attackCD)
             {
+                isSprinting = false;
                 agent.isStopped = true;
                 agentAnimator.SetBool("isMoving", false);
-                isSprinting = false;
                 currentAiState = AiStates.Attacking;
             }
             //In Cooldown
@@ -232,12 +238,24 @@ public class AIBehaviour : MonoBehaviour
         isAttacking = false;
         timerCD = 0;
         currentAiState = AiStates.Chasing;
+        if (playerReference != null)
+        {
+            startingDistanceToPlayer = Vector3.Distance(transform.position, playerReference.transform.position);
+        }
     }
     IEnumerator OnDeath()//Death Logic
     {
         coroutineInProgress = true;
         yield return new WaitForSeconds(6);
         coroutineInProgress = false;
+    }
+    public void StartImmune()
+    {
+        immune = true;
+    }
+    public void StopImmune()
+    {
+        immune = false;
     }
 
     void OnTriggerEnter(Collider other)

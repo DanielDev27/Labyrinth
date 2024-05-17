@@ -315,7 +315,7 @@ public partial class @LabyrinthPlayerInputs: IInputActionCollection2, IDisposabl
                 {
                     ""name"": """",
                     ""id"": ""2fae8b20-2b9f-4048-90fd-89848f4cc446"",
-                    ""path"": ""<Keyboard>/c"",
+                    ""path"": ""<Keyboard>/ctrl"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

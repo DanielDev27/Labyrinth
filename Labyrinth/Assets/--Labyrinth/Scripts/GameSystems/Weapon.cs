@@ -1,11 +1,13 @@
 using UnityEngine;
 public class Weapon : MonoBehaviour
 {
+    [Header("Debug")]
+    [SerializeField] bool isWeaponOn;
     [Header("References")]
-    [SerializeField] Collider hurtBox;
+    [SerializeField] GameObject hurtBox;
     [Header("Weapon Settings")]
     public int damage;
-    [SerializeField] bool charcterWeapon;
+    [SerializeField] bool characterWeapon;
     [SerializeField] bool aIWeapon;
     private void Start()
     {
@@ -13,36 +15,34 @@ public class Weapon : MonoBehaviour
     }
     public void EnableHurtBox()//Animation event to turn on collider
     {
-        hurtBox.enabled = true;
-        if (aIWeapon)
-        {
-            GetComponent<AIBehaviour>().immune = true;
-        }
+        isWeaponOn = true;
+        hurtBox.SetActive(true);
     }
     public void DisableHurtBox()//Animation event to turn off collider
     {
-        hurtBox.enabled = false;
-        if (aIWeapon)
-        {
-            GetComponent<AIBehaviour>().immune = false;
-        }
+        isWeaponOn = false;
+        hurtBox.SetActive(false);
     }
     private void OnCollisionEnter(Collision other)//Collision Event
     {
-        if (charcterWeapon)
+        if (characterWeapon)
         {
-            if (other.gameObject.GetComponent<AIBehaviour>() != null && hurtBox.enabled == true)
+            if (other.gameObject.GetComponent<AIBehaviour>() != null && hurtBox.activeSelf == true)
             {//If player weapon collide with AI logic
                 AIBehaviour ai = other.gameObject.GetComponent<AIBehaviour>();
                 ai.GetComponent<HealthSystem>().TakeDamage(damage);
                 DisableHurtBox();
             }
         }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
         if (aIWeapon)
         {
-            if (other.gameObject.GetComponent<PlayerController>() != null && hurtBox.enabled == true)
+            if (other.gameObject.GetComponent<PlayerController>() != null && hurtBox.activeSelf == true)
             {//if AI weapon collide with player logic
                 PlayerController _char = other.gameObject.GetComponent<PlayerController>();
+                Debug.Log("Hit Player");
                 if (_char.IsBlock)
                 {//Does nothing if PLayer is blocking
                     DisableHurtBox();

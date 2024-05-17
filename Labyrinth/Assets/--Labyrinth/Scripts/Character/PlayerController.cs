@@ -33,9 +33,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AIBehaviour ai;
     [Header("Settings")]//Settings required for the script's functioning
     [SerializeField] float speedMultiplier;
-    [SerializeField] private float runSpeed;
     [SerializeField] private float walkSpeed;
-    [SerializeField] private float dodgeForce;
+    [SerializeField] private float runSpeed;
+    [SerializeField] private float dodgeSpeed;
     [SerializeField] float horizontalSensitivity;
     [SerializeField] float mouseSensitivity;
     [SerializeField] float controllerSensitivity;
@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour
     [Header("Anim Settings")]//Settings/References specifically for some animations
     [SerializeField] AnimationClip attackAnimSlash;
     [SerializeField] AnimationClip attackAnimBack;
+    [SerializeField] AnimationClip dodgeAnim;
+    [SerializeField] float dodgeCooldown;
 
     void Awake()
     {
@@ -191,7 +193,9 @@ public class PlayerController : MonoBehaviour
             }
             if (isDodging)
             {//Dodging Modifiers
-                playerRigidbody.AddForce(moveCombined * dodgeForce, ForceMode.Acceleration);
+                speedMultiplier = dodgeSpeed;
+                dodgeCooldown = dodgeAnim.length;
+                StartCoroutine(DodgeCoolDown());
             }
         }
         else
@@ -227,7 +231,7 @@ public class PlayerController : MonoBehaviour
         }
         yRotation += lookInput.x * horizontalSensitivity;
         //Logic for Freelook camera
-        if (moveInput != Vector2.zero)
+        if (moveInput != Vector2.zero || IsAttack)
         {
             this.transform.rotation = Quaternion.Euler(0, yRotation, 0).normalized;
             cameraHolder.transform.rotation = this.transform.rotation;
@@ -321,13 +325,14 @@ public class PlayerController : MonoBehaviour
         {
             isDodging = true;
             boredCount = 0;
-            animator.SetBool("isDodging", true);
+            animator.SetTrigger("dodgeTrigger");
+            //animator.SetBool("isDodging", true);
         }
-        if (!dodging)
-        {
-            isDodging = false;
-            animator.SetBool("isDodging", false);
-        }
+    }
+    IEnumerator DodgeCoolDown()
+    {
+        yield return new WaitForSeconds(dodgeCooldown);
+        isDodging = false;
     }
 
     void OnTriggerStay(Collider viewable)

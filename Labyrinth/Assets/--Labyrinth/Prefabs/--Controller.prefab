@@ -238,8 +238,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.1, y: 0.1, z: 0.1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.1, y: 0.1, z: 0.6}
+  m_Center: {x: 0, y: 0, z: -0.3}
 --- !u!1 &4479764062580691555
 GameObject:
   m_ObjectHideFlags: 0
@@ -733,8 +733,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.35
-  m_Height: 1.8
+  m_Radius: 0.5
+  m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!95 &4414180444166485832
@@ -904,19 +904,15 @@ MonoBehaviour:
   playerRigidbody: {fileID: 2434536831001351549}
   cameraHolder: {fileID: 503005185211057143}
   animator: {fileID: 4414180444166485832}
-  pauseCanvas: {fileID: 0}
   healthSystem: {fileID: 2906811728877114191}
   weapon: {fileID: 376969163920829296}
   shield: {fileID: 184587163460649145}
-  cinemachineFreeLook: {fileID: 0}
   playerInput: {fileID: 5262345671448789080}
   ai: {fileID: 0}
-  viewable: {fileID: 0}
-  damageable: {fileID: 0}
   speedMultiplier: 0
-  runSpeed: 4.5
   walkSpeed: 3
-  dodgeForce: 50
+  runSpeed: 4.5
+  dodgeSpeed: 5
   horizontalSensitivity: 0
   mouseSensitivity: 5
   controllerSensitivity: 5
@@ -924,6 +920,9 @@ MonoBehaviour:
   maxHealth: 50
   attackAnimSlash: {fileID: 7400000, guid: 9004e77d2573add4fa6c2a13568b2185, type: 2}
   attackAnimBack: {fileID: 7400000, guid: 5cb4716c4da558541a12df813a00e915, type: 2}
+  dodgeAnim: {fileID: -203655887218126122, guid: 35146e575fa9d77458140c365fd64c8d,
+    type: 3}
+  dodgeCooldown: 0
 --- !u!114 &2906811728877114191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -952,9 +951,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da6ac3215744fae438736c5a95c71176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hurtBox: {fileID: 1475744979133461542}
+  isWeaponOn: 0
+  hurtBox: {fileID: 2454037367753097958}
   damage: 5
-  charcterWeapon: 1
+  characterWeapon: 1
   aIWeapon: 0
 --- !u!114 &184587163460649145
 MonoBehaviour:
@@ -998,8 +998,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8196363552861305752}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.12558939, y: -0.00000000739159, z: 9.35714e-10, w: 0.9920823}
-  m_LocalPosition: {x: 0, y: 1.5, z: -1.5000005}
+  m_LocalRotation: {x: 0.12558945, y: -0, z: -0, w: 0.9920823}
+  m_LocalPosition: {x: 0, y: 1.5, z: -1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
