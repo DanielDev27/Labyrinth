@@ -183,7 +183,7 @@ public class PlayerController : MonoBehaviour
         moveDirection = moveInput.x * Camera.main.transform.right + moveInput.y * Camera.main.transform.forward;
         //Combine the moveInput into a V3
         Vector3 moveCombined = new Vector3(moveInput.x, 0, moveInput.y);
-        if (moveCombined != Vector3.zero)
+        if (moveCombined != Vector3.zero && !IsAttack)
         {//Logic for when player can move
             playerAvatar.transform.rotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0, moveDirection.z));
             boredCount = 0;
@@ -255,13 +255,13 @@ public class PlayerController : MonoBehaviour
     {
         if (attacking && !IsAttack)
         {
+            //Reset Bored counter
+            boredCount = 0;
             StartCoroutine(AttackState());
         }
     }
     IEnumerator AttackState()//Attack Logic
     {
-        //Reset Bored counter
-        boredCount = 0;
         //Set attack true
         IsAttack = true;
         animator.SetTrigger("attackTrigger");
@@ -273,31 +273,27 @@ public class PlayerController : MonoBehaviour
         if (attackCount == 0)
         {
             float attackAnimTime = attackAnimSlash.averageDuration;
-            yield return new WaitForSeconds(attackAnimTime);
+            yield return new WaitForSeconds(attackAnimTime - 0.5f);
             IsAttack = false;
+            yield return new WaitForSeconds(0.5f);
+            SetAttackFalse();
         }
         if (attackCount == 1)
         {
             float attackAnimTime = attackAnimBack.averageDuration;
-            yield return new WaitForSeconds(attackAnimTime);
+            yield return new WaitForSeconds(attackAnimTime - 0.5f);
             IsAttack = false;
+            yield return new WaitForSeconds(0.5f);
+            SetAttackFalse();
         }
         attackCount++;
-        if (attackCount == 2)
-        {//Reset combo counter
-            attackCount = 0;
-        }
     }
-    public void AnimSetAttackFalse()
-    {//Exit Attack AnimEvent
-        StartCoroutine(SetAttackFalse());
-    }
-    IEnumerator SetAttackFalse()
+    void SetAttackFalse()
     {
-        yield return new WaitForSeconds(0.2f);
+        //yield return new WaitForEndOfFrame();
+        attackCount = 0;
         if (!IsAttack)
         {
-            attackCount = 0;
             animator.SetBool("isAttack", false);//Exit Attack state
             if (moveInput != Vector2.zero)
             {//Turn movement back on
