@@ -183,10 +183,10 @@ public class PlayerController : MonoBehaviour
         moveDirection = moveInput.x * Camera.main.transform.right + moveInput.y * Camera.main.transform.forward;
         //Combine the moveInput into a V3
         Vector3 moveCombined = new Vector3(moveInput.x, 0, moveInput.y);
-        if (moveCombined != Vector3.zero && !IsBlock && !IsAttack)
+        if (moveCombined != Vector3.zero)
         {//Logic for when player can move
-            boredCount = 0;
             playerAvatar.transform.rotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0, moveDirection.z));
+            boredCount = 0;
             playerRigidbody.velocity = new Vector3(moveDirection.x * speedMultiplier, 0, moveDirection.z * speedMultiplier);
             if (isRunning)
             {//Running modifiers
@@ -335,6 +335,7 @@ public class PlayerController : MonoBehaviour
             if (isDodging && moveInput == Vector2.zero)
             {//Dodging Modifiers
                 speedMultiplier = dodgeSpeed;
+                animator.SetFloat("speed", 0);
                 dodgeCooldown = dodgeAnim.length;
                 playerRigidbody.velocity = playerAvatar.transform.forward * -speedMultiplier;
                 StartCoroutine(DodgeCoolDown());
