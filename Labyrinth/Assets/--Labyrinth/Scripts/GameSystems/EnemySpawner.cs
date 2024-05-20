@@ -38,31 +38,29 @@ public class EnemySpawner : MonoBehaviour
             spawnPositions.Add(gridPosition);
             enemyPlacements.Add(gridPosition, false);
         }
+        spawnPositions.Remove(new Vector2(mazeOffset.x - 1, 1));
+        spawnPositions.Remove(new Vector2(mazeOffset.x + 1, 1));
         SpawnEnemies();
     }
     public void SpawnEnemies()
     {
-        //Debug.Log("SpawnEnemies");
-        //for (int i = 0; i < numEnemies; i++)
+        _currentSpawnPosition = spawnPositions[UnityEngine.Random.Range(0, spawnPositions.Count)];
+        for (int x = -enemyDRadius; x < enemyDRadius; x++)
         {
-            _currentSpawnPosition = spawnPositions[UnityEngine.Random.Range(0, spawnPositions.Count)];
-            for (int x = -enemyDRadius; x < enemyDRadius; x++)
+            for (int y = -enemyDRadius; y < enemyDRadius; y++)
             {
-                for (int y = -enemyDRadius; y < enemyDRadius; y++)
+                if (spawnPositions.Contains(_currentSpawnPosition + new Vector2(x, y)))
                 {
-                    if (spawnPositions.Contains(_currentSpawnPosition + new Vector2(x, y)))
-                    {
-                        spawnPositions.Remove(_currentSpawnPosition + new Vector2(x, y));
-                    }
+                    spawnPositions.Remove(_currentSpawnPosition + new Vector2(x, y));
                 }
             }
-            GameObject aiEnemy = Instantiate(aiPrefab, new Vector3(_currentSpawnPosition.x * PCGDungeonGenerator.Instance.dungeon.roomWidth -
-            PCGDungeonGenerator.Instance.dungeon.roomWidth * mazeOffset.x, transform.position.y, _currentSpawnPosition.y *
-            PCGDungeonGenerator.Instance.dungeon.roomHeight - PCGDungeonGenerator.Instance.dungeon.roomHeight * mazeOffset.y),
-            Quaternion.identity);
-            enemyPlacements[_currentSpawnPosition] = true;
-            aiEnemy.transform.parent = aiParent;
         }
+        GameObject aiEnemy = Instantiate(aiPrefab, new Vector3(_currentSpawnPosition.x * mazeGenerator.dungeon.roomWidth -
+        mazeGenerator.dungeon.roomWidth * mazeOffset.x, transform.position.y, _currentSpawnPosition.y *
+        mazeGenerator.dungeon.roomHeight - mazeGenerator.dungeon.roomHeight * mazeOffset.y), Quaternion.identity);
+        enemyPlacements[_currentSpawnPosition] = true;
+        aiEnemy.transform.parent = aiParent;
+
         if (spawnPositions.Count > 0)
         {
             SpawnEnemies();
