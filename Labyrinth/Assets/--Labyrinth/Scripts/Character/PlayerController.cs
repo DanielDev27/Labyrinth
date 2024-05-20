@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool isMoving;
     [SerializeField] bool isRunning;
     [SerializeField] bool isDodging;
+    [SerializeField] bool isLockedOn;
     [SerializeField] float boredCount;
     public int Health;
     public bool IsAttack;
@@ -31,7 +32,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField] LabyrinthPlayerInputs labInputs;
     LabInputHandler labInputHandler;
-    [SerializeField] AIBehaviour ai;
+    [SerializeField] public AIBehaviour ai;
     [Header("Settings")]//Settings required for the script's functioning
     [SerializeField] float speedMultiplier;
     [SerializeField] private float walkSpeed;
@@ -81,6 +82,7 @@ public class PlayerController : MonoBehaviour
         LabInputHandler.OnDodgePerformed.AddListener(OnDodge);
         LabInputHandler.OnAttackPerformed.AddListener(OnAttack);
         LabInputHandler.OnShieldPerformed.AddListener(OnBlock);
+        LabInputHandler.OnLockOnPerformed.AddListener(OnLockOn);
     }
     void OnDisable()//Remove event listeners for inputs
     {
@@ -90,12 +92,17 @@ public class PlayerController : MonoBehaviour
         LabInputHandler.OnDodgePerformed.RemoveListener(OnDodge);
         LabInputHandler.OnAttackPerformed.RemoveListener(OnAttack);
         LabInputHandler.OnShieldPerformed.RemoveListener(OnBlock);
+        LabInputHandler.OnLockOnPerformed.RemoveListener(OnLockOn);
     }
     private void Update()
     {
         if (moveInput != Vector2.zero)//Player can move when there is an input
         {
             OnPlayerMove();
+        }
+        if (ai == null)
+        {
+            isLockedOn = false;
         }
     }
     void FixedUpdate()
@@ -228,9 +235,17 @@ public class PlayerController : MonoBehaviour
         {
             horizontalSensitivity = mouseSensitivity;
         }
-        yRotation += lookInput.x * horizontalSensitivity;
         //Logic for Freelook camera
-        cameraHolder.transform.rotation = Quaternion.Euler(0, yRotation, 0).normalized;
+        if (isLockedOn && ai != null)
+        {
+            cameraHolder.transform.LookAt(new Vector3(ai.transform.position.x, 0.5f, ai.transform.position.z));
+        }
+        else
+        {
+            yRotation += lookInput.x * horizontalSensitivity;
+            cameraHolder.transform.rotation = Quaternion.Euler(0, yRotation, 0).normalized;
+        }
+
     }
     public void OnRun(bool sprinting)//Run Input listener
     {
@@ -336,11 +351,23 @@ public class PlayerController : MonoBehaviour
         }
         isDodging = false;
     }
-
-    void OnTriggerStay(Collider viewable)
+    public void OnLockOn(bool lockOn)
+    {
+        isLockedOn = lockOn;
+    }
+    void OnTriggerEnter(Collider viewable)
     {//Set AI went entering a trigger
-        viewable.TryGetComponent(out AIBehaviour _aiBehaviour);
-        ai = _aiBehaviour;
+        if (viewable.GetComponent<AIBehaviour>() != null)
+        {
+            ai = viewable.GetComponent<AIBehaviour>();
+        }
+    }
+    void OnTriggerExit(Collider viewable)
+    {//Set AI went entering a trigger
+        if (viewable.GetComponent<AIBehaviour>() != null)
+        {
+            ai = null;
+        }
     }
     //Cursor logic
     void CursorSettings(bool cursorVisibility, CursorLockMode cursorLockMode)

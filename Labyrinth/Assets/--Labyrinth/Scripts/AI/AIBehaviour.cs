@@ -247,6 +247,7 @@ public class AIBehaviour : MonoBehaviour
     }
     IEnumerator OnDeath()//Death Logic
     {
+        PlayerController.Instance.ai = null;
         coroutineInProgress = true;
         yield return new WaitForSeconds(6);
         coroutineInProgress = false;

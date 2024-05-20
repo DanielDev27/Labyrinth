@@ -89,6 +89,15 @@ public partial class @LabyrinthPlayerInputs: IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LockOn"",
+                    ""type"": ""Button"",
+                    ""id"": ""0a69e1db-b99f-4701-a617-1d103e442164"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -397,6 +406,28 @@ public partial class @LabyrinthPlayerInputs: IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fa797ec6-6ca6-4cf6-9a8c-20b0d6eb32a7"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""LockOn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5d8604bd-8511-47c2-86a0-b1b687b3407b"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""LockOn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1039,6 +1070,7 @@ public partial class @LabyrinthPlayerInputs: IInputActionCollection2, IDisposabl
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Shield = m_Player.FindAction("Shield", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_LockOn = m_Player.FindAction("LockOn", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1123,6 +1155,7 @@ public partial class @LabyrinthPlayerInputs: IInputActionCollection2, IDisposabl
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Shield;
     private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_LockOn;
     public struct PlayerActions
     {
         private @LabyrinthPlayerInputs m_Wrapper;
@@ -1134,6 +1167,7 @@ public partial class @LabyrinthPlayerInputs: IInputActionCollection2, IDisposabl
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @Shield => m_Wrapper.m_Player_Shield;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction @LockOn => m_Wrapper.m_Player_LockOn;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1164,6 +1198,9 @@ public partial class @LabyrinthPlayerInputs: IInputActionCollection2, IDisposabl
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @LockOn.started += instance.OnLockOn;
+            @LockOn.performed += instance.OnLockOn;
+            @LockOn.canceled += instance.OnLockOn;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1189,6 +1226,9 @@ public partial class @LabyrinthPlayerInputs: IInputActionCollection2, IDisposabl
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @LockOn.started -= instance.OnLockOn;
+            @LockOn.performed -= instance.OnLockOn;
+            @LockOn.canceled -= instance.OnLockOn;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1432,6 +1472,7 @@ public partial class @LabyrinthPlayerInputs: IInputActionCollection2, IDisposabl
         void OnSprint(InputAction.CallbackContext context);
         void OnShield(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnLockOn(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

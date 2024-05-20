@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
+using System;
 
 public class LabInputHandler
 {
@@ -13,6 +14,7 @@ public class LabInputHandler
     public static UnityEvent<bool> OnDodgePerformed = new UnityEvent<bool>();
     public static UnityEvent<bool> OnAttackPerformed = new UnityEvent<bool>();
     public static UnityEvent<bool> OnShieldPerformed = new UnityEvent<bool>();
+    public static UnityEvent<bool> OnLockOnPerformed = new UnityEvent<bool>();
     public static UnityEvent<bool> OnPausePerformed = new UnityEvent<bool>();
     //Values
     [ShowInInspector] public static Vector2 moveInput;
@@ -21,6 +23,7 @@ public class LabInputHandler
     [ShowInInspector] public static bool dodging = false;
     [ShowInInspector] public static bool attacking = false;
     [ShowInInspector] public static bool shielding = false;
+    [ShowInInspector] public static bool lockedOn = false;
 
     static LabInputHandler instance;
     public static LabInputHandler Instance//Create the Labyrinth Input Handler Instace
@@ -80,7 +83,10 @@ public class LabInputHandler
         //Shield
         labInputs.Player.Shield.started += ShieldStarted;
         labInputs.Player.Shield.canceled += ShieldCanceled;
+        //LockOn
+        labInputs.Player.LockOn.performed += LockOnPerformed;
     }
+
     //Movement input logic
     public static void MovePerformed(InputAction.CallbackContext incomingValue)
     {
@@ -153,5 +159,11 @@ public class LabInputHandler
         shielding = false;
         //Debug.Log("Shield Canceled");
         OnShieldPerformed?.Invoke(shielding);
+    }
+
+    private static void LockOnPerformed(InputAction.CallbackContext context)
+    {
+        lockedOn = !lockedOn;
+        OnLockOnPerformed?.Invoke(lockedOn);
     }
 }
