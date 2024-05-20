@@ -6,7 +6,6 @@ using UnityEngine.Events;
 using Random = UnityEngine.Random;
 using Unity.AI.Navigation;
 using System.Collections;
-
 [System.Serializable]
 public struct Dungeon
 {
@@ -22,7 +21,6 @@ public struct Dungeon
     public Transform roomParent;
     public Room baseRoom;
 }
-
 public class PCGDungeonGenerator : MonoBehaviour
 {
     public static PCGDungeonGenerator Instance;
@@ -59,7 +57,6 @@ public class PCGDungeonGenerator : MonoBehaviour
     public Dictionary<Vector2, SpaceOccupied> occupiedDict = new Dictionary<Vector2, SpaceOccupied>();
     int roomParentCount;
     [HideInInspector] public UnityEvent mazeComplete = new UnityEvent();
-
     private void Awake()
     {
         Instance = this;
@@ -68,17 +65,14 @@ public class PCGDungeonGenerator : MonoBehaviour
     {
         dungeon.maxInbetweenRooms = Int32.Parse(input);
     }
-
     public void ReadWidthInput(string input)
     {
         dungeon.width = Int32.Parse(input);
     }
-
     public void ReadHeightRoomsInput(string input)
     {
         dungeon.height = Int32.Parse(input);
     }
-
     public void ReadExtesionRoomsInput(string input)
     {
         dungeon.maxExtensionRooms = Int32.Parse(input);
@@ -114,7 +108,7 @@ public class PCGDungeonGenerator : MonoBehaviour
         gridOccupied[dungeon.baseRoom.GetGridPosition().x + 1, dungeon.baseRoom.GetGridPosition().y + 1] = SpaceOccupied.Yes;
         currentInbetweenRooms = dungeon.maxInbetweenRooms;
         currentExtensionRooms = dungeon.maxExtensionRooms;
-        SpawningRooms(dungeon.startRoom, startingPosition, null);
+        SpawningRooms(dungeon.startRoom, startingPosition, null, transform.position);
         //Start Functions once the maze has been made
         StartCoroutine(PopulateMaze());
     }
@@ -133,7 +127,6 @@ public class PCGDungeonGenerator : MonoBehaviour
         {
             Destroy(dungeon.roomParent.GetChild(i).gameObject);
         }
-
         roomV2s.Clear();
         rooms2VCount = roomV2s.Count;
         dungeonDict.Clear();
@@ -143,7 +136,7 @@ public class PCGDungeonGenerator : MonoBehaviour
         EnemySpawner.Instance.RemoveEnemies();
     }
 
-    void SpawningRooms(RoomDataObject roomData, Vector3 roomPosition, RoomDataObject _previousRoom)
+    void SpawningRooms(RoomDataObject roomData, Vector3 roomPosition, RoomDataObject _previousRoom, Vector3 previousRoomPosition)
     {
         //Spawn room based on room DataObject and position (IEnumerator for debug, set waitTime to zero for play)
         previousCompatibleRooms = null;
@@ -157,7 +150,6 @@ public class PCGDungeonGenerator : MonoBehaviour
                 _previousNext.Add(_room);
             }
         }
-
         if (currentInbetweenRooms >= -1)
         {
             //clear possible directions at the start
@@ -175,7 +167,7 @@ public class PCGDungeonGenerator : MonoBehaviour
             newRoom = Instantiate(dungeon.roomHolderPrefab, dungeon.roomParent);
             newRoom.SetGridPosition(roomPlacement.x + 1, roomPlacement.y + 1);
             newRoom.SetGridOccupied(gridOccupied[roomPlacement.x + 1, roomPlacement.y + 1]);
-            newRoom.SetPreviousRoom(previousRoom);
+            newRoom.SetPreviousRoom(previousRoom, previousRoomPosition);
             /**/
             GetPossibleDirections(currentRoom);
 
@@ -220,7 +212,7 @@ public class PCGDungeonGenerator : MonoBehaviour
             //restart coroutine whilst there are inbetween rooms
             if (currentInbetweenRooms >= -1)
             {
-                SpawningRooms(nextRoom, nextRoomPosition, currentRoom);
+                SpawningRooms(nextRoom, nextRoomPosition, currentRoom, roomPosition);
             }
         }
     }
@@ -309,7 +301,6 @@ public class PCGDungeonGenerator : MonoBehaviour
                 nextRoomPosition = newRoom.transform.position + Vector3.left * dungeon.roomWidth;
                 break;
         }
-
         return nextRoomPosition;
     }
     void ReplaceCurrentRoom(RoomDataObject _currentRoom, RoomDataObject _previousRoom, ExitDirection _chosenExit, out RoomDataObject replaceRoom)
@@ -325,8 +316,7 @@ public class PCGDungeonGenerator : MonoBehaviour
 
         if (_previousNext.Count > 0)
         {
-            RoomDataObject _replaceRoom = null;
-            _replaceRoom = _previousNext[Random.Range(0, _previousNext.Count)];
+            RoomDataObject _replaceRoom = _previousNext[Random.Range(0, _previousNext.Count)];
             switch (_chosenExit)
             {
                 case ExitDirection.North:
@@ -384,7 +374,7 @@ public class PCGDungeonGenerator : MonoBehaviour
                 if (_entrances[_j])
                 {
                     ExitDirection _compatibleRoomDirection = (ExitDirection)_j;
-                    compatibleRoomEntrance.Add((ExitDirection)_compatibleRoomDirection); //add the room entrances to list
+                    compatibleRoomEntrance.Add(_compatibleRoomDirection); //add the room entrances to list
                 }
             }
         }
@@ -477,7 +467,7 @@ public class PCGDungeonGenerator : MonoBehaviour
                         if (currentExtensionRooms > 0)
                         {
                             _nextRoom = SetExtensionRoom(_dungRoom, (ExitDirection)i);
-                            _nextRoom.SetPreviousRoom(_dungRoom.GetRoomDataObject());
+                            _nextRoom.SetPreviousRoom(_dungRoom.GetRoomDataObject(), _dungRoom.gameObject.transform.position);
                             roomV2s.Add(_nextRoom.GetComponent<Room>());
                             _validExits[i] = false;
                         }
@@ -485,7 +475,7 @@ public class PCGDungeonGenerator : MonoBehaviour
                         if (currentExtensionRooms <= 0)
                         {
                             _nextRoom = SetExitAtPosition(_dungRoom, (ExitDirection)i, false);
-                            _nextRoom.SetPreviousRoom(_dungRoom.GetRoomDataObject());
+                            _nextRoom.SetPreviousRoom(_dungRoom.GetRoomDataObject(), _dungRoom.gameObject.transform.position);
                             roomV2s.Add(_nextRoom.GetComponent<Room>());
                             _validExits[i] = false;
                         }
@@ -527,14 +517,12 @@ public class PCGDungeonGenerator : MonoBehaviour
             newRoom = Instantiate(dungeon.roomHolderPrefab, dungeon.roomParent); //create room parent
             // if there are extensions rooms, spawn a new room
             //Debug.Log ("Spawn Extension Room");
-
             if ((int)_roomPosition.z / dungeon.roomHeight >= 1 && (int)_roomPosition.z / dungeon.roomHeight <= dungeon.height - 1 && (int)(_roomPosition.x / dungeon.roomWidth) >= 1 + (-dungeon.width / 2) && (int)(_roomPosition.x / dungeon.roomWidth) <= -1 + (dungeon.width / 2))
             {
                 newRoom.SetGridPosition(((int)(_roomPosition.x / dungeon.roomWidth) + dungeon.width / 2) + 1, ((int)_roomPosition.z / dungeon.roomHeight) + 1);
                 currentRoom = GetCompatibleRooms(dungRoom.GetRoomDataObject(), exitDirection);
                 SetNewRoom(currentRoom, _roomPosition);
                 gridOccupied[(int)(nextRoomPosition.x / dungeon.roomWidth + dungeon.width / 2) + 1, (int)(nextRoomPosition.z / dungeon.roomHeight) + 1] = SpaceOccupied.Yes;
-                //newRoom.SetSpaceOccupied (gridOccupied[(int) (nextRoomPosition.x / 3 + width / 2) + 1, (int) (nextRoomPosition.z / 3) + 1]);
                 //Debug.Log ($"Has Extension Room in {nextRoomPosition / 3}");
                 return newRoom;
             }
@@ -559,12 +547,13 @@ public class PCGDungeonGenerator : MonoBehaviour
         {
             if (!extension)
             {
-                newRoom = Instantiate(dungeon.roomHolderPrefab, dungeon.roomParent); //create room parent
-                newRoom.SetGridPosition(((int)(_roomPosition.x / dungeon.roomWidth) + dungeon.width / 2) + 1, ((int)_roomPosition.z / dungeon.roomHeight) + 1);
+                //create room parent
+                newRoom = Instantiate(dungeon.roomHolderPrefab, dungeon.roomParent);
+                newRoom.SetGridPosition((int)(_roomPosition.x / dungeon.roomWidth) + dungeon.width / 2 + 1, ((int)_roomPosition.z / dungeon.roomHeight) + 1);
             }
             if (extension)
             {
-                dungRoom.SetGridPosition(((int)(_roomPosition.x / dungeon.roomWidth) + dungeon.width / 2) + 1, ((int)_roomPosition.z / dungeon.roomHeight) + 1);
+                dungRoom.SetGridPosition((int)(_roomPosition.x / dungeon.roomWidth) + dungeon.width / 2 + 1, ((int)_roomPosition.z / dungeon.roomHeight) + 1);
             }
             currentRoom = SpawnEndRoom(exitDirection);
             //Debug.Log ("Spawn End Room");
