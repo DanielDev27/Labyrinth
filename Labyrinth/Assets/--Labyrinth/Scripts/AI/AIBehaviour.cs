@@ -249,6 +249,7 @@ public class AIBehaviour : MonoBehaviour
     {
         PlayerController.Instance.ai = null;
         coroutineInProgress = true;
+        GetComponent<Collider>().enabled = false;
         yield return new WaitForSeconds(6);
         coroutineInProgress = false;
     }
