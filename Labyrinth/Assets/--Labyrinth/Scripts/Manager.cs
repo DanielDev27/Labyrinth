@@ -69,7 +69,7 @@ public class Manager : MonoBehaviour
     public void Reload()//Reload the Game Scene to start over
     {
         Time.timeScale = 1;
-        SceneLoaderManager.Instance.LoadScene(1);
+        SceneLoaderManager.Instance.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Quit()//Quit Application

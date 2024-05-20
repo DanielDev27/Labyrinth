@@ -55,18 +55,6 @@ public class HealthSystem : MonoBehaviour
         healthBar.value = 100 * currentHealth / maxHealth;
         return currentHealth;
     }
-    public void PlayerDie()//Triggering Death for Player
-    {
-        GetComponent<Animator>().SetBool("Dead", true);
-        StartCoroutine(PlayerDeath());
-    }
-    IEnumerator PlayerDeath()
-    {//Wait before removing gameobject
-        yield return new WaitForSeconds(5);
-        Manager.Instance.GameOver();
-        GetComponent<Animator>().SetBool("Dead", false);
-        this.gameObject.SetActive(false);
-    }
     public void EnemyDie()//Triggering Death for AI
     {
         StartCoroutine(EnemyDespawn());

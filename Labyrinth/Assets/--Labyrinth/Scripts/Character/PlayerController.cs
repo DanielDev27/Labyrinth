@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour
         Health = healthSystem.UpdateHealth();
         if (Health <= 0)
         {
-            healthSystem.PlayerDie();
+            PlayerDie();
         }
     }
     void InputDeviceCheck()
@@ -355,6 +355,20 @@ public class PlayerController : MonoBehaviour
     public void OnLockOn(bool lockOn)
     {
         isLockedOn = lockOn;
+    }
+    public void PlayerDie()//Triggering Death for Player
+    {
+        animator.SetBool("Dead", true);
+        StartCoroutine(PlayerDeath());
+    }
+    IEnumerator PlayerDeath()
+    {//Wait before removing gameobject
+        playerRigidbody.isKinematic = true;
+        GetComponent<Collider>().enabled = false;
+        yield return new WaitForSeconds(5);
+        Manager.Instance.GameOver();
+        animator.SetBool("Dead", false);
+        this.gameObject.SetActive(false);
     }
     void OnTriggerEnter(Collider viewable)
     {//Set AI went entering a trigger
