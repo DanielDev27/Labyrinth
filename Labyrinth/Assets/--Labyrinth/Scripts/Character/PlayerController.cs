@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public bool IsBlock;
     [Header("References")]//Objects that are required from other scripts
     [SerializeField] Rigidbody playerRigidbody;
+    [SerializeField] GameObject playerAvatar;
     [SerializeField] Transform cameraHolder;
     [SerializeField] Animator animator;
     [SerializeField] HealthSystem healthSystem;
@@ -172,24 +173,23 @@ public class PlayerController : MonoBehaviour
     public void OnPlayerMove()//behaviour for player movement
     {
         //Set the move direction relative to the player
-        moveDirection = moveInput.x * transform.right + moveInput.y * transform.forward;
+        moveDirection = moveInput.x * Camera.main.transform.right + moveInput.y * Camera.main.transform.forward;
         //Combine the moveInput into a V3
         Vector3 moveCombined = new Vector3(moveInput.x, 0, moveInput.y);
         if (moveCombined != Vector3.zero && !IsBlock && !IsAttack)
         {//Logic for when player can move
             boredCount = 0;
+            playerAvatar.transform.rotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0, moveDirection.z));
             playerRigidbody.velocity = new Vector3(moveDirection.x * speedMultiplier, 0, moveDirection.z * speedMultiplier);
             if (isRunning)
             {//Running modifiers
                 speedMultiplier = runSpeed;
-                animator.SetFloat("forward", moveCombined.z * 2, 0.2f, Time.deltaTime);
-                animator.SetFloat("right", moveCombined.x * 2, 0.2f, Time.deltaTime);
+                animator.SetFloat("speed", moveCombined.magnitude * 2, 0.2f, Time.deltaTime);
             }
             else
             {//Normal Walking Modifiers
                 speedMultiplier = walkSpeed;
-                animator.SetFloat("forward", moveCombined.z, 0.2f, Time.deltaTime);
-                animator.SetFloat("right", moveCombined.x, 0.2f, Time.deltaTime);
+                animator.SetFloat("speed", moveCombined.magnitude, 0.2f, Time.deltaTime);
             }
             if (isDodging)
             {//Dodging Modifiers
@@ -201,8 +201,7 @@ public class PlayerController : MonoBehaviour
         else
         {//When Player can't move
             playerRigidbody.velocity = Vector3.zero;
-            animator.SetFloat("forward", 0);
-            animator.SetFloat("right", 0);
+            animator.SetFloat("speed", 0);
         }
     }
     void InputLook(Vector2 lookInput)
@@ -231,15 +230,7 @@ public class PlayerController : MonoBehaviour
         }
         yRotation += lookInput.x * horizontalSensitivity;
         //Logic for Freelook camera
-        if (moveInput != Vector2.zero || IsAttack)
-        {
-            this.transform.rotation = Quaternion.Euler(0, yRotation, 0).normalized;
-            cameraHolder.transform.rotation = this.transform.rotation;
-        }
-        else
-        {
-            cameraHolder.transform.rotation = Quaternion.Euler(0, yRotation, 0).normalized;
-        }
+        cameraHolder.transform.rotation = Quaternion.Euler(0, yRotation, 0).normalized;
     }
     public void OnRun(bool sprinting)//Run Input listener
     {
@@ -326,12 +317,23 @@ public class PlayerController : MonoBehaviour
             isDodging = true;
             boredCount = 0;
             animator.SetTrigger("dodgeTrigger");
+            if (isDodging && moveInput == Vector2.zero)
+            {//Dodging Modifiers
+                speedMultiplier = dodgeSpeed;
+                dodgeCooldown = dodgeAnim.length;
+                playerRigidbody.velocity = playerAvatar.transform.forward * -speedMultiplier;
+                StartCoroutine(DodgeCoolDown());
+            }
             //animator.SetBool("isDodging", true);
         }
     }
     IEnumerator DodgeCoolDown()
     {
         yield return new WaitForSeconds(dodgeCooldown);
+        if (moveInput == Vector2.zero)
+        {
+            playerRigidbody.velocity = Vector3.zero;
+        }
         isDodging = false;
     }
 
