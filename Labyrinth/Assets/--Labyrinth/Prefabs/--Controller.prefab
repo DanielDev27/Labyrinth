@@ -925,7 +925,8 @@ MonoBehaviour:
   boredTrigger: 10
   maxHealth: 50
   attackAnimSlash: {fileID: 7400000, guid: 9004e77d2573add4fa6c2a13568b2185, type: 2}
-  attackAnimBack: {fileID: 7400000, guid: 5cb4716c4da558541a12df813a00e915, type: 2}
+  attackAnimBack: {fileID: -203655887218126122, guid: 78d79788676d3744fbf02ddf6a115fc1,
+    type: 3}
   dodgeAnim: {fileID: -203655887218126122, guid: 35146e575fa9d77458140c365fd64c8d,
     type: 3}
   dodgeCooldown: 0
@@ -1007,8 +1008,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8196363552861305752}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.15467633, y: 0.000000016999305, z: -0.0000000026614198, w: 0.9879652}
-  m_LocalPosition: {x: 0, y: 1, z: -2.5000005}
+  m_LocalRotation: {x: 0.15467636, y: 0.00000003399861, z: -0.000000005322841, w: 0.9879652}
+  m_LocalPosition: {x: 0, y: 1, z: -2.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

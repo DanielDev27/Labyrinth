@@ -40,6 +40,7 @@ public class EnemySpawner : MonoBehaviour
         }
         spawnPositions.Remove(new Vector2(mazeOffset.x - 1, 1));
         spawnPositions.Remove(new Vector2(mazeOffset.x + 1, 1));
+        spawnPositions.Remove(new Vector2(0, 0));
         SpawnEnemies();
     }
     public void SpawnEnemies()
@@ -60,6 +61,7 @@ public class EnemySpawner : MonoBehaviour
         mazeGenerator.dungeon.roomHeight - mazeGenerator.dungeon.roomHeight * mazeOffset.y), Quaternion.identity);
         enemyPlacements[_currentSpawnPosition] = true;
         aiEnemy.transform.parent = aiParent;
+        aiEnemy.GetComponent<AIBehaviour>().spawnPosition = _currentSpawnPosition;
 
         if (spawnPositions.Count > 0)
         {

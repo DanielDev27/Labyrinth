@@ -6,6 +6,7 @@ public class AIBehaviour : MonoBehaviour
 {
     public static AIBehaviour _instance;
     [Header("Debug")]//Useful values for visual debug
+    [SerializeField] public Vector2 spawnPosition;
     [SerializeField] PlayerController charCont;
     [SerializeField] public GameObject playerReference;
     public AiStates currentAiState;

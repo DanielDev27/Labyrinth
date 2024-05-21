@@ -114,7 +114,7 @@ public class PCGDungeonGenerator : MonoBehaviour
     }
     IEnumerator PopulateMaze()
     {
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForFixedUpdate();
         Debug.Log("Maze Complete");
         navMeshSurface.BuildNavMesh();
         mazeComplete.Invoke();
