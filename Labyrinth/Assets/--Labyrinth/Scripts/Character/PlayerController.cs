@@ -245,7 +245,6 @@ public class PlayerController : MonoBehaviour
             yRotation += lookInput.x * horizontalSensitivity;
             cameraHolder.transform.rotation = Quaternion.Euler(0, yRotation, 0).normalized;
         }
-
     }
     public void OnRun(bool sprinting)//Run Input listener
     {
@@ -366,20 +365,7 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("Dead", false);
         this.gameObject.SetActive(false);
     }
-    void OnTriggerEnter(Collider viewable)
-    {//Set AI went entering a trigger
-        if (viewable.GetComponent<AIBehaviour>() != null)
-        {
-            ai = viewable.GetComponent<AIBehaviour>();
-        }
-    }
-    void OnTriggerExit(Collider viewable)
-    {//Set AI went entering a trigger
-        if (viewable.GetComponent<AIBehaviour>() != null)
-        {
-            ai = null;
-        }
-    }
+    
     //Cursor logic
     void CursorSettings(bool cursorVisibility, CursorLockMode cursorLockMode)
     {

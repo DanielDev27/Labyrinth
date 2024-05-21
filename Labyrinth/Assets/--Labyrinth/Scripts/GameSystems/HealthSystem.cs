@@ -9,7 +9,8 @@ public class HealthSystem : MonoBehaviour
     [SerializeField] int maxHealth;
     [SerializeField] bool dead;
     [SerializeField] Slider healthBar;
-    public UnityEvent takeDamage = new UnityEvent();
+    public UnityEvent takeDamagePlayer = new UnityEvent();
+    public UnityEvent takeDamageEnemy = new UnityEvent();
     private void Awake()
     {
         Instance = this;
@@ -17,9 +18,11 @@ public class HealthSystem : MonoBehaviour
         maxHealth = currentHealth;
         healthBar.value = 100 * currentHealth / maxHealth;
     }
-    void FixedUpdate()
+    public int UpdateHealth()//Update Health Logic
     {
-
+        //Update the healthbar UI
+        healthBar.value = 100 * currentHealth / maxHealth;
+        return currentHealth;
     }
     public int GetHealth()//Logic to get the health from a character
     {
@@ -40,30 +43,13 @@ public class HealthSystem : MonoBehaviour
         currentHealth -= damage;
         if (this.gameObject.GetComponent<PlayerController>() != null)
         {
-            //GetComponent<Animator>().SetTrigger("damage");
+            takeDamagePlayer.Invoke();
         }
         if (this.gameObject.GetComponent<AIBehaviour>() != null && !this.gameObject.GetComponent<AIBehaviour>().immune)
         {
-            GetComponent<Animator>().SetTrigger("damage");
-            Debug.Log("Enemy Take Damage");
-            takeDamage.Invoke();
+            takeDamageEnemy.Invoke();
+            //Debug.Log("Enemy Take Damage");
         }
     }
-    public int UpdateHealth()//Update Health Logic
-    {
-        //Update the healthbar UI
-        healthBar.value = 100 * currentHealth / maxHealth;
-        return currentHealth;
-    }
-    public void EnemyDie()//Triggering Death for AI
-    {
-        StartCoroutine(EnemyDespawn());
-    }
-    IEnumerator EnemyDespawn()
-    {//Wait before despawning gameobject
-        yield return new WaitForSeconds(5);
-        GetComponent<Animator>().SetBool("Dead", false);
-        this.gameObject.SetActive(false);
-        Manager.Instance.GameWin();
-    }
+
 }

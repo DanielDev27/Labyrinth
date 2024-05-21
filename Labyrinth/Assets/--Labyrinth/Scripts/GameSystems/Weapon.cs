@@ -34,15 +34,12 @@ public class Weapon : MonoBehaviour
                 DisableHurtBox();
             }
         }
-    }
-    private void OnTriggerEnter(Collider other)
-    {
         if (aIWeapon)
         {
             if (other.gameObject.GetComponent<PlayerController>() != null && hurtBox.activeSelf == true)
             {//if AI weapon collide with player logic
                 PlayerController _char = other.gameObject.GetComponent<PlayerController>();
-                Debug.Log("Hit Player");
+                //Debug.Log("Hit Player");
                 if (_char.IsBlock)
                 {//Does nothing if PLayer is blocking
                     DisableHurtBox();
@@ -54,5 +51,8 @@ public class Weapon : MonoBehaviour
                 }
             }
         }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
     }
 }

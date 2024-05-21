@@ -49499,14 +49499,14 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.8
+  - time: 0.93333334
     functionName: DisableHurtBox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.8333333
+  - time: 1
     functionName: StopImmune
     data: 
     objectReferenceParameter: {fileID: 0}

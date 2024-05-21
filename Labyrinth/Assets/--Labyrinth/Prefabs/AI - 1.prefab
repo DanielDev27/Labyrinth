@@ -45,7 +45,7 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -473,7 +473,6 @@ GameObject:
   - component: {fileID: 6555814590550537759}
   - component: {fileID: 6555814590550537752}
   - component: {fileID: 2625643105870725353}
-  - component: {fileID: 5454181894444549997}
   - component: {fileID: 6555814590550537755}
   - component: {fileID: 6555814590550537758}
   - component: {fileID: 4997268746331407054}
@@ -575,27 +574,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!135 &5454181894444549997
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6555814590550537757}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 12
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &6555814590550537755
 Animator:
   serializedVersion: 5
@@ -629,6 +607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f4c948063f3dc488a3acfc429b3c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnPosition: {x: 0, y: 0}
   charCont: {fileID: 0}
   playerReference: {fileID: 0}
   currentAiState: 0
@@ -651,10 +630,14 @@ MonoBehaviour:
   obstructionLayer:
     serializedVersion: 2
     m_Bits: 385
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
   agentAnimator: {fileID: 6555814590550537755}
   walkSpeed: 1
   sprintSpeed: 3
-  fovAngle: 180
+  fovAngle: 240
+  fovDistance: 15
   maxHealth: 40
   attackCD: 0.1
 --- !u!114 &4997268746331407054
@@ -673,7 +656,10 @@ MonoBehaviour:
   maxHealth: 0
   dead: 0
   healthBar: {fileID: 144998056}
-  takeDamage:
+  takeDamagePlayer:
+    m_PersistentCalls:
+      m_Calls: []
+  takeDamageEnemy:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &7190276190231355930
@@ -734,8 +720,8 @@ Transform:
   m_GameObject: {fileID: 6884711562352624780}
   serializedVersion: 2
   m_LocalRotation: {x: -0.03904957, y: 0.017816493, z: 0.4147077, w: 0.90894186}
-  m_LocalPosition: {x: -0.556, y: 0.584, z: -0.03}
-  m_LocalScale: {x: 0.05, y: 1, z: 0.05}
+  m_LocalPosition: {x: -0.449, y: 0.492, z: -0.022}
+  m_LocalScale: {x: 0.05, y: 0.8745, z: 0.05}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 136320891}

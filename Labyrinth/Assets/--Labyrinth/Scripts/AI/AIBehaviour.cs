@@ -28,11 +28,13 @@ public class AIBehaviour : MonoBehaviour
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Transform eyeLine;
     [SerializeField] LayerMask obstructionLayer;
+    [SerializeField] LayerMask playerLayer;
     [SerializeField] Animator agentAnimator;
     [Header("Settings")]//Settings for system function
     [SerializeField] float walkSpeed;
     [SerializeField] float sprintSpeed;
     [SerializeField] float fovAngle = 120;
+    [SerializeField] float fovDistance;
     [SerializeField] public int maxHealth = 10;
     [SerializeField] float attackCD;
 
@@ -42,7 +44,9 @@ public class AIBehaviour : MonoBehaviour
         health = maxHealth;
         coroutineInProgress = false;
         isDead = false;
-        healthSystem.takeDamage.AddListener(LookToPlayer);
+        healthSystem.takeDamageEnemy.AddListener(LookToPlayer);
+        charCont = FindObjectOfType<PlayerController>();
+        playerReference = charCont.gameObject;
     }
     void Update()
     {
@@ -53,7 +57,7 @@ public class AIBehaviour : MonoBehaviour
         {
             isDead = true;
             currentAiState = AiStates.Dead;
-            healthSystem.EnemyDie();
+            EnemyDie();
         }
         if (currentAiState == AiStates.Idle || currentAiState == AiStates.Chasing)
         {
@@ -89,13 +93,14 @@ public class AIBehaviour : MonoBehaviour
                 case AiStates.Dead:
                     agentAnimator.SetBool("isMoving", false);
                     agentAnimator.SetBool("Dead", true);
+                    agentAnimator.SetTrigger("DeadTrigger");
                     StartCoroutine(OnDeath());
                     break;
             }
     }
     void FieldOfViewCheck()//Logic to check if player is within visual range of AI
     {
-        Debug.DrawRay(transform.position + transform.up, transform.forward, Color.blue);
+        Debug.DrawRay(transform.position + transform.up, transform.forward * 10, Color.blue);
         if (playerReference != null && !isDead)//Can see player and AI is alive
         {
             RaycastHit _hit;
@@ -105,7 +110,7 @@ public class AIBehaviour : MonoBehaviour
             distanceToPlayer = Vector3.Distance(transform.position, playerPosition);
             //Vision Check
             visionCheck = Vector3.Angle(transform.forward, directionToTarget);
-            if (visionCheck <= (fovAngle / 2))
+            if (visionCheck <= (fovAngle / 2) && distanceToPlayer <= fovDistance)
             {
                 //Does AI see the player
                 bool _hitLayer = Physics.Raycast(transform.position, directionToTarget, out _hit, 100, obstructionLayer, QueryTriggerInteraction.Ignore);
@@ -254,6 +259,17 @@ public class AIBehaviour : MonoBehaviour
         yield return new WaitForSeconds(6);
         coroutineInProgress = false;
     }
+    public void EnemyDie()//Triggering Death for AI
+    {
+        StartCoroutine(EnemyDespawn());
+    }
+    IEnumerator EnemyDespawn()
+    {//Wait before despawning gameobject
+        yield return new WaitForSeconds(5);
+        agentAnimator.SetBool("Dead", false);
+        this.gameObject.SetActive(false);
+        Manager.Instance.GameWin();
+    }
     public void StartImmune()
     {
         immune = true;
@@ -265,6 +281,7 @@ public class AIBehaviour : MonoBehaviour
     void LookToPlayer()
     {
         transform.LookAt(playerReference.transform.position);
+        agentAnimator.SetTrigger("damage");
     }
     void OnTriggerEnter(Collider other)
     {
