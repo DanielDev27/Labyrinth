@@ -253,7 +253,7 @@ public class AIBehaviour : MonoBehaviour
     }
     IEnumerator OnDeath()//Death Logic
     {
-        PlayerController.Instance.ai = null;
+        PlayerController.Instance.aiTarget = null;
         coroutineInProgress = true;
         GetComponent<Collider>().enabled = false;
         yield return new WaitForSeconds(6);
@@ -269,6 +269,7 @@ public class AIBehaviour : MonoBehaviour
         agentAnimator.SetBool("Dead", false);
         this.gameObject.SetActive(false);
         Manager.Instance.GameWin();
+        PlayerController.Instance.CheckEnemies();
     }
     public void StartImmune()
     {

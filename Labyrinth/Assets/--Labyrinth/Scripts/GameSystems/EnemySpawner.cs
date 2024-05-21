@@ -59,6 +59,7 @@ public class EnemySpawner : MonoBehaviour
         GameObject aiEnemy = Instantiate(aiPrefab, new Vector3(_currentSpawnPosition.x * mazeGenerator.dungeon.roomWidth -
         mazeGenerator.dungeon.roomWidth * mazeOffset.x, transform.position.y, _currentSpawnPosition.y *
         mazeGenerator.dungeon.roomHeight - mazeGenerator.dungeon.roomHeight * mazeOffset.y), Quaternion.identity);
+        aiEnemy.name = "AI" + _currentSpawnPosition;
         enemyPlacements[_currentSpawnPosition] = true;
         aiEnemy.transform.parent = aiParent;
         aiEnemy.GetComponent<AIBehaviour>().spawnPosition = _currentSpawnPosition;

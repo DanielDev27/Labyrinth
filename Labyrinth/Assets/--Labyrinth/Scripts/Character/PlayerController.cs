@@ -1,4 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
@@ -32,7 +35,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField] LabyrinthPlayerInputs labInputs;
     LabInputHandler labInputHandler;
-    [SerializeField] public AIBehaviour ai;
+    [SerializeField] public GameObject aiTarget;
+    [ShowInInspector] public Dictionary<GameObject, float> ais = new Dictionary<GameObject, float>();
     [Header("Settings")]//Settings required for the script's functioning
     [SerializeField] float speedMultiplier;
     [SerializeField] private float walkSpeed;
@@ -42,6 +46,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float mouseSensitivity;
     [SerializeField] float controllerSensitivity;
     [SerializeField] float boredTrigger;
+    [SerializeField] float lockOnLimit;
     [SerializeField, Unity.Collections.ReadOnly] public int maxHealth;
     [Header("Anim Settings")]//Settings/References specifically for some animations
     [SerializeField] AnimationClip attackAnimSlash;
@@ -69,8 +74,8 @@ public class PlayerController : MonoBehaviour
         }
     }
     void Start()
-    {
-        StartCoroutine(IdleBored());//Trigger the Idle counter in order to add bored animations if the player leaves the character inactive
+    {//Trigger the Idle counter in order to add bored animations if the player leaves the character inactive
+        StartCoroutine(IdleBored());
     }
     void OnEnable()//Add event listeners for inputs
     {
@@ -100,19 +105,24 @@ public class PlayerController : MonoBehaviour
         {
             OnPlayerMove();
         }
-        if (ai == null)
+        if (aiTarget == null)
         {
             isLockedOn = false;
         }
     }
     void FixedUpdate()
     {
+        if (ais.Count == 0)
+        {
+            CheckEnemies();
+        }
         OnPlayerLook();
         InputDeviceCheck();
         CursorSettings(false, CursorLockMode.Locked);
     }
     void LateUpdate()
     {
+        EnemyDetection();
         //Update Health values and systems
         Health = healthSystem.UpdateHealth();
         if (Health <= 0)
@@ -123,6 +133,29 @@ public class PlayerController : MonoBehaviour
     void InputDeviceCheck()
     {//Switch input device based on player inputs - references control schemes
         usingGamepad = playerInput.currentControlScheme == "Gamepad";
+    }
+    public void CheckEnemies()
+    {
+        List<AIBehaviour> aisFound = FindObjectsOfType<AIBehaviour>().ToList();
+        ais = new Dictionary<GameObject, float>();
+        foreach (AIBehaviour ai in aisFound)
+        {
+            ais.Add(ai.gameObject, Vector3.Distance(transform.position, ai.transform.position));
+        }
+    }
+    void EnemyDetection()
+    {
+        float shortestDistance = Mathf.Infinity;
+        foreach (GameObject ai in ais.Keys.ToList())
+        {
+            float newDistance = Vector3.Distance(transform.position, ai.transform.position);
+            ais[ai] = newDistance;
+            if (newDistance < shortestDistance)
+            {
+                shortestDistance = newDistance;
+            }
+        }
+        aiTarget = ais.FirstOrDefault(x => x.Value == shortestDistance).Key;
     }
     IEnumerator IdleBored()//Behaviour for bored animations if the player leaves the character inactive
     {
@@ -236,9 +269,9 @@ public class PlayerController : MonoBehaviour
             horizontalSensitivity = mouseSensitivity;
         }
         //Logic for Freelook camera
-        if (isLockedOn && ai != null)
+        if (isLockedOn && aiTarget != null && Vector3.Distance(transform.position, aiTarget.transform.position) < lockOnLimit)
         {
-            cameraHolder.transform.LookAt(new Vector3(ai.transform.position.x, 0.5f, ai.transform.position.z));
+            cameraHolder.transform.LookAt(new Vector3(aiTarget.transform.position.x, 0.5f, aiTarget.transform.position.z));
         }
         else
         {
@@ -365,7 +398,7 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("Dead", false);
         this.gameObject.SetActive(false);
     }
-    
+
     //Cursor logic
     void CursorSettings(bool cursorVisibility, CursorLockMode cursorLockMode)
     {
