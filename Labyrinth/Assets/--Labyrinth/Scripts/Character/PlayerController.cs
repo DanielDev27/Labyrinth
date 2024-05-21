@@ -164,7 +164,7 @@ public class PlayerController : MonoBehaviour
     void InputMove(Vector2 _moveInput)
     {//Move input listener logic
         this.moveInput = _moveInput;
-        if (moveInput != Vector2.zero && !IsBlock && !IsAttack)
+        if (moveInput != Vector2.zero && !IsAttack)
         {
             isMoving = true;
             animator.SetBool("isMoving", true);
@@ -309,14 +309,14 @@ public class PlayerController : MonoBehaviour
             IsBlock = true;
             //Debug.Log ("Block");
             boredCount = 0;
-            animator.SetBool("isBlock", true);
+            animator.SetLayerWeight(1, 1);
             shield.EnableShield();
         }
         if (!blocking)
         {
             IsBlock = false;
             //Debug.Log ("Block Canceled");
-            animator.SetBool("isBlock", false);
+            animator.SetLayerWeight(1, 0);
             shield.DisableShield();
         }
     }
