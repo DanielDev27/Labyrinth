@@ -223,7 +223,6 @@ public class AIBehaviour : MonoBehaviour
                 agent.isStopped = true;
                 agentAnimator.SetBool("isMoving", false);
                 isSprinting = false;
-                currentAiState = AiStates.Idle;
             }
         }
         //Can't see Player Target

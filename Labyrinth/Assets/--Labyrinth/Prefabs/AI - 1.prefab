@@ -639,7 +639,7 @@ MonoBehaviour:
   fovAngle: 240
   fovDistance: 15
   maxHealth: 40
-  attackCD: 0.1
+  attackCD: 0.01
 --- !u!114 &4997268746331407054
 MonoBehaviour:
   m_ObjectHideFlags: 0

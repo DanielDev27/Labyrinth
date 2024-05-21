@@ -34,6 +34,9 @@ public class Weapon : MonoBehaviour
                 DisableHurtBox();
             }
         }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
         if (aIWeapon)
         {
             if (other.gameObject.GetComponent<PlayerController>() != null && hurtBox.activeSelf == true)
@@ -51,8 +54,5 @@ public class Weapon : MonoBehaviour
                 }
             }
         }
-    }
-    private void OnTriggerEnter(Collider other)
-    {
     }
 }
