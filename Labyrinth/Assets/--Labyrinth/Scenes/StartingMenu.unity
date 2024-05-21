@@ -1215,9 +1215,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Control: \tMnK \t\t/ \tController\nMovement: \tWASD \t/ \tLeft Stick\nLook:
-    \t\tMouse Delta / \tRight Stick\nSprint: \tLeft Shift \t/\t L3\nDodge: \tCtrl\t\t/\t
+    \tMouse Delta \t/ \tRight Stick\nSprint: \tLeft Shift \t/\t L3\nDodge: \tCtrl\t\t/\t
     East Button\nAttack: \tLeft Button \t/\t Right Trigger\nBlock: \tRight Button
-    /\t Left Trigger\nPause: \tEscape \t/\t Start Button"
+    /\t Left Trigger\nTarget Lock:\t\tQ\t/\tR3\nPause: \tEscape \t/\t Start Button"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 4925126824836169507}
   m_Layer: 0
   m_Name: ShieldCollider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 1475744979133461542}
   m_Layer: 0
   m_Name: SwordTip
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -710,7 +710,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.2
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
@@ -733,7 +733,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.35
+  m_Radius: 0.3
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
@@ -914,7 +914,7 @@ MonoBehaviour:
   weapon: {fileID: 376969163920829296}
   shield: {fileID: 184587163460649145}
   playerInput: {fileID: 5262345671448789080}
-  ai: {fileID: 0}
+  aiTarget: {fileID: 0}
   speedMultiplier: 0
   walkSpeed: 3
   runSpeed: 4.5
@@ -923,6 +923,7 @@ MonoBehaviour:
   mouseSensitivity: 5
   controllerSensitivity: 4
   boredTrigger: 10
+  lockOnLimit: 10
   maxHealth: 50
   attackAnimSlash: {fileID: 7400000, guid: 9004e77d2573add4fa6c2a13568b2185, type: 2}
   attackAnimBack: {fileID: -203655887218126122, guid: 78d79788676d3744fbf02ddf6a115fc1,
@@ -946,7 +947,10 @@ MonoBehaviour:
   maxHealth: 0
   dead: 0
   healthBar: {fileID: 5032495600958468432}
-  takeDamage:
+  takeDamagePlayer:
+    m_PersistentCalls:
+      m_Calls: []
+  takeDamageEnemy:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &376969163920829296
@@ -1008,7 +1012,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8196363552861305752}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.15467636, y: 0.00000003399861, z: -0.000000005322841, w: 0.9879652}
+  m_LocalRotation: {x: 0.15467636, y: -0.00000003399861, z: 0.000000005322841, w: 0.9879652}
   m_LocalPosition: {x: 0, y: 1, z: -2.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
