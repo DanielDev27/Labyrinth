@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Vector3 moveDirection;
     [SerializeField] Vector2 lookInput;
     float yRotation;
-    [SerializeField] bool usingGamepad;
     [SerializeField] bool isMoving;
     [SerializeField] bool isRunning;
     [SerializeField] bool isDodging;
@@ -32,7 +31,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Weapon weapon;
     [SerializeField] Shield shield;
     //[SerializeField] CinemachineFreeLook cinemachineFreeLook;
-    [SerializeField] PlayerInput playerInput;
+    [SerializeField] public PlayerInput playerInput;
     [SerializeField] LabyrinthPlayerInputs labInputs;
     LabInputHandler labInputHandler;
     [SerializeField] public GameObject aiTarget;
@@ -42,7 +41,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
     [SerializeField] private float dodgeSpeed;
-    [SerializeField] float horizontalSensitivity;
+    float horizontalSensitivity;
     [SerializeField] float mouseSensitivity;
     [SerializeField] float controllerSensitivity;
     [SerializeField] float boredTrigger;
@@ -53,9 +52,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AnimationClip attackAnimBack;
     [SerializeField] AnimationClip dodgeAnim;
     [SerializeField] float dodgeCooldown;
-
     void Awake()
     {
+        CursorSettings(false, CursorLockMode.Locked);
         //Debug.Log("Awake Character Controller");
         Instance = this;
         Health = maxHealth;
@@ -77,7 +76,7 @@ public class PlayerController : MonoBehaviour
     {//Trigger the Idle counter in order to add bored animations if the player leaves the character inactive
         StartCoroutine(IdleBored());
     }
-    void OnEnable()//Add event listeners for inputs
+    public void OnEnable()//Add event listeners for inputs
     {
         LabInputHandler.Enable();
         Debug.Log("Initialized");
@@ -89,7 +88,7 @@ public class PlayerController : MonoBehaviour
         LabInputHandler.OnShieldPerformed.AddListener(OnBlock);
         LabInputHandler.OnLockOnPerformed.AddListener(OnLockOn);
     }
-    void OnDisable()//Remove event listeners for inputs
+    public void OnDisable()//Remove event listeners for inputs
     {
         LabInputHandler.OnMovePerformed.RemoveListener(InputMove);
         LabInputHandler.OnLookPerformed.RemoveListener(InputLook);
@@ -117,8 +116,6 @@ public class PlayerController : MonoBehaviour
             CheckEnemies();
         }
         OnPlayerLook();
-        InputDeviceCheck();
-        CursorSettings(false, CursorLockMode.Locked);
     }
     void LateUpdate()
     {
@@ -130,10 +127,7 @@ public class PlayerController : MonoBehaviour
             PlayerDie();
         }
     }
-    void InputDeviceCheck()
-    {//Switch input device based on player inputs - references control schemes
-        usingGamepad = playerInput.currentControlScheme == "Gamepad";
-    }
+    //Enemy Detection using Objects in scene and Dictionary
     public void CheckEnemies()
     {
         List<AIBehaviour> aisFound = FindObjectsOfType<AIBehaviour>().ToList();
@@ -157,7 +151,8 @@ public class PlayerController : MonoBehaviour
         }
         aiTarget = ais.FirstOrDefault(x => x.Value == shortestDistance).Key;
     }
-    IEnumerator IdleBored()//Behaviour for bored animations if the player leaves the character inactive
+    //Behaviour for bored animations if the player leaves the character inactive
+    IEnumerator IdleBored()
     {
         if (isMoving || IsAttack || isDodging || IsBlock)
         {//When moving the bored counter resets to zero
@@ -194,8 +189,9 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    //Move input listener logic
     void InputMove(Vector2 _moveInput)
-    {//Move input listener logic
+    {
         this.moveInput = _moveInput;
         if (moveInput != Vector2.zero && !IsAttack)
         {
@@ -210,7 +206,8 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(IdleBored());
         }
     }
-    public void OnPlayerMove()//behaviour for player movement
+    //Behaviour for player movement
+    public void OnPlayerMove()
     {
         //Set the move direction relative to the player
         moveDirection = moveInput.x * Camera.main.transform.right + moveInput.y * Camera.main.transform.forward;
@@ -244,11 +241,13 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("speed", 0);
         }
     }
+    //Look Input listener logic
     void InputLook(Vector2 lookInput)
-    {//Look Input listener logic
+    {
         this.lookInput = lookInput;
     }
-    void OnPlayerLook()//Behaviour for player looking
+    //Behaviour for player looking
+    void OnPlayerLook()
     {
         //Logic for bored
         if (lookInput != Vector2.zero)
@@ -260,7 +259,7 @@ public class PlayerController : MonoBehaviour
             lookInput = Vector2.zero;
         }
         //Logic for input sensetivity
-        if (usingGamepad)
+        if (CursorManager.Instance.usingGamepad)
         {
             horizontalSensitivity = controllerSensitivity;
         }
@@ -279,11 +278,13 @@ public class PlayerController : MonoBehaviour
             cameraHolder.transform.rotation = Quaternion.Euler(0, yRotation, 0).normalized;
         }
     }
-    public void OnRun(bool sprinting)//Run Input listener
+    //Run Input listener
+    public void OnRun(bool sprinting)
     {
         isRunning = sprinting;
     }
-    public void OnAttack(bool attacking)//Attack Input listener
+    //Attack Input listener
+    public void OnAttack(bool attacking)
     {
         if (attacking && !IsAttack)
         {
@@ -292,7 +293,8 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(AttackState());
         }
     }
-    IEnumerator AttackState()//Attack Logic
+    //Attack Logic
+    IEnumerator AttackState()
     {
         //Set attack true
         IsAttack = true;
@@ -334,7 +336,8 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    public void OnBlock(bool blocking)//Block Input logic
+    //Block Input logic
+    public void OnBlock(bool blocking)
     {
         if (blocking)
         {
@@ -352,8 +355,8 @@ public class PlayerController : MonoBehaviour
             shield.DisableShield();
         }
     }
-
-    public void OnDodge(bool dodging)//Dodging Input Logic
+    //Dodging Input Logic
+    public void OnDodge(bool dodging)
     {
         if (dodging)
         {
@@ -380,11 +383,13 @@ public class PlayerController : MonoBehaviour
         }
         isDodging = false;
     }
+    //Target Lock-On Input Listener
     public void OnLockOn(bool lockOn)
     {
         isLockedOn = lockOn;
     }
-    public void PlayerDie()//Triggering Death for Player
+    //Triggering Death for Player
+    public void PlayerDie()
     {
         animator.SetBool("Dead", true);
         StartCoroutine(PlayerDeath());

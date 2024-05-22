@@ -13,16 +13,44 @@ public class UIScript : MonoBehaviour
     [SerializeField] GameObject mainMenuFirst;
     [SerializeField] GameObject controlsMenuFirst;
     [SerializeField] GameObject creditsMenuFirst;
-
+    [Header("Debug")]
+    [SerializeField] bool check;
     void Start()
     {
         mainMenuCanvas.enabled = true;
         controlsCanvas.enabled = false;
         creditsCanvas.enabled = false;
         EventSystem.current.SetSelectedGameObject(mainMenuFirst);
-        CursorSettings(true, CursorLockMode.Confined);
+        CursorManager.Instance.InputDeviceUIAssign();
+        check = CursorManager.Instance.usingGamepad;
     }
-
+    void FixedUpdate()
+    {
+        if (check != CursorManager.Instance.usingGamepad)
+        {
+            CursorManager.Instance.InputDeviceUIAssign();
+            check = CursorManager.Instance.usingGamepad;
+            if (check)
+            {
+                if (mainMenuCanvas.enabled == true)
+                {
+                    EventSystem.current.SetSelectedGameObject(mainMenuFirst);
+                }
+                if (controlsCanvas.enabled == true)
+                {
+                    EventSystem.current.SetSelectedGameObject(controlsMenuFirst);
+                }
+                if (creditsCanvas.enabled == true)
+                {
+                    EventSystem.current.SetSelectedGameObject(creditsMenuFirst);
+                }
+            }
+        }
+        if (mainMenuCanvas.enabled == false && controlsCanvas.enabled == false && creditsCanvas.enabled == false)
+        {
+            CursorManager.Instance.CursorOff();
+        }
+    }
     public void GoToLevel(int level)//Changing scenes to the main game level
     {
         mainMenuCanvas.enabled = false;
@@ -57,11 +85,5 @@ public class UIScript : MonoBehaviour
     public void Quit()//Quit application
     {
         Application.Quit();
-    }
-
-    private void CursorSettings(bool cursorVisibility, CursorLockMode cursorLockState)
-    {
-        Cursor.visible = cursorVisibility;
-        Cursor.lockState = cursorLockState;
     }
 }

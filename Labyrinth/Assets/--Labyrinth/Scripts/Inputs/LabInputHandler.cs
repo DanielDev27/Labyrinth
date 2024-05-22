@@ -2,8 +2,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
-using System;
-
 public class LabInputHandler
 {
     public static LabyrinthPlayerInputs labInputs;

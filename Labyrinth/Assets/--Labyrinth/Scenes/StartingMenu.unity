@@ -3347,6 +3347,7 @@ GameObject:
   - component: {fileID: 1946897632}
   - component: {fileID: 1946897631}
   - component: {fileID: 1946897633}
+  - component: {fileID: 1946897634}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -3374,6 +3375,7 @@ MonoBehaviour:
   mainMenuFirst: {fileID: 224602235}
   controlsMenuFirst: {fileID: 659216515}
   creditsMenuFirst: {fileID: 1576985663}
+  check: 0
 --- !u!4 &1946897632
 Transform:
   m_ObjectHideFlags: 0
@@ -3408,6 +3410,20 @@ MonoBehaviour:
   loadingScreen: {fileID: 1162625559}
   loadingProgressBar: {fileID: 1162625558}
   isActive: 0
+--- !u!114 &1946897634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946897630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bf325e971468fd4484595fe88f2d720, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usingGamepad: 0
+  playerInput: {fileID: 1983523510}
 --- !u!1 &1983523504
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,45 +3,78 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 public class PauseScript : MonoBehaviour
 {
+    public static PauseScript Instance;
     [Header("References")]
     [SerializeField] PlayerInput playerInput;
     [SerializeField] Canvas pauseCanvas;
     [SerializeField] Canvas controlsCanvas;
     [SerializeField] CanvasGroup loadingGroup;
-    [SerializeField] bool pause;
+    [SerializeField] public bool pause;
     [Header("First Selections")]//First buttons selected on each menu
     [SerializeField] GameObject pauseMenuFirst;
     [SerializeField] GameObject controlsMenuFirst;
-
+    [Header("Debug")]
+    [SerializeField] bool check;
+    [SerializeField] public bool gameOver;
+    private void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
         controlsCanvas.enabled = false;
-        CursorSettings(true, CursorLockMode.Confined);
+        CursorManager.Instance.InputDeviceUIAssign();
+        check = CursorManager.Instance.usingGamepad;
+    }
+    void FixedUpdate()
+    {
+        if (check != CursorManager.Instance.usingGamepad)
+        {
+            CursorManager.Instance.InputDeviceUIAssign();
+            check = CursorManager.Instance.usingGamepad;
+            if (check)
+            {
+                if (pauseCanvas.enabled == true)
+                {
+                    EventSystem.current.SetSelectedGameObject(pauseMenuFirst);
+                }
+                if (controlsCanvas.enabled == true)
+                {
+                    EventSystem.current.SetSelectedGameObject(controlsMenuFirst);
+                }
+            }
+        }
+        if (pauseCanvas.enabled == false && controlsCanvas.enabled == false && !gameOver)
+        {
+            CursorManager.Instance.CursorOff();
+        }
     }
     //Pause Input Logic
     public void OnPause(InputAction.CallbackContext incomingValue)
     {
-        pause = !pause;
-        if (pause)
+        if (!gameOver)
         {
-            //Turn Off Player Controller
-            PlayerController.Instance.enabled = false;
-            //Turn On Canvas elements
-            pauseCanvas.enabled = pause;
-            EventSystem.current.SetSelectedGameObject(pauseMenuFirst);
-            CursorSettings(true, CursorLockMode.Confined);
-            Time.timeScale = 0;
-        }
-
-        if (!pause)
-        {
-            //Turn On Player Controller
-            PlayerController.Instance.enabled = true;
-            //Turn Off Canvas elements
-            pauseCanvas.enabled = pause;
-            EventSystem.current.SetSelectedGameObject(null);
-            CursorSettings(false, CursorLockMode.Locked);
-            Time.timeScale = 1;
+            pause = !pause;
+            if (pause)
+            {
+                //Turn Off Player Controller
+                PlayerController.Instance.OnDisable();
+                //Turn On Canvas elements
+                pauseCanvas.enabled = pause;
+                EventSystem.current.SetSelectedGameObject(pauseMenuFirst);
+                CursorManager.Instance.InputDeviceUIAssign();
+                //Time.timeScale = 0;
+            }
+            if (!pause)
+            {
+                //Turn On Player Controller
+                PlayerController.Instance.OnEnable();
+                //Turn Off Canvas elements
+                pauseCanvas.enabled = pause;
+                EventSystem.current.SetSelectedGameObject(null);
+                CursorManager.Instance.CursorOff();
+                //Time.timeScale = 1;
+            }
         }
     }
     public void GoToControls()
@@ -50,17 +83,10 @@ public class PauseScript : MonoBehaviour
         pauseCanvas.enabled = false;
         EventSystem.current.SetSelectedGameObject(controlsMenuFirst);
     }
-
     public void GoToPause()
     {
         pauseCanvas.enabled = true;
         controlsCanvas.enabled = false;
         EventSystem.current.SetSelectedGameObject(pauseMenuFirst);
-    }
-
-    private void CursorSettings(bool cursorVisibility, CursorLockMode cursorLockState)
-    {
-        Cursor.visible = cursorVisibility;
-        Cursor.lockState = cursorLockState;
     }
 }

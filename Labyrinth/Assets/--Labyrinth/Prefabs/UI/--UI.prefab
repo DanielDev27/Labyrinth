@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7363972572773851847}
   - component: {fileID: 6982599344258430894}
   - component: {fileID: 5013348151871508090}
+  - component: {fileID: 600842670410812820}
   m_Layer: 0
   m_Name: --UI
   m_TagString: Untagged
@@ -77,6 +78,7 @@ MonoBehaviour:
   winFirst: {fileID: 7280059084083400649}
   lossFirst: {fileID: 8124772536170964769}
   aIs: 0
+  check: 0
 --- !u!114 &5013348151871508090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,6 +98,22 @@ MonoBehaviour:
   pause: 0
   pauseMenuFirst: {fileID: 1768086939836507270}
   controlsMenuFirst: {fileID: 8256757649748551747}
+  check: 0
+  gameOver: 0
+--- !u!114 &600842670410812820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5426536543225859172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bf325e971468fd4484595fe88f2d720, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  usingGamepad: 0
+  playerInput: {fileID: 0}
 --- !u!1001 &373616581634227701
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -357,6 +375,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9089667543648482349, guid: 146ef20955165844c83473e2dac4b5ed,
         type: 3}
+      propertyPath: m_Colors.m_SelectedColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9089667543648482349, guid: 146ef20955165844c83473e2dac4b5ed,
+        type: 3}
+      propertyPath: m_Colors.m_SelectedColor.g
+      value: 0.6627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 9089667543648482349, guid: 146ef20955165844c83473e2dac4b5ed,
+        type: 3}
+      propertyPath: m_Colors.m_SelectedColor.r
+      value: 0.5137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 9089667543648482349, guid: 146ef20955165844c83473e2dac4b5ed,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 6982599344258430894}
@@ -612,27 +645,27 @@ PrefabInstance:
     - target: {fileID: 3607407997716499676, guid: cd9f81149b1f966498885d4cc9ccafb5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3607407997716499676, guid: cd9f81149b1f966498885d4cc9ccafb5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3607407997716499676, guid: cd9f81149b1f966498885d4cc9ccafb5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3607407997716499676, guid: cd9f81149b1f966498885d4cc9ccafb5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -960
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3607407997716499676, guid: cd9f81149b1f966498885d4cc9ccafb5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -540
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3607407997716499676, guid: cd9f81149b1f966498885d4cc9ccafb5,
         type: 3}
@@ -648,6 +681,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8473521733504776661, guid: cd9f81149b1f966498885d4cc9ccafb5,
+        type: 3}
+      propertyPath: m_Colors.m_SelectedColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8473521733504776661, guid: cd9f81149b1f966498885d4cc9ccafb5,
+        type: 3}
+      propertyPath: m_Colors.m_SelectedColor.g
+      value: 0.6627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 8473521733504776661, guid: cd9f81149b1f966498885d4cc9ccafb5,
+        type: 3}
+      propertyPath: m_Colors.m_SelectedColor.r
+      value: 0.5137255
       objectReference: {fileID: 0}
     - target: {fileID: 8473521733504776661, guid: cd9f81149b1f966498885d4cc9ccafb5,
         type: 3}

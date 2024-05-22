@@ -63,6 +63,10 @@ public class AIBehaviour : MonoBehaviour
         {
             timerCD += Time.deltaTime;
         }
+        if (PauseScript.Instance.pause)
+        {
+            currentAiState = AiStates.Idle;
+        }
         //State Switch
         if (!coroutineInProgress)
             switch (currentAiState)
@@ -110,7 +114,7 @@ public class AIBehaviour : MonoBehaviour
             distanceToPlayer = Vector3.Distance(transform.position, playerPosition);
             //Vision Check
             visionCheck = Vector3.Angle(transform.forward, directionToTarget);
-            if (visionCheck <= (fovAngle / 2) && distanceToPlayer <= fovDistance)
+            if (visionCheck <= (fovAngle / 2) && distanceToPlayer <= fovDistance && !PauseScript.Instance.pause)
             {
                 //Does AI see the player
                 bool _hitLayer = Physics.Raycast(transform.position, directionToTarget, out _hit, 100, obstructionLayer, QueryTriggerInteraction.Ignore);
@@ -130,6 +134,7 @@ public class AIBehaviour : MonoBehaviour
             else
             {
                 Debug.DrawRay(eyeLine.position, directionToTarget, Color.black);
+                canSeePlayer = false;
             }
         }
     }
@@ -163,29 +168,40 @@ public class AIBehaviour : MonoBehaviour
             startingDistanceToPlayer = Vector3.Distance(transform.position, playerReference.transform.position);
         }
         //Debug.Log("Is Idle");
-        if (!isDead && !isAttacking)//AI is fully Idle
+        if (!PauseScript.Instance.pause)
         {
-            yield return new WaitForSeconds(1);
-            if (playerReference != null && canSeePlayer)
-            {//AI can see player -> chase
-                currentAiState = AiStates.Chasing;
-                coroutineInProgress = false;
+
+            if (!isDead && !isAttacking)//AI is fully Idle
+            {
+                yield return new WaitForSeconds(1);
+                if (playerReference != null && canSeePlayer)
+                {//AI can see player -> chase
+                    currentAiState = AiStates.Chasing;
+                    coroutineInProgress = false;
+                }
+                else
+                {//AI cannot see player -> Idle
+                    currentAiState = AiStates.Idle;
+                }
             }
-            else
-            {//AI cannot see player -> Idle
-                currentAiState = AiStates.Idle;
+            else//AI is not Idle but not chasing
+            {
+                if (isDead)//Dead switch
+                {
+                    currentAiState = AiStates.Dead;
+                }
+                if (isAttacking)//Attack switch
+                {
+                    currentAiState = AiStates.Attacking;
+                }
             }
         }
-        else//AI is not Idle but not chasing
+        else
         {
-            if (isDead)//Dead switch
-            {
-                currentAiState = AiStates.Dead;
-            }
-            if (isAttacking)//Attack switch
-            {
-                currentAiState = AiStates.Attacking;
-            }
+            currentAiState = AiStates.Idle;
+            isSprinting = false;
+            isAttacking = false;
+            agent.isStopped = true;
         }
         coroutineInProgress = false;
     }
