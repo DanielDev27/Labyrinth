@@ -75,6 +75,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {//Trigger the Idle counter in order to add bored animations if the player leaves the character inactive
         StartCoroutine(IdleBored());
+        PauseScript.Instance.pauseEvent.AddListener(PauseReactions);
     }
     public void OnEnable()//Add event listeners for inputs
     {
@@ -87,7 +88,7 @@ public class PlayerController : MonoBehaviour
         LabInputHandler.OnAttackPerformed.AddListener(OnAttack);
         LabInputHandler.OnShieldPerformed.AddListener(OnBlock);
         LabInputHandler.OnLockOnPerformed.AddListener(OnLockOn);
-        PauseScript.Instance.pauseEvent.AddListener(PauseReactions);
+
     }
     public void OnDisable()//Remove event listeners for inputs
     {
@@ -273,6 +274,7 @@ public class PlayerController : MonoBehaviour
         if (isLockedOn && aiTarget != null && Vector3.Distance(transform.position, aiTarget.transform.position) < lockOnLimit)
         {
             cameraHolder.transform.LookAt(new Vector3(aiTarget.transform.position.x, 0.5f, aiTarget.transform.position.z));
+            playerAvatar.transform.rotation = Quaternion.LookRotation(cameraHolder.transform.forward);
         }
         else
         {

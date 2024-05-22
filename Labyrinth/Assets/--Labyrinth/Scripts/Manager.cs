@@ -26,7 +26,9 @@ public class Manager : MonoBehaviour
         Time.timeScale = 1;
         //Set UIs
         endFail.enabled = false;
+        endFail.gameObject.SetActive(false);
         endWin.enabled = false;
+        endWin.gameObject.SetActive(false);
         //Fetch the number of AIs
         aIs = aiParent.gameObject.GetComponentsInChildren<AIBehaviour>().Length;
         //Activate Maze
@@ -68,6 +70,7 @@ public class Manager : MonoBehaviour
         if (aIs <= 0)//Logic only completes if there are no more AIs
         {
             PauseScript.Instance.gameOver = true;
+            endWin.gameObject.SetActive(true);
             endWin.enabled = true;
             PlayerController.Instance.OnDisable();
             CursorManager.Instance.InputDeviceUIAssign();
@@ -77,6 +80,7 @@ public class Manager : MonoBehaviour
     }
     public void GameOver()//Logic for losing the game
     {
+        endFail.gameObject.SetActive(true);
         PauseScript.Instance.gameOver = true;
         camera2.gameObject.SetActive(true);
         PlayerController.Instance.OnDisable();

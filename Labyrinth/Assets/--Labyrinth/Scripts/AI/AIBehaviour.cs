@@ -307,22 +307,6 @@ public class AIBehaviour : MonoBehaviour
             playerReference = other.gameObject;
         }
     }
-    void OnTriggerStay(Collider other)
-    {
-        if (other.TryGetComponent(out PlayerController _characterController)) //keep a target on a collider stay
-        {
-            charCont = _characterController;
-            playerReference = other.gameObject;
-        }
-    }
-    void OnTriggerExit(Collider other)
-    {
-        if (other.TryGetComponent(out PlayerController _characterController)) //remove a target on a collider exit
-        {
-            playerReference = null;
-            charCont = null;
-        }
-    }
     public enum AiStates//AI States for Logic
     {
         Idle,
