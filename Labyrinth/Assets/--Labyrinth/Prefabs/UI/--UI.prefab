@@ -96,10 +96,13 @@ MonoBehaviour:
   controlsCanvas: {fileID: 7008110245582547754}
   loadingGroup: {fileID: 2208994939738828980}
   pause: 0
-  pauseMenuFirst: {fileID: 1768086939836507270}
+  pauseMenuFirst: {fileID: 4523714222476228795}
   controlsMenuFirst: {fileID: 8256757649748551747}
   check: 0
   gameOver: 0
+  pauseEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &600842670410812820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -858,12 +861,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37bf29c969d336b4796f41a2760275b0, type: 3}
---- !u!1 &1768086939836507270 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5692737648612742168, guid: 37bf29c969d336b4796f41a2760275b0,
-    type: 3}
-  m_PrefabInstance: {fileID: 6307620095962673310}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &2985399740629973198 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9144398729178155088, guid: 37bf29c969d336b4796f41a2760275b0,
@@ -873,6 +870,12 @@ RectTransform:
 --- !u!223 &3871244160741122307 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 7075233094726308253, guid: 37bf29c969d336b4796f41a2760275b0,
+    type: 3}
+  m_PrefabInstance: {fileID: 6307620095962673310}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4523714222476228795 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7588104749726795813, guid: 37bf29c969d336b4796f41a2760275b0,
     type: 3}
   m_PrefabInstance: {fileID: 6307620095962673310}
   m_PrefabAsset: {fileID: 0}

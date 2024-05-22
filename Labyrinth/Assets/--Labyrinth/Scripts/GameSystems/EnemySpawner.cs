@@ -68,6 +68,10 @@ public class EnemySpawner : MonoBehaviour
         {
             SpawnEnemies();
         }
+        if (spawnPositions.Count<=0)
+        {
+            PlayerController.Instance.CheckEnemies();
+        }
     }
     public void RemoveEnemies()
     {

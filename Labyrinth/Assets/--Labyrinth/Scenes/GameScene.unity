@@ -3707,12 +3707,12 @@ PrefabInstance:
     - target: {fileID: 8565634252826669354, guid: 84efdda4aa67c9243ab303a749b80e08,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 7.238214e-17
+      value: -7.238214e-17
       objectReference: {fileID: 0}
     - target: {fileID: 8565634252826669354, guid: 84efdda4aa67c9243ab303a749b80e08,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -1.7468922e-16
+      value: 1.7468922e-16
       objectReference: {fileID: 0}
     - target: {fileID: 9164424342199840471, guid: 84efdda4aa67c9243ab303a749b80e08,
         type: 3}
@@ -4950,26 +4950,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: --Controller
-      objectReference: {fileID: 0}
-    - target: {fileID: 8944272267502826677, guid: eca47780baa8f4a4e97bbddbb8be8037,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8944272267502826677, guid: eca47780baa8f4a4e97bbddbb8be8037,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8944272267502826677, guid: eca47780baa8f4a4e97bbddbb8be8037,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.9879652
-      objectReference: {fileID: 0}
-    - target: {fileID: 8944272267502826677, guid: eca47780baa8f4a4e97bbddbb8be8037,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.15467636
       objectReference: {fileID: 0}
     - target: {fileID: 8944272267502826677, guid: eca47780baa8f4a4e97bbddbb8be8037,
         type: 3}
@@ -6465,12 +6445,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5507776157122296113, guid: 54a7a4d9aaac69a4488017fc976c3d5e,
     type: 3}
   m_PrefabInstance: {fileID: 62638874}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1095840210 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4523714222476228795, guid: 31145588327c56245b75f44b1e21c664,
-    type: 3}
-  m_PrefabInstance: {fileID: 1994336576}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1099898119 stripped
 Transform:
@@ -12052,21 +12026,11 @@ PrefabInstance:
       propertyPath: playerInput
       value: 
       objectReference: {fileID: 728404579}
-    - target: {fileID: 3871244160741122307, guid: 31145588327c56245b75f44b1e21c664,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5013348151871508090, guid: 31145588327c56245b75f44b1e21c664,
         type: 3}
       propertyPath: playerInput
       value: 
       objectReference: {fileID: 728404579}
-    - target: {fileID: 5013348151871508090, guid: 31145588327c56245b75f44b1e21c664,
-        type: 3}
-      propertyPath: pauseMenuFirst
-      value: 
-      objectReference: {fileID: 1095840210}
     - target: {fileID: 5426536543225859172, guid: 31145588327c56245b75f44b1e21c664,
         type: 3}
       propertyPath: m_Name

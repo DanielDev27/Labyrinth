@@ -143,16 +143,23 @@ public class PlayerController : MonoBehaviour
     void EnemyDetection()
     {
         float shortestDistance = Mathf.Infinity;
-        foreach (GameObject ai in ais.Keys.ToList())
+        if (ais.Count > 0)
         {
-            float newDistance = Vector3.Distance(transform.position, ai.transform.position);
-            ais[ai] = newDistance;
-            if (newDistance < shortestDistance)
+            foreach (GameObject ai in ais.Keys.ToList())
             {
-                shortestDistance = newDistance;
+                float newDistance = Vector3.Distance(transform.position, ai.transform.position);
+                ais[ai] = newDistance;
+                if (newDistance < shortestDistance)
+                {
+                    shortestDistance = newDistance;
+                }
             }
+            aiTarget = ais.FirstOrDefault(x => x.Value == shortestDistance).Key;
         }
-        aiTarget = ais.FirstOrDefault(x => x.Value == shortestDistance).Key;
+        else
+        {
+            aiTarget = null;
+        }
     }
     //Behaviour for bored animations if the player leaves the character inactive
     IEnumerator IdleBored()
