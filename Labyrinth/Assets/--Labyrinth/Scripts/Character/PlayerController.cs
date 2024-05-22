@@ -87,6 +87,7 @@ public class PlayerController : MonoBehaviour
         LabInputHandler.OnAttackPerformed.AddListener(OnAttack);
         LabInputHandler.OnShieldPerformed.AddListener(OnBlock);
         LabInputHandler.OnLockOnPerformed.AddListener(OnLockOn);
+        PauseScript.Instance.pauseEvent.AddListener(PauseReactions);
     }
     public void OnDisable()//Remove event listeners for inputs
     {
@@ -97,6 +98,7 @@ public class PlayerController : MonoBehaviour
         LabInputHandler.OnAttackPerformed.RemoveListener(OnAttack);
         LabInputHandler.OnShieldPerformed.RemoveListener(OnBlock);
         LabInputHandler.OnLockOnPerformed.RemoveListener(OnLockOn);
+        PauseScript.Instance.pauseEvent.RemoveListener(PauseReactions);
     }
     private void Update()
     {
@@ -244,7 +246,7 @@ public class PlayerController : MonoBehaviour
     //Look Input listener logic
     void InputLook(Vector2 lookInput)
     {
-        this.lookInput = lookInput;
+        this.lookInput = new Vector2(lookInput.x, 0);
     }
     //Behaviour for player looking
     void OnPlayerLook()
@@ -403,7 +405,15 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("Dead", false);
         this.gameObject.SetActive(false);
     }
-
+    void PauseReactions(bool isPaused)
+    {
+        if (isPaused)
+        {
+            isMoving = false;
+            moveInput = Vector2.zero;
+            animator.SetFloat("speed", 0);
+        }
+    }
     //Cursor logic
     void CursorSettings(bool cursorVisibility, CursorLockMode cursorLockMode)
     {

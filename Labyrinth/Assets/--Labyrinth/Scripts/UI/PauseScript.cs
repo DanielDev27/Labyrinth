@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 public class PauseScript : MonoBehaviour
 {
     public static PauseScript Instance;
@@ -16,6 +17,7 @@ public class PauseScript : MonoBehaviour
     [Header("Debug")]
     [SerializeField] bool check;
     [SerializeField] public bool gameOver;
+    public UnityEvent<bool> pauseEvent = new UnityEvent<bool>();
     private void Awake()
     {
         Instance = this;
@@ -55,25 +57,26 @@ public class PauseScript : MonoBehaviour
         if (!gameOver)
         {
             pause = !pause;
+            pauseEvent.Invoke(pause);
             if (pause)
             {
-                //Turn Off Player Controller
+                //Turn Off Player Controller Input Listeners
                 PlayerController.Instance.OnDisable();
                 //Turn On Canvas elements
                 pauseCanvas.enabled = pause;
                 EventSystem.current.SetSelectedGameObject(pauseMenuFirst);
                 CursorManager.Instance.InputDeviceUIAssign();
-                //Time.timeScale = 0;
+
             }
             if (!pause)
             {
-                //Turn On Player Controller
+                //Turn On Player Controller Input Listeners
                 PlayerController.Instance.OnEnable();
                 //Turn Off Canvas elements
                 pauseCanvas.enabled = pause;
                 EventSystem.current.SetSelectedGameObject(null);
                 CursorManager.Instance.CursorOff();
-                //Time.timeScale = 1;
+
             }
         }
     }
