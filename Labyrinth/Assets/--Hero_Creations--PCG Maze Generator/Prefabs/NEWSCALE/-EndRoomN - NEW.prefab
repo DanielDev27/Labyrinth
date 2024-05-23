@@ -158,10 +158,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8613289831424722461}
-    - targetCorrespondingSourceObject: {fileID: 7309578054020875146, guid: d8a4d278301bb9343a93c46cb16dc325,
+    - targetCorrespondingSourceObject: {fileID: 1631012485266700977, guid: d8a4d278301bb9343a93c46cb16dc325,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6264797493177508616}
+      addedObject: {fileID: 1112827157103146589}
   m_SourcePrefab: {fileID: 100100000, guid: d8a4d278301bb9343a93c46cb16dc325, type: 3}
 --- !u!1 &941160819820424000 stripped
 GameObject:
@@ -191,19 +191,25 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 7559314340817078579, guid: d8a4d278301bb9343a93c46cb16dc325, type: 3}
---- !u!1 &3066995968288765989 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7309578054020875146, guid: d8a4d278301bb9343a93c46cb16dc325,
+--- !u!4 &5218061644092054596 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d8a4d278301bb9343a93c46cb16dc325,
     type: 3}
   m_PrefabInstance: {fileID: 5755879695406070703}
   m_PrefabAsset: {fileID: 0}
---- !u!64 &6264797493177508616
+--- !u!1 &6431838597456036126 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1631012485266700977, guid: d8a4d278301bb9343a93c46cb16dc325,
+    type: 3}
+  m_PrefabInstance: {fileID: 5755879695406070703}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1112827157103146589
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3066995968288765989}
+  m_GameObject: {fileID: 6431838597456036126}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -218,10 +224,4 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 4990744232827298012, guid: d8a4d278301bb9343a93c46cb16dc325, type: 3}
---- !u!4 &5218061644092054596 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d8a4d278301bb9343a93c46cb16dc325,
-    type: 3}
-  m_PrefabInstance: {fileID: 5755879695406070703}
-  m_PrefabAsset: {fileID: 0}
+  m_Mesh: {fileID: 816877139851124684, guid: d8a4d278301bb9343a93c46cb16dc325, type: 3}
