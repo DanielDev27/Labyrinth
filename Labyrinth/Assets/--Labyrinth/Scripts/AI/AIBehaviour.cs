@@ -30,6 +30,13 @@ public class AIBehaviour : MonoBehaviour
     [SerializeField] LayerMask obstructionLayer;
     [SerializeField] LayerMask playerLayer;
     [SerializeField] Animator agentAnimator;
+    [Header("Attack Anim Clips")]
+    [SerializeField] AnimationClip attack0;
+    [SerializeField] AnimationClip attack1;
+    [SerializeField] AnimationClip attack2;
+    [SerializeField] AnimationClip attack3;
+    [SerializeField] AnimationClip attack4;
+    [SerializeField] AnimationClip attack5;
     [Header("Settings")]//Settings for system function
     [SerializeField] float walkSpeed;
     [SerializeField] float sprintSpeed;
@@ -226,7 +233,7 @@ public class AIBehaviour : MonoBehaviour
                 agent.isStopped = false;
             }
             //Reached Player target
-            if (Vector3.Distance(transform.position, playerReference.transform.position) <= 2.5f && timerCD >= attackCD)
+            if (Vector3.Distance(transform.position, playerReference.transform.position) <= 2f && timerCD >= attackCD)
             {
                 isSprinting = false;
                 agent.isStopped = true;
@@ -253,7 +260,33 @@ public class AIBehaviour : MonoBehaviour
         agentAnimator.SetBool("isMoving", false);
         GetComponent<Rigidbody>().isKinematic = true;
         //Attack animation
-        float attackTime = 1;
+        int animClipNum = Random.Range(0, 6);
+        agentAnimator.SetFloat("attack Num", animClipNum);
+        float attackTime;
+        switch (animClipNum)
+        {
+            case 0:
+                attackTime = attack0.length;
+                break;
+            case 1:
+                attackTime = attack1.length;
+                break;
+            case 2:
+                attackTime = attack2.length;
+                break;
+            case 3:
+                attackTime = attack3.length;
+                break;
+            case 4:
+                attackTime = attack4.length;
+                break;
+            case 5:
+                attackTime = attack5.length;
+                break;
+            default:
+                attackTime = 1;
+                break;
+        }
         yield return new WaitForSeconds(attackTime);
         //Reset values
         agentAnimator.SetBool("isAttacking", false);
@@ -298,14 +331,6 @@ public class AIBehaviour : MonoBehaviour
     {
         transform.LookAt(playerReference.transform.position);
         agentAnimator.SetTrigger("damage");
-    }
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.TryGetComponent(out PlayerController _characterController)) //add a target on a collider enter
-        {
-            charCont = _characterController;
-            playerReference = other.gameObject;
-        }
     }
     public enum AiStates//AI States for Logic
     {

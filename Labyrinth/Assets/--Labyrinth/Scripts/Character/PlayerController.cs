@@ -16,10 +16,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool isMoving;
     [SerializeField] bool isRunning;
     [SerializeField] bool isDodging;
+    public bool IsAttack;
     [SerializeField] bool isLockedOn;
+    [SerializeField] bool isDead;
     [SerializeField] float boredCount;
     public int Health;
-    public bool IsAttack;
     [SerializeField] int attackCount = 0;
     public bool IsBlock;
     [Header("References")]//Objects that are required from other scripts
@@ -57,6 +58,7 @@ public class PlayerController : MonoBehaviour
         CursorSettings(false, CursorLockMode.Locked);
         //Debug.Log("Awake Character Controller");
         Instance = this;
+        isDead = false;
         Health = maxHealth;
         //Instantiate classes required by PlayerController
         if (playerInput == null)
@@ -125,7 +127,7 @@ public class PlayerController : MonoBehaviour
         EnemyDetection();
         //Update Health values and systems
         Health = healthSystem.UpdateHealth();
-        if (Health <= 0)
+        if (Health <= 0 && !isDead)
         {
             PlayerDie();
         }
@@ -402,7 +404,9 @@ public class PlayerController : MonoBehaviour
     //Triggering Death for Player
     public void PlayerDie()
     {
-        animator.SetBool("Dead", true);
+        isDead = true;
+        animator.SetTrigger("Dead");
+        animator.SetBool("isDead", true);
         StartCoroutine(PlayerDeath());
     }
     IEnumerator PlayerDeath()
@@ -411,7 +415,7 @@ public class PlayerController : MonoBehaviour
         GetComponent<Collider>().enabled = false;
         yield return new WaitForSeconds(5);
         Manager.Instance.GameOver();
-        animator.SetBool("Dead", false);
+        animator.SetBool("isDead", false);
         this.gameObject.SetActive(false);
     }
     void PauseReactions(bool isPaused)
