@@ -44,6 +44,7 @@ public class HealthSystem : MonoBehaviour
         if (this.gameObject.GetComponent<PlayerController>() != null)
         {
             takeDamagePlayer.Invoke();
+            //Debug.Log("Player Take Damage");
         }
         if (this.gameObject.GetComponent<AIBehaviour>() != null && !this.gameObject.GetComponent<AIBehaviour>().immune)
         {

@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviour
     {//Trigger the Idle counter in order to add bored animations if the player leaves the character inactive
         StartCoroutine(IdleBored());
         PauseScript.Instance.pauseEvent.AddListener(PauseReactions);
+        healthSystem.takeDamagePlayer.AddListener(DamageResponse);
     }
     public void OnEnable()//Add event listeners for inputs
     {
@@ -400,6 +401,21 @@ public class PlayerController : MonoBehaviour
     public void OnLockOn(bool lockOn)
     {
         isLockedOn = lockOn;
+    }
+    //Damage Animation
+    void DamageResponse()
+    {
+        //Debug.Log("Damage Animation Trigger");
+        animator.SetTrigger("Damage");
+        StartCoroutine(PlayerFreeze());
+
+    }
+    IEnumerator PlayerFreeze()
+    {
+        moveInput = Vector2.zero;
+        OnDisable();
+        yield return new WaitForSeconds(0.1f);
+        OnEnable();
     }
     //Triggering Death for Player
     public void PlayerDie()
