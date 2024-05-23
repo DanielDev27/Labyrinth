@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cinemachine;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -31,7 +32,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] HealthSystem healthSystem;
     [SerializeField] Weapon weapon;
     [SerializeField] Shield shield;
-    //[SerializeField] CinemachineFreeLook cinemachineFreeLook;
+    [SerializeField] CinemachineFreeLook cinemachineFreeLook;
     [SerializeField] public PlayerInput playerInput;
     [SerializeField] LabyrinthPlayerInputs labInputs;
     LabInputHandler labInputHandler;
@@ -73,6 +74,7 @@ public class PlayerController : MonoBehaviour
         {
             labInputs = LabInputHandler.labInputs;
         }
+        cinemachineFreeLook.m_XAxis.Value = 0f;
     }
     void Start()
     {//Trigger the Idle counter in order to add bored animations if the player leaves the character inactive
@@ -85,7 +87,7 @@ public class PlayerController : MonoBehaviour
         LabInputHandler.Enable();
         Debug.Log("Initialized");
         LabInputHandler.OnMovePerformed.AddListener(InputMove);
-        LabInputHandler.OnLookPerformed.AddListener(InputLook);
+        //LabInputHandler.OnLookPerformed.AddListener(InputLook);
         LabInputHandler.OnSprintPerformed.AddListener(OnRun);
         LabInputHandler.OnDodgePerformed.AddListener(OnDodge);
         LabInputHandler.OnAttackPerformed.AddListener(OnAttack);
@@ -96,7 +98,7 @@ public class PlayerController : MonoBehaviour
     public void OnDisable()//Remove event listeners for inputs
     {
         LabInputHandler.OnMovePerformed.RemoveListener(InputMove);
-        LabInputHandler.OnLookPerformed.RemoveListener(InputLook);
+        //LabInputHandler.OnLookPerformed.RemoveListener(InputLook);
         LabInputHandler.OnSprintPerformed.RemoveListener(OnRun);
         LabInputHandler.OnDodgePerformed.RemoveListener(OnDodge);
         LabInputHandler.OnAttackPerformed.RemoveListener(OnAttack);
@@ -117,11 +119,11 @@ public class PlayerController : MonoBehaviour
     }
     void FixedUpdate()
     {
+        OnPlayerLook();
         if (ais.Count == 0)
         {
             CheckEnemies();
         }
-        OnPlayerLook();
     }
     void LateUpdate()
     {
@@ -254,15 +256,15 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("speed", 0);
         }
     }
-    //Look Input listener logic
+    /*//Look Input listener logic
     void InputLook(Vector2 lookInput)
     {
         this.lookInput = new Vector2(lookInput.x, 0);
     }
-    //Behaviour for player looking
+    //Behaviour for player looking*/
     void OnPlayerLook()
     {
-        //Logic for bored
+        /*//Logic for bored
         if (lookInput != Vector2.zero)
         {
             boredCount = 0;
@@ -270,15 +272,19 @@ public class PlayerController : MonoBehaviour
         else
         {
             lookInput = Vector2.zero;
-        }
+        }*/
         //Logic for input sensetivity
         if (CursorManager.Instance.usingGamepad)
         {
-            horizontalSensitivity = controllerSensitivity;
+            //horizontalSensitivity = controllerSensitivity;
+            cinemachineFreeLook.m_XAxis.m_MaxSpeed = controllerSensitivity;
+            cinemachineFreeLook.m_XAxis.m_SpeedMode = AxisState.SpeedMode.MaxSpeed;
         }
         else
         {
-            horizontalSensitivity = mouseSensitivity;
+            //horizontalSensitivity = mouseSensitivity;
+            cinemachineFreeLook.m_XAxis.m_MaxSpeed = mouseSensitivity;
+            cinemachineFreeLook.m_XAxis.m_SpeedMode = AxisState.SpeedMode.InputValueGain;
         }
         //Logic for Freelook camera
         if (isLockedOn && aiTarget != null && Vector3.Distance(transform.position, aiTarget.transform.position) < lockOnLimit)
@@ -288,7 +294,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            yRotation += lookInput.x * horizontalSensitivity;
+            //yRotation += lookInput.x * horizontalSensitivity;
             cameraHolder.transform.rotation = Quaternion.Euler(0, yRotation, 0).normalized;
         }
     }

@@ -899,10 +899,11 @@ MonoBehaviour:
   isMoving: 0
   isRunning: 0
   isDodging: 0
+  IsAttack: 0
   isLockedOn: 0
+  isDead: 0
   boredCount: 0
   Health: 0
-  IsAttack: 0
   attackCount: 0
   IsBlock: 0
   playerRigidbody: {fileID: 2434536831001351549}
@@ -912,6 +913,7 @@ MonoBehaviour:
   healthSystem: {fileID: 2906811728877114191}
   weapon: {fileID: 376969163920829296}
   shield: {fileID: 184587163460649145}
+  cinemachineFreeLook: {fileID: 0}
   playerInput: {fileID: 5262345671448789080}
   aiTarget: {fileID: 0}
   speedMultiplier: 0
@@ -965,6 +967,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isWeaponOn: 0
   hurtBox: {fileID: 2454037367753097958}
+  rLHurtBox: {fileID: 0}
+  lLHurtBox: {fileID: 0}
   damage: 5
   characterWeapon: 1
   aIWeapon: 0
@@ -1137,7 +1141,7 @@ MonoBehaviour:
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 503005185211057143}
   m_UpdateMethod: 0
-  m_BlendUpdateMethod: 1
+  m_BlendUpdateMethod: 0
   m_DefaultBlend:
     m_Style: 1
     m_Time: 2
