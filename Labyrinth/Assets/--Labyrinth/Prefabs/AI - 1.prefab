@@ -695,9 +695,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isWeaponOn: 0
-  hurtBox: {fileID: 136320890}
-  rLHurtBox: {fileID: 467315895598545725}
-  lLHurtBox: {fileID: 8070052980028839029}
+  hurtBox: {fileID: 150365391468821505}
+  rLHurtBox: {fileID: 7694428816372780500}
+  lLHurtBox: {fileID: 8014443529002889712}
   damage: 5
   characterWeapon: 0
   aIWeapon: 1

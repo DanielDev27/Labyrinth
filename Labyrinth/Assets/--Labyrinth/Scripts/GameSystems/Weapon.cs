@@ -4,9 +4,9 @@ public class Weapon : MonoBehaviour
     [Header("Debug")]
     [SerializeField] bool isWeaponOn;
     [Header("References")]
-    [SerializeField] GameObject hurtBox;
-    [SerializeField] GameObject rLHurtBox;
-    [SerializeField] GameObject lLHurtBox;
+    [SerializeField] Collider hurtBox;
+    [SerializeField] Collider rLHurtBox;
+    [SerializeField] Collider lLHurtBox;
     [Header("Weapon Settings")]
     public int damage;
     [SerializeField] bool characterWeapon;
@@ -23,38 +23,38 @@ public class Weapon : MonoBehaviour
     public void EnableWeaponHurtBox()//Animation event to turn on collider
     {
         isWeaponOn = true;
-        hurtBox.SetActive(true);
+        hurtBox.enabled = true;
     }
     public void DisableWeaponHurtBox()//Animation event to turn off collider
     {
         isWeaponOn = false;
-        hurtBox.SetActive(false);
+        hurtBox.enabled = false;
     }
     public void EnableRLHurtBox()//Animation event to turn on collider
     {
         isWeaponOn = true;
-        rLHurtBox.SetActive(true);
+        rLHurtBox.enabled = true;
     }
     public void DisableRLHurtBox()//Animation event to turn off collider
     {
         isWeaponOn = false;
-        rLHurtBox.SetActive(false);
+        rLHurtBox.enabled = false;
     }
     public void EnableLLHurtBox()//Animation event to turn on collider
     {
         isWeaponOn = true;
-        lLHurtBox.SetActive(true);
+        lLHurtBox.enabled = true;
     }
     public void DisableLLHurtBox()//Animation event to turn off collider
     {
         isWeaponOn = false;
-        lLHurtBox.SetActive(false);
+        lLHurtBox.enabled = false;
     }
     private void OnCollisionEnter(Collision other)//Collision Event
     {
         if (characterWeapon)
         {
-            if (other.gameObject.GetComponent<AIBehaviour>() != null && hurtBox.activeSelf == true)
+            if (other.gameObject.GetComponent<AIBehaviour>() != null && hurtBox.enabled == true)
             {//If player weapon collide with AI logic
                 AIBehaviour ai = other.gameObject.GetComponent<AIBehaviour>();
                 ai.GetComponent<HealthSystem>().TakeDamage(damage);
@@ -66,7 +66,7 @@ public class Weapon : MonoBehaviour
     {
         if (other.gameObject.GetComponent<PlayerController>() != null && aIWeapon)
         {
-            if (hurtBox.activeSelf == true || lLHurtBox.activeSelf == true || rLHurtBox.activeSelf == true)
+            if (hurtBox.enabled == true || lLHurtBox.enabled == true || rLHurtBox.enabled == true)
             {//if AI weapon collide with player logic
                 PlayerController _char = other.gameObject.GetComponent<PlayerController>();
                 //Debug.Log("Hit Player");
