@@ -4996,11 +4996,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: --Controller
       objectReference: {fileID: 0}
-    - target: {fileID: 8944272267502826677, guid: eca47780baa8f4a4e97bbddbb8be8037,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 9179836201219740272, guid: eca47780baa8f4a4e97bbddbb8be8037,
         type: 3}
       propertyPath: cinemachineFreeLook

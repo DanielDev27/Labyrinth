@@ -299,6 +299,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             //yRotation += lookInput.x * horizontalSensitivity;
+            cameraHolder.transform.rotation = Quaternion.LookRotation(Vector3.zero);
             isLockedOn = false;
             //cameraHolder.transform.rotation = Quaternion.Euler(0, yRotation, 0).normalized;
         }
