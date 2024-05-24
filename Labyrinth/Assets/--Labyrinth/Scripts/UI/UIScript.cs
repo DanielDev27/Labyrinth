@@ -53,6 +53,7 @@ public class UIScript : MonoBehaviour
     }
     public void GoToLevel(int level)//Changing scenes to the main game level
     {
+        Debug.Log("Go to game");
         mainMenuCanvas.enabled = false;
         loadingScreenGroup.alpha = 1;
         Time.timeScale = 1;
@@ -62,6 +63,7 @@ public class UIScript : MonoBehaviour
 
     public void GoToControls()//changing canvases to view the controls
     {
+        Debug.Log("Go to controls");
         controlsCanvas.enabled = true;
         mainMenuCanvas.enabled = false;
         EventSystem.current.SetSelectedGameObject(controlsMenuFirst);
@@ -69,6 +71,7 @@ public class UIScript : MonoBehaviour
 
     public void GoToCredits()//changing canvases to see the credits
     {
+        Debug.Log("Go to credits");
         creditsCanvas.enabled = true;
         mainMenuCanvas.enabled = false;
         EventSystem.current.SetSelectedGameObject(creditsMenuFirst);
@@ -77,9 +80,17 @@ public class UIScript : MonoBehaviour
     public void GoToMenu()//changing canvases to go to the main menu
     {
         mainMenuCanvas.enabled = true;
-        controlsCanvas.enabled = false;
-        creditsCanvas.enabled = false;
         EventSystem.current.SetSelectedGameObject(mainMenuFirst);
+        if (controlsCanvas.enabled == true)
+        {
+            Debug.Log("Go to main menu");
+            controlsCanvas.enabled = false;
+        }
+        if (creditsCanvas.enabled == true)
+        {
+            Debug.Log("Go to main menu");
+            creditsCanvas.enabled = false;
+        }
     }
 
     public void Quit()//Quit application
