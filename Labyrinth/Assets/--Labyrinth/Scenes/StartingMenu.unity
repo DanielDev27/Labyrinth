@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -302,6 +302,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LoadingScreen
       objectReference: {fileID: 0}
+    - target: {fileID: 3159912182659507082, guid: bee7f72d9a20a594d8b7222e8734410a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7994088149978983520, guid: bee7f72d9a20a594d8b7222e8734410a,
         type: 3}
       propertyPath: m_Pivot.x
@@ -400,6 +405,11 @@ PrefabInstance:
     - target: {fileID: 7994088149978983520, guid: bee7f72d9a20a594d8b7222e8734410a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8216626689154346072, guid: bee7f72d9a20a594d8b7222e8734410a,
+        type: 3}
+      propertyPath: m_FillAmount
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1095,6 +1105,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7890915210078601748, guid: 263ddb6651381184ea340a87e837ed7e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1136,6 +1151,21 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1946897631}
+    - target: {fileID: 3767646073699111886, guid: 3a065d32e0b5d044aa2a9b3c903fbe9e,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3767646073699111886, guid: 3a065d32e0b5d044aa2a9b3c903fbe9e,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3767646073699111886, guid: 3a065d32e0b5d044aa2a9b3c903fbe9e,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4196995551179246580, guid: 3a065d32e0b5d044aa2a9b3c903fbe9e,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1234,6 +1264,11 @@ PrefabInstance:
     - target: {fileID: 4196995551179246580, guid: 3a065d32e0b5d044aa2a9b3c903fbe9e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8846321152920685006, guid: 3a065d32e0b5d044aa2a9b3c903fbe9e,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1359,6 +1394,11 @@ PrefabInstance:
     - target: {fileID: 4242150764293943978, guid: cff96db4ce4b05e4f85049fae20544cc,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866369127854052828, guid: cff96db4ce4b05e4f85049fae20544cc,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7924709699648240798, guid: cff96db4ce4b05e4f85049fae20544cc,
