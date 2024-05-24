@@ -4991,6 +4991,36 @@ PrefabInstance:
       propertyPath: m_Name
       value: --Controller
       objectReference: {fileID: 0}
+    - target: {fileID: 8944272267502826677, guid: eca47780baa8f4a4e97bbddbb8be8037,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8944272267502826677, guid: eca47780baa8f4a4e97bbddbb8be8037,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8944272267502826677, guid: eca47780baa8f4a4e97bbddbb8be8037,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9879652
+      objectReference: {fileID: 0}
+    - target: {fileID: 8944272267502826677, guid: eca47780baa8f4a4e97bbddbb8be8037,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.15467636
+      objectReference: {fileID: 0}
+    - target: {fileID: 8944272267502826677, guid: eca47780baa8f4a4e97bbddbb8be8037,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.00000003399861
+      objectReference: {fileID: 0}
+    - target: {fileID: 8944272267502826677, guid: eca47780baa8f4a4e97bbddbb8be8037,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.000000005322841
+      objectReference: {fileID: 0}
     - target: {fileID: 9179836201219740272, guid: eca47780baa8f4a4e97bbddbb8be8037,
         type: 3}
       propertyPath: cinemachineFreeLook
@@ -12055,11 +12085,6 @@ PrefabInstance:
       propertyPath: playerInput
       value: 
       objectReference: {fileID: 728404579}
-    - target: {fileID: 3871244160741122307, guid: 31145588327c56245b75f44b1e21c664,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5013348151871508090, guid: 31145588327c56245b75f44b1e21c664,
         type: 3}
       propertyPath: playerInput
