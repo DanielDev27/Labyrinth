@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,12 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &21272209 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8989002135260565470, guid: cff96db4ce4b05e4f85049fae20544cc,
-    type: 3}
-  m_PrefabInstance: {fileID: 7194417296903288161}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &538557652
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,6 +255,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Asset: {fileID: -944628639613478452, guid: cb661c5a316646c41ae1fd050ea2f030, type: 3}
   m_ActionId: 8ce0eef1-0297-4fc9-8d51-4f1b4edd192e
+--- !u!1 &608120995 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6374667339578369611, guid: 263ddb6651381184ea340a87e837ed7e,
+    type: 3}
+  m_PrefabInstance: {fileID: 4179740796563403165}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &626634045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,11 +301,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LoadingScreen
-      objectReference: {fileID: 0}
-    - target: {fileID: 3159912182659507082, guid: bee7f72d9a20a594d8b7222e8734410a,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7994088149978983520, guid: bee7f72d9a20a594d8b7222e8734410a,
         type: 3}
@@ -405,11 +400,6 @@ PrefabInstance:
     - target: {fileID: 7994088149978983520, guid: bee7f72d9a20a594d8b7222e8734410a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8216626689154346072, guid: bee7f72d9a20a594d8b7222e8734410a,
-        type: 3}
-      propertyPath: m_FillAmount
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -640,6 +630,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Asset: {fileID: -944628639613478452, guid: cb661c5a316646c41ae1fd050ea2f030, type: 3}
   m_ActionId: 93028d9c-1c88-4214-847e-baaa94ee46bd
+--- !u!1 &1563104341 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5265627004380980181, guid: cff96db4ce4b05e4f85049fae20544cc,
+    type: 3}
+  m_PrefabInstance: {fileID: 7194417296903288161}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1681043744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -710,9 +706,9 @@ MonoBehaviour:
   controlsCanvas: {fileID: 6752698748696466246}
   creditsCanvas: {fileID: 7194417296903288164}
   loadingScreenGroup: {fileID: 1162625564}
-  mainMenuFirst: {fileID: 4179740796563403168}
+  mainMenuFirst: {fileID: 608120995}
   controlsMenuFirst: {fileID: 1693608243}
-  creditsMenuFirst: {fileID: 21272209}
+  creditsMenuFirst: {fileID: 1563104341}
   check: 0
 --- !u!4 &1946897632
 Transform:
@@ -1105,11 +1101,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7890915210078601748, guid: 263ddb6651381184ea340a87e837ed7e,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1124,12 +1115,6 @@ Canvas:
 --- !u!224 &4179740796563403167 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4579381494434969354, guid: 263ddb6651381184ea340a87e837ed7e,
-    type: 3}
-  m_PrefabInstance: {fileID: 4179740796563403165}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4179740796563403168 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2910542428009005510, guid: 263ddb6651381184ea340a87e837ed7e,
     type: 3}
   m_PrefabInstance: {fileID: 4179740796563403165}
   m_PrefabAsset: {fileID: 0}
@@ -1151,21 +1136,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1946897631}
-    - target: {fileID: 3767646073699111886, guid: 3a065d32e0b5d044aa2a9b3c903fbe9e,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3767646073699111886, guid: 3a065d32e0b5d044aa2a9b3c903fbe9e,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3767646073699111886, guid: 3a065d32e0b5d044aa2a9b3c903fbe9e,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4196995551179246580, guid: 3a065d32e0b5d044aa2a9b3c903fbe9e,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1264,11 +1234,6 @@ PrefabInstance:
     - target: {fileID: 4196995551179246580, guid: 3a065d32e0b5d044aa2a9b3c903fbe9e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8846321152920685006, guid: 3a065d32e0b5d044aa2a9b3c903fbe9e,
-        type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1296,6 +1261,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1946897632}
     m_Modifications:
+    - target: {fileID: 2091545642271745624, guid: cff96db4ce4b05e4f85049fae20544cc,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1946897631}
     - target: {fileID: 4242150764293943978, guid: cff96db4ce4b05e4f85049fae20544cc,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1396,21 +1366,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5866369127854052828, guid: cff96db4ce4b05e4f85049fae20544cc,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7924709699648240798, guid: cff96db4ce4b05e4f85049fae20544cc,
         type: 3}
       propertyPath: m_Name
       value: Credits (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 8644640407191613571, guid: cff96db4ce4b05e4f85049fae20544cc,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1946897631}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
