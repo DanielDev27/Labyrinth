@@ -54,29 +54,31 @@ public class PauseScript : MonoBehaviour
     //Pause Input Logic
     public void OnPause(InputAction.CallbackContext incomingValue)
     {
-        if (!gameOver)
+        if (incomingValue.performed)
         {
-            pause = !pause;
-            pauseEvent.Invoke(pause);
-            if (pause)
+            if (!gameOver)
             {
-                //Turn Off Player Controller Input Listeners
-                PlayerController.Instance.OnDisable();
-                //Turn On Canvas elements
-                pauseCanvas.enabled = pause;
-                EventSystem.current.SetSelectedGameObject(pauseMenuFirst);
-                CursorManager.Instance.InputDeviceUIAssign();
-
-            }
-            if (!pause)
-            {
-                //Turn On Player Controller Input Listeners
-                PlayerController.Instance.OnEnable();
-                //Turn Off Canvas elements
-                pauseCanvas.enabled = pause;
-                EventSystem.current.SetSelectedGameObject(null);
-                CursorManager.Instance.CursorOff();
-
+                pause = !pause;
+                if (pause)
+                {
+                    pauseEvent.Invoke(pause);
+                    //Turn Off Player Controller Input Listeners
+                    PlayerController.Instance.OnDisable();
+                    //Turn On Canvas elements
+                    pauseCanvas.enabled = pause;
+                    EventSystem.current.SetSelectedGameObject(pauseMenuFirst);
+                    CursorManager.Instance.InputDeviceUIAssign();
+                }
+                if (!pause)
+                {
+                    //Turn On Player Controller Input Listeners
+                    PlayerController.Instance.OnEnable();
+                    //Turn Off Canvas elements
+                    pauseCanvas.enabled = pause;
+                    EventSystem.current.SetSelectedGameObject(null);
+                    CursorManager.Instance.CursorOff();
+                    pauseEvent.Invoke(pause);
+                }
             }
         }
     }

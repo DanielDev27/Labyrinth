@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance;
     [Header("Debug")]//Values that are useful visual checks
+    [SerializeField] bool isPaused;
     [SerializeField] Vector2 moveInput;
     [SerializeField] Vector3 moveDirection;
     [SerializeField] Vector2 lookInput;
@@ -54,6 +55,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AnimationClip attackAnimBack;
     [SerializeField] AnimationClip dodgeAnim;
     [SerializeField] float dodgeCooldown;
+
     void Awake()
     {
         CursorSettings(false, CursorLockMode.Locked);
@@ -85,7 +87,7 @@ public class PlayerController : MonoBehaviour
     public void OnEnable()//Add event listeners for inputs
     {
         LabInputHandler.Enable();
-        Debug.Log("Initialized");
+        //Debug.Log("Initialized");
         LabInputHandler.OnMovePerformed.AddListener(InputMove);
         //LabInputHandler.OnLookPerformed.AddListener(InputLook);
         LabInputHandler.OnSprintPerformed.AddListener(OnRun);
@@ -104,6 +106,9 @@ public class PlayerController : MonoBehaviour
         LabInputHandler.OnAttackPerformed.RemoveListener(OnAttack);
         LabInputHandler.OnShieldPerformed.RemoveListener(OnBlock);
         LabInputHandler.OnLockOnPerformed.RemoveListener(OnLockOn);
+    }
+    private void OnDestroy()
+    {
         PauseScript.Instance.pauseEvent.RemoveListener(PauseReactions);
     }
     private void Update()
@@ -274,17 +279,24 @@ public class PlayerController : MonoBehaviour
             lookInput = Vector2.zero;
         }*/
         //Logic for input sensetivity
-        if (CursorManager.Instance.usingGamepad)
+        if (!isPaused)
         {
-            //horizontalSensitivity = controllerSensitivity;
-            cinemachineFreeLook.m_XAxis.m_MaxSpeed = controllerSensitivity;
-            cinemachineFreeLook.m_XAxis.m_SpeedMode = AxisState.SpeedMode.MaxSpeed;
+            if (CursorManager.Instance.usingGamepad)
+            {
+                //horizontalSensitivity = controllerSensitivity;
+                cinemachineFreeLook.m_XAxis.m_MaxSpeed = controllerSensitivity;
+                cinemachineFreeLook.m_XAxis.m_SpeedMode = AxisState.SpeedMode.MaxSpeed;
+            }
+            else
+            {
+                //horizontalSensitivity = mouseSensitivity;
+                cinemachineFreeLook.m_XAxis.m_MaxSpeed = mouseSensitivity;
+                cinemachineFreeLook.m_XAxis.m_SpeedMode = AxisState.SpeedMode.InputValueGain;
+            }
         }
         else
         {
-            //horizontalSensitivity = mouseSensitivity;
-            cinemachineFreeLook.m_XAxis.m_MaxSpeed = mouseSensitivity;
-            cinemachineFreeLook.m_XAxis.m_SpeedMode = AxisState.SpeedMode.InputValueGain;
+            cinemachineFreeLook.m_XAxis.m_MaxSpeed = 0;
         }
         //Logic for Freelook camera
         if (isLockedOn && aiTarget != null && Vector3.Distance(transform.position, aiTarget.transform.position) < lockOnLimit)
@@ -414,7 +426,6 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("Damage Animation Trigger");
         animator.SetTrigger("Damage");
         StartCoroutine(PlayerFreeze());
-
     }
     IEnumerator PlayerFreeze()
     {
@@ -442,6 +453,8 @@ public class PlayerController : MonoBehaviour
     }
     void PauseReactions(bool isPaused)
     {
+        //Debug.Log("Pause event");
+        this.isPaused = isPaused;
         if (isPaused)
         {
             isMoving = false;
