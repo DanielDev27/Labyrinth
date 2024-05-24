@@ -269,15 +269,6 @@ public class PlayerController : MonoBehaviour
     //Behaviour for player looking*/
     void OnPlayerLook()
     {
-        /*//Logic for bored
-        if (lookInput != Vector2.zero)
-        {
-            boredCount = 0;
-        }
-        else
-        {
-            lookInput = Vector2.zero;
-        }*/
         //Logic for input sensetivity
         if (!isPaused)
         {
@@ -301,13 +292,15 @@ public class PlayerController : MonoBehaviour
         //Logic for Freelook camera
         if (isLockedOn && aiTarget != null && Vector3.Distance(transform.position, aiTarget.transform.position) < lockOnLimit)
         {
+            cinemachineFreeLook.m_XAxis.Value = 0;
             cameraHolder.transform.LookAt(new Vector3(aiTarget.transform.position.x, 0.5f, aiTarget.transform.position.z));
             playerAvatar.transform.rotation = Quaternion.LookRotation(cameraHolder.transform.forward);
         }
         else
         {
             //yRotation += lookInput.x * horizontalSensitivity;
-            cameraHolder.transform.rotation = Quaternion.Euler(0, yRotation, 0).normalized;
+            isLockedOn = false;
+            //cameraHolder.transform.rotation = Quaternion.Euler(0, yRotation, 0).normalized;
         }
     }
     //Run Input listener
@@ -339,22 +332,23 @@ public class PlayerController : MonoBehaviour
         if (attackCount == 0)
         {
             float attackAnimTime = attackAnimSlash.averageDuration;
-            yield return new WaitForSeconds(attackAnimTime - 0.5f);
-            IsAttack = false;
-            yield return new WaitForSeconds(0.5f);
-            SetAttackFalse();
+            //Debug.Log(attackAnimTime);
+            yield return new WaitForSeconds(attackAnimTime - 1f);
         }
         if (attackCount == 1)
         {
             float attackAnimTime = attackAnimBack.averageDuration;
-            yield return new WaitForSeconds(attackAnimTime - 0.5f);
-            IsAttack = false;
-            yield return new WaitForSeconds(0.5f);
-            SetAttackFalse();
+            //Debug.Log(attackAnimTime);
+            yield return new WaitForSeconds(attackAnimTime - 1f);
         }
+        IsAttack = false;
         attackCount++;
+        if (attackCount >= 2)
+        {
+            attackCount = 0;
+        }
     }
-    void SetAttackFalse()
+    public void SetAttackFalse()
     {
         //yield return new WaitForEndOfFrame();
         attackCount = 0;
