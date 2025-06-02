@@ -5,7 +5,7 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner: MonoBehaviour
 {
     public static EnemySpawner Instance;
     [Header("Debug")]
@@ -68,7 +68,7 @@ public class EnemySpawner : MonoBehaviour
         {
             SpawnEnemies();
         }
-        if (spawnPositions.Count<=0)
+        if (spawnPositions.Count<=0 && PlayerController.Instance != null)
         {
             PlayerController.Instance.CheckEnemies();
         }

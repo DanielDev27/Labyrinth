@@ -30,7 +30,9 @@ public class PCGDungeonGenerator : MonoBehaviour
     Room newRoom;
     [Header("Settings")]
     [SerializeField] Vector3 startingPosition;
-    [Header("References")]
+
+    [Header ("References")]
+    [SerializeField] EnemySpawner enemySpawner;
     [SerializeField] Canvas canvasInputs;
     [SerializeField] NavMeshSurface navMeshSurface;
     [Header("Debug Info")]

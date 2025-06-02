@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TRoom_S_EN
   m_EditorClassIdentifier: 
   nameRoom: TRoom_S_EN
-  RoomModel: {fileID: 6504454082745384084, guid: 7b014d50bcc86ee47a9082e06f9856e5,
+  RoomModel: {fileID: 2733964642861547160, guid: 86ebb3a5046c9934e9888ee5db509003,
     type: 3}
   CompatibleRooms:
   - {fileID: 11400000, guid: d54bca4a4eeee1747ae2ce195b0f3291, type: 2}

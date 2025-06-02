@@ -957,7 +957,7 @@
                     "path": "",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
                     "action": "Gamepad",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -968,7 +968,7 @@
                     "path": "",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard&Mouse",
                     "action": "MnK",
                     "isComposite": false,
                     "isPartOfComposite": false

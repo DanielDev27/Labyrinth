@@ -979,7 +979,7 @@ public partial class @LabyrinthPlayerInputs: IInputActionCollection2, IDisposabl
                     ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Gamepad"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -990,7 +990,7 @@ public partial class @LabyrinthPlayerInputs: IInputActionCollection2, IDisposabl
                     ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""MnK"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

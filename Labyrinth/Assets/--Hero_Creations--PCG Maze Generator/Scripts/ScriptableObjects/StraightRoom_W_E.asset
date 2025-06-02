@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StraightRoom_W_E
   m_EditorClassIdentifier: 
   nameRoom: StraightRoom_W_E
-  RoomModel: {fileID: 4951455672651353533, guid: dcca35ef7da15cd4692ac3abb52e6418,
+  RoomModel: {fileID: 8167577625830826165, guid: c93bc57598007544cafbc38254295315,
     type: 3}
   CompatibleRooms:
   - {fileID: 11400000}

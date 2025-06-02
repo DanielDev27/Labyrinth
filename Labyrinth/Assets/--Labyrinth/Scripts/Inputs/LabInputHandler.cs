@@ -24,7 +24,7 @@ public class LabInputHandler
     [ShowInInspector] public static bool lockedOn = false;
 
     static LabInputHandler instance;
-    public static LabInputHandler Instance//Create the Labyrinth Input Handler Instace
+    public static LabInputHandler Instance//Create the Labyrinth Input Handler Instance
     {
         get
         {
